@@ -1,6 +1,6 @@
 <?php
 require(__DIR__ . '/autoloader.php');
-use app\models\Router;
+use app\components\Router;
 
 $router = new Router();
 echo $router->parseUrl();

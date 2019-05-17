@@ -1,7 +1,7 @@
 <?php
 use app\controllers\BaseController;
 
-namespace app\models;
+namespace app\components;
 
 class Router {
 	
