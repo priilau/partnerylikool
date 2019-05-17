@@ -9,7 +9,7 @@ class BaseModel {
 	public $rules = [];
 	
 	function __construct() {
-        $this->rules = $this->rules();
+		$this->rules = $this->rules();
 		if(is_array($this->rules)){
 			foreach ($this->rules as $value){
 				if(is_array($value)){
@@ -19,7 +19,7 @@ class BaseModel {
 				}
 			}
 		}
-    }
+  }
 	
 	public function addError($message){
 		$errors[] = $message;
@@ -93,7 +93,7 @@ class BaseModel {
 				$this->addError($fieldName." - Rule not found!");
 			}
 		}
-		return !count($errors);
+		return !(count($errors));
 	}
 	
 	public function load(){
