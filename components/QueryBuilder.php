@@ -184,7 +184,11 @@ class QueryBuilder {
                 break;
             }
             case "select":{  // v6tab k6ik (*)
-                //SELECT * FROM table_name; 
+                //SELECT * FROM table_name;
+                if(!$this->isStringClean($tableName)){
+                    //echo 2;
+                    return false;
+                } 
                 $this->sql = "SELECT * FROM ". $this->tableName. ";";
                 break;
             }
