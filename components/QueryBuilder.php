@@ -19,8 +19,10 @@ class QueryBuilder {
     }
 
     public function select($tableName){
-        $this->tableName = $tableName;
-        $this->queryType = "select"; 
+        $instance = new QueryBuilder($tableName); 
+        $instance->tableName = $tableName;
+        $instance->queryType = "select";
+        return $instance; 
     }
     
     public function addWhere($operator, $fieldName, $fieldValue){
@@ -83,6 +85,7 @@ class QueryBuilder {
     
     public function compose($limit = 0){
         $fieldStr = "";
+        $conditionStr = "";
         $fieldVals = "";
         $fieldParams = "";
         if(!$this->isStringClean($this->tableName)){
@@ -123,15 +126,66 @@ class QueryBuilder {
                 break;
             }
             case "update":{
-
+                //UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
+                $this->sql = "UPDATE ". $this->tableName. " SET (";
+                $this->fieldValues = [];
+                foreach($this->data as $fieldName => $fieldValue){
+                    //echo $fieldName;
+                    if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
+                        //echo 2;
+                        return false;
+                    }
+                    $fieldStr .= $fieldName. "=?, ";
+                    
+                    //$fieldVals .= "?,";
+                    
+                    if(is_string($fieldValue)){
+                        $fieldParams .= "s";
+                    } else if(is_int($fieldValue)){
+                        $fieldParams .= "i";
+                    } else if(is_float($fieldValue) || is_double($fieldValue)){
+                        $fieldParams .= "d";
+                    } else {
+                        //echo 3;
+                        return false;
+                    }
+                    $this->fieldValues[] = $fieldValue;
+                }
+                foreach($this->updateCondition as $conditionName => $conditionValue){
+                    if(!$this->isStringClean($conditionName) || !$this->isStringClean($conditionName)){
+                        //echo 2;
+                        return false;
+                    }
+                    $conditionStr .= $conditionName. "=". $conditionValue. ", ";
+                }
+                $fieldStr = rtrim($fieldStr,", ");
+                $conditionStr = rtrim($conditionStr,", ");
+                //$fieldVals = rtrim($fieldVals,", ");
+                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
+                $this->sql .= $fieldStr. ") WHERE (". $conditionStr. ");";
                 break;
             }
             case "delete":{  
-
+                //DELETE FROM table_name WHERE condition;
+                $this->sql = "DELETE FROM ". $this->tableName. " WHERE (";
+                //$this->deleteCondition = [];
+                foreach($this->deleteCondition as $conditionName => $conditionValue){
+                    if(!$this->isStringClean($conditionName) || !$this->isStringClean($conditionName)){
+                        //echo 2;
+                        return false;
+                    }
+                    $conditionStr .= $conditionName. "=". $conditionValue. ", ";
+                }
+                //$fieldStr = rtrim($fieldStr,", ");
+                $conditionStr = rtrim($conditionStr,", ");
+                //$fieldVals = rtrim($fieldVals,", ");
+                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
+                $this->sql .= $conditionStr. ");";
                 break;
             }
             case "select":{  // v6tab k6ik (*)
-
+                //SELECT * FROM table_name; 
+                $this->sql = "SELECT * FROM ". $this->tableName. ";";
                 break;
             }
         }
