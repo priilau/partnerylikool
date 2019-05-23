@@ -4,7 +4,7 @@ use app\components\QueryBuilder;
 namespace app\models;
 	
 class BaseModel {
-	public $attributes = [];
+	protected $attributes = [];
 	public $errors = [];
 	public $rules = [];
 	
@@ -19,7 +19,20 @@ class BaseModel {
 				}
 			}
 		}
-  }
+	}
+	
+	public function __get($key)
+    {
+		if(!isset($this->attributes[$key])){
+			return null;
+		}
+        return $this->attributes[$key];
+    }
+
+    public function __set($key, $value)
+    {
+        $this->attributes[$key] = $value;
+    }
 	
 	public function addError($message){
 		$errors[] = $message;
@@ -41,9 +54,12 @@ class BaseModel {
 				$attributes["id"] = QueryBuilder::insert(self::tableName(), $attributes)->execute();
 				if ($attributes["id"] == 0){
 					$this->addError("Model save insert failed!");
+					return false;
 				}
 			}
+			return true;
 		}
+		return false;
 	}
 	
 	public function validate(){
@@ -96,12 +112,20 @@ class BaseModel {
 		return !(count($errors));
 	}
 	
-	public function load(){
-		foreach ($_POST as $key => $value) {
-			if (isset($attributes[$key])){ //võtab postist ja määrab value kui atribuut on olemas
-				$attributes[$key] = $value;
-			}
+	public function load($post){
+		if(isset($post) && is_array($post) && count($post)){
+			foreach ($post as $key => $value) {
+				if (isset($attributes[$key])){ //võtab postist ja määrab value kui atribuut on olemas
+					$attributes[$key] = $value;
+				}
+			}		
+			return true;
 		}
+		return false;
+	}
+	
+	public function delete(){
+		QueryBuilder::delete(self::tableName(), ["id" => $this->id])->execute();
 	}
 
 }

@@ -26,6 +26,10 @@ class BaseController {
 		require_once($viewPath);
 	}
 	
+	public function redirect(){
+		//Todo
+	}
+	
 	public function requireToVar($viewName, $params){
 		ob_start();
 		if(is_array($params)) {
