@@ -26,22 +26,31 @@ class QueryBuilder {
     }
     
     public function addWhere($operator, $fieldName, $fieldValue){
-        if(!is_array($wheres[$whereIndex])){
-            $wheres[$whereIndex] = [];
+        if(!isset($this->wheres[$this->whereIndex]) || !is_array($this->wheres[$this->whereIndex])){
+            $this->wheres[$this->whereIndex] = [];
         }
-        $wheres[$whereIndex][] = [$operator, $fieldName, $fieldValue];
+        $this->wheres[$this->whereIndex][] = [$operator, $fieldName, $fieldValue];
+        return $this;
     }
     
     public function orWhere($operator, $fieldName, $fieldValue){
-        $whereIndex++;
-        if(!is_array($wheres[$whereIndex])){
-            $wheres[$whereIndex] = [];
+        $this->whereIndex++;
+        if(!isset($this->wheres[$this->whereIndex]) || !is_array($this->wheres[$this->whereIndex])){
+            $this->wheres[$this->whereIndex] = [];
         }
-        $wheres[$whereIndex][] = [$operator, $fieldName, $fieldValue];
+        $this->wheres[$this->whereIndex][] = [$operator, $fieldName, $fieldValue];
+        return $this;
     }
     
-    public function leftJoin(){
-        
+    public function leftJoin($otherTableName, $firstTableField, $otherTableField){
+        //SELECT column_name(s)FROM table1 LEFT JOIN table2 ON table1.column_name = table2.column_name;
+        if(!$this->isStringClean($this->tableName) || !$this->isStringClean($otherTableName) || !$this->isStringClean($firstTableField) || !$this->isStringClean($otherTableField)){
+            //echo 1;
+            //var_dump($this->tableName);
+            return false;
+        }
+        $this->sql .= "SELECT column_names FROM ". $this->tableName. " LEFT JOIN ". $otherTableName. " ON ". $this->tableName. ".". $firstTableField. "=". $otherTableName. ".". $otherTableField. ";";
+        return $this->sql;
     }
     
 	public function isStringClean($str)
@@ -135,7 +144,7 @@ class QueryBuilder {
                         //echo 2;
                         return false;
                     }
-                    $fieldStr .= $fieldName. "=?, ";
+                    $fieldStr .= $fieldName. " = ?, ";
                     
                     //$fieldVals .= "?,";
                     
@@ -156,7 +165,7 @@ class QueryBuilder {
                         //echo 2;
                         return false;
                     }
-                    $conditionStr .= $conditionName. "=". $conditionValue. ", ";
+                    $conditionStr .= $conditionName. " = ". $conditionValue. ", ";
                 }
                 $fieldStr = rtrim($fieldStr,", ");
                 $conditionStr = rtrim($conditionStr,", ");
@@ -174,7 +183,7 @@ class QueryBuilder {
                         //echo 2;
                         return false;
                     }
-                    $conditionStr .= $conditionName. "=". $conditionValue. ", ";
+                    $conditionStr .= $conditionName. " = ". $conditionValue. ", ";
                 }
                 //$fieldStr = rtrim($fieldStr,", ");
                 $conditionStr = rtrim($conditionStr,", ");
@@ -183,16 +192,36 @@ class QueryBuilder {
                 $this->sql .= $conditionStr. ");";
                 break;
             }
-            case "select":{  // v6tab k6ik (*)
+            case "select":{ 
                 //SELECT * FROM table_name;
-                if(!$this->isStringClean($tableName)){
-                    //echo 2;
-                    return false;
+                //var_dump($this->leftJoin("reciever", "id", "number"));
+                $this->sql .= "SELECT * FROM ". $this->tableName;
+                if(count($this->wheres) > 0){
+                    $whereSql = " WHERE (";
+                    foreach($this->wheres as $whereBlock){
+                        if($whereSql != " WHERE ("){
+                            $whereSql .= " OR (";
+                        }
+                        foreach($whereBlock as $whereItem){
+                            if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
+                                //echo 2;
+                                return false;
+                            }
+                            $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 
+                        }
+                        $whereSql = rtrim($whereSql," AND ");
+                        $whereSql .= ")";
+                    }
+                    $this->sql .= $whereSql;
                 } 
-                $this->sql = "SELECT * FROM ". $this->tableName. ";";
                 break;
             }
+            
         }
+        if($limit > 0) {
+            $this->sql = " LIMIT ". $limit;
+        }
+        $this->sql .=  ";";
         return $this->sql;
     }
     
@@ -212,11 +241,29 @@ class QueryBuilder {
     }
     
     public function query(){
-        
+        $dataFromDB = [];
+        $this->compose(1);
+        $mysqli = new mysqli(DB::host, DB::user, DB::pw, DB::name);
+        $stmt = $mysqli->prepare($this->sql);
+        $stmt->execute();
+        $dataFromDB = $stmt->fetch();
+        $stmt->close();
+		$mysqli->close();
+		return $dataFromDB;
     }
     
     public function queryAll(){
-        
+        $dataFromDB = [];
+        $this->compose();
+        $mysqli = new mysqli(DB::host, DB::user, DB::pw, DB::name);
+        $stmt = $mysqli->prepare($this->sql);
+        $stmt->execute();
+        while($row = $stmt->fetch()){
+            $dataFromDB[] = $row;
+        }
+        $stmt->close();
+		$mysqli->close();
+		return $dataFromDB;
     }
     
     public static function insert($tableName, $data){
