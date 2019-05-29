@@ -8,6 +8,14 @@ class BaseModel {
 	public $errors = [];
 	public $rules = [];
 	
+	
+	public function getSaveQuery(){
+	if(isset($attributes["id"]) && $attributes["id"] > 0){
+		return QueryBuilder::update(self::tableName(), $attributes, ["=","id",$attributes["id"]])->composer();
+	}
+	return QueryBuilder::insert(self::tableName(), $attributes)->compose();
+	}
+
 	function __construct() {
 		$this->rules = $this->rules();
 		if(is_array($this->rules)){
