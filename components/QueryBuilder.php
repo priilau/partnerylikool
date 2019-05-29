@@ -45,8 +45,6 @@ class QueryBuilder {
     public function leftJoin($otherTableName, $firstTableField, $otherTableField){
         //SELECT column_name(s)FROM table1 LEFT JOIN table2 ON table1.column_name = table2.column_name;
         if(!$this->isStringClean($this->tableName) || !$this->isStringClean($otherTableName) || !$this->isStringClean($firstTableField) || !$this->isStringClean($otherTableField)){
-            //echo 1;
-            //var_dump($this->tableName);
             return false;
         }
         $this->sql .= "SELECT column_names FROM ". $this->tableName. " LEFT JOIN ". $otherTableName. " ON ". $this->tableName. ".". $firstTableField. "=". $otherTableName. ".". $otherTableField. ";";
@@ -55,20 +53,20 @@ class QueryBuilder {
     
 	public function isStringClean($str)
 	{
-		$alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_";
+		$alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä";
 		$strLen = strlen($str);
 		$strLenX = strlen($alphabet);
 		
 		if($strLen >= 128) {
 			return false;
 		}
-		$str = utf8_encode(strtolower($str));
+		$str = mb_strtolower($str);
 		
 		for($i = 0; $i < $strLen; $i++) {
 			$myError = true;
 			
 			for($x = 0; $x < $strLenX; $x++) {
-				if($str[$i] == $alphabet[$x]) {
+				if(strcmp($str[$i], $alphabet[$x])) {
 					$myError = false;
 					break;
 				}
@@ -98,8 +96,6 @@ class QueryBuilder {
         $fieldVals = "";
         $fieldParams = "";
         if(!$this->isStringClean($this->tableName)){
-            //echo 1;
-            //var_dump($this->tableName);
             return false;
         }
         switch($this->queryType){
@@ -110,7 +106,6 @@ class QueryBuilder {
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
-                        //echo 2;
                         return false;
                     }
                     $fieldStr .= $fieldName. ",";
@@ -123,7 +118,6 @@ class QueryBuilder {
                     } else if(is_float($fieldValue) || is_double($fieldValue)){
                         $fieldParams .= "d";
                     } else {
-                        //echo 3;
                         return false;
                     }
                     $this->fieldValues[] = $fieldValue;
@@ -141,7 +135,6 @@ class QueryBuilder {
                 foreach($this->data as $fieldName => $fieldValue){
                     //echo $fieldName;
                     if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
-                        //echo 2;
                         return false;
                     }
                     $fieldStr .= $fieldName. " = ?, ";
@@ -155,14 +148,12 @@ class QueryBuilder {
                     } else if(is_float($fieldValue) || is_double($fieldValue)){
                         $fieldParams .= "d";
                     } else {
-                        //echo 3;
                         return false;
                     }
                     $this->fieldValues[] = $fieldValue;
                 }
                 foreach($this->updateCondition as $conditionName => $conditionValue){
                     if(!$this->isStringClean($conditionName) || !$this->isStringClean($conditionName)){
-                        //echo 2;
                         return false;
                     }
                     $conditionStr .= $conditionName. " = ". $conditionValue. ", ";
@@ -180,7 +171,6 @@ class QueryBuilder {
                 //$this->deleteCondition = [];
                 foreach($this->deleteCondition as $conditionName => $conditionValue){
                     if(!$this->isStringClean($conditionName) || !$this->isStringClean($conditionName)){
-                        //echo 2;
                         return false;
                     }
                     $conditionStr .= $conditionName. " = ". $conditionValue. ", ";
@@ -204,7 +194,6 @@ class QueryBuilder {
                         }
                         foreach($whereBlock as $whereItem){
                             if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
-                                //echo 2;
                                 return false;
                             }
                             $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 

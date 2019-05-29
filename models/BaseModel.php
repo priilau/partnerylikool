@@ -7,14 +7,6 @@ class BaseModel {
 	protected $attributes = [];
 	public $errors = [];
 	public $rules = [];
-	
-	
-	public function getSaveQuery(){
-	if(isset($attributes["id"]) && $attributes["id"] > 0){
-		return QueryBuilder::update(self::tableName(), $attributes, ["=","id",$attributes["id"]])->composer();
-	}
-	return QueryBuilder::insert(self::tableName(), $attributes)->compose();
-	}
 
 	function __construct() {
 		$this->rules = $this->rules();
@@ -27,6 +19,13 @@ class BaseModel {
 				}
 			}
 		}
+	}
+	
+	public function getSaveQuery(){
+		if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
+			return \app\components\QueryBuilder::update(static::tableName(), $this->attributes, ["=","id",$this->attributes["id"]])->compose();
+		}
+		return \app\components\QueryBuilder::insert(static::tableName(), $this->attributes)->compose();
 	}
 	
 	public function __get($key)

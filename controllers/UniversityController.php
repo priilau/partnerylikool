@@ -38,7 +38,14 @@ class UniversityController extends BaseController {
 	}
 	
 	public function actionView($id) {
-		$model = $this->findModel($id);
+		//$model = $this->findModel($id);
+		$model = new \app\models\University();
+		$model->name = "Test Ülikool";
+		$model->country = "Eesti";
+		$model->contact_email = "email@email.com";
+		$model->id = 0;
+		$model->courses_available = 5;
+
 		return $this->render("university-view", ["modelQuery" => $model->getSaveQuery()]);
 	}
 	
