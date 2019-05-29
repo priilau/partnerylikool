@@ -228,7 +228,7 @@ class QueryBuilder {
     public function execute(){
         $id = 0;
         $this->compose();
-        $mysqli = new mysqli(DB::host, DB::user, DB::pw, DB::name);
+        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         call_user_func_array([$stmt, 'bind_result'], $this->refValues($this->fieldValues));
         $id = $stmt->execute();
@@ -243,7 +243,7 @@ class QueryBuilder {
     public function query(){
         $dataFromDB = [];
         $this->compose(1);
-        $mysqli = new mysqli(DB::host, DB::user, DB::pw, DB::name);
+        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         $stmt->execute();
         $dataFromDB = $stmt->fetch();
@@ -255,7 +255,7 @@ class QueryBuilder {
     public function queryAll(){
         $dataFromDB = [];
         $this->compose();
-        $mysqli = new mysqli(DB::host, DB::user, DB::pw, DB::name);
+        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         $stmt->execute();
         while($row = $stmt->fetch()){

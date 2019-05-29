@@ -1,5 +1,6 @@
 <?php
 use app\models\University;
+use app\components\QueryBuilder;
 
 namespace app\controllers;
 	
@@ -41,10 +42,10 @@ class UniversityController extends BaseController {
 		return $this->render("university-view", ["modelQuery" => $model->getSaveQuery()]);
 	}
 	
-	protected function findModel($id) 
+	public function findModel($id) 
     {
-		$model = new University();
-		$data = QueryBuilder::select(University::tableName())->addWhere("=", "id", $id)->query();
+		$model = new \app\models\University();
+		$data = \app\components\QueryBuilder::select(\app\models\University::tableName())->addWhere("=", "id", $id)->query();
         
 		if($model->load($data)){
 			return $model;

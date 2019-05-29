@@ -14,9 +14,12 @@ class BaseController {
 			/* Juhend: 
 				call_user_func_array(array($object, $action), $params);
 			*/
-		$controllerName = 'app\controllers\SiteController';
+		$action = ucfirst($action);
+		$controller = ucfirst($controller);
+		$controllerName = "app\controllers\\{$controller}Controller";
 		$instance = new $controllerName;
-		call_user_func_array([$instance, $action], $params);
+		$actionName = "action{$action}";
+		call_user_func_array([$instance, $actionName], $params);
 	}
 	
 	public function render($viewName, $params) {
