@@ -125,11 +125,12 @@ class QueryBuilder {
                 $fieldStr = rtrim($fieldStr,", ");
                 $fieldVals = rtrim($fieldVals,", ");
                 array_splice($this->fieldValues, 0, 0, [$fieldParams]);
-                $this->sql .= $fieldStr. ") VALUES (". $fieldVals. ");";
+                $this->sql .= $fieldStr. ") VALUES (". $fieldVals. ")";
                 break;
             }
             case "update":{
                 //UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
+                //var_dump($this->updateCondition);
                 $this->sql = "UPDATE ". $this->tableName. " SET (";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
@@ -152,34 +153,45 @@ class QueryBuilder {
                     }
                     $this->fieldValues[] = $fieldValue;
                 }
-                foreach($this->updateCondition as $conditionName => $conditionValue){
-                    if(!$this->isStringClean($conditionName) || !$this->isStringClean($conditionName)){
-                        return false;
-                    }
-                    $conditionStr .= $conditionName. " = ". $conditionValue. ", ";
-                }
                 $fieldStr = rtrim($fieldStr,", ");
-                $conditionStr = rtrim($conditionStr,", ");
-                //$fieldVals = rtrim($fieldVals,", ");
+                $fieldStr .=  ")";
+                
+                $whereSql = " WHERE (";
+                foreach($this->updateCondition as $whereBlock){
+                    if($whereSql != " WHERE ("){
+                        $whereSql .= " OR (";
+                    }
+                    foreach($whereBlock as $whereItem){
+                        if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
+                            return false;
+                        }
+                        $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 
+                    }
+                    $whereSql = rtrim($whereSql," AND ");
+                    $whereSql .= ")";
+                }
                 array_splice($this->fieldValues, 0, 0, [$fieldParams]);
-                $this->sql .= $fieldStr. ") WHERE (". $conditionStr. ");";
+                $this->sql .= $fieldStr. $whereSql;
                 break;
             }
             case "delete":{  
                 //DELETE FROM table_name WHERE condition;
-                $this->sql = "DELETE FROM ". $this->tableName. " WHERE (";
-                //$this->deleteCondition = [];
-                foreach($this->deleteCondition as $conditionName => $conditionValue){
-                    if(!$this->isStringClean($conditionName) || !$this->isStringClean($conditionName)){
-                        return false;
+                $this->sql = "DELETE FROM ". $this->tableName;
+                $whereSql = " WHERE (";
+                foreach($this->deleteCondition as $whereBlock){
+                    if($whereSql != " WHERE ("){
+                        $whereSql .= " OR (";
                     }
-                    $conditionStr .= $conditionName. " = ". $conditionValue. ", ";
+                    foreach($whereBlock as $whereItem){
+                        if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
+                            return false;
+                        }
+                        $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 
+                    }
+                    $whereSql = rtrim($whereSql," AND ");
+                    $whereSql .= ")";
                 }
-                //$fieldStr = rtrim($fieldStr,", ");
-                $conditionStr = rtrim($conditionStr,", ");
-                //$fieldVals = rtrim($fieldVals,", ");
-                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
-                $this->sql .= $conditionStr. ");";
+                $this->sql .= $whereSql;
                 break;
             }
             case "select":{ 
@@ -265,14 +277,14 @@ class QueryBuilder {
     public function update($tableName, $data, $condition){
         $instance = new QueryBuilder($tableName); 
         $instance->data = $data;
-        $instance->updateCondition = $condition; 
+        $instance->updateCondition[][] = $condition; 
         $instance->queryType = "update";
         return $instance;
     }
     
     public function delete($tableName, $condition){
         $instance = new QueryBuilder($tableName); 
-        $instance->deleteCondition = $condition; 
+        $instance->deleteCondition[][] = $condition; 
         $instance->queryType = "delete";
         return $instance;
     }
