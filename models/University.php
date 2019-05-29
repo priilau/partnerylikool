@@ -12,7 +12,7 @@ class University extends BaseModel {
 		return[
 			[['name', 'country', 'contact_email', 'created_at'], ["string"]],
 			[['id', 'courses_available', 'recommended', 'created_by'], ["integer"]]
-		]
+		];
 	}
 }
 
