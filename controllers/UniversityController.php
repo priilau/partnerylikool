@@ -38,7 +38,7 @@ class UniversityController extends BaseController {
 	}
 	
 	public function actionView($id) {
-		$model = $this->findModel($id);
+		$model = new \app\models\University();
 		return $this->render("university-view", ["modelQuery" => $model->getSaveQuery()]);
 	}
 	
