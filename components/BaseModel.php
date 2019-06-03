@@ -1,7 +1,7 @@
 <?php
-use app\components\QueryBuilder;
-
 namespace app\models;
+
+use app\components\QueryBuilder;
 	
 class BaseModel {
 	protected $attributes = [];

@@ -1,8 +1,8 @@
 <?php
+namespace app\controllers;
+
 use app\models\University;
 use app\components\QueryBuilder;
-
-namespace app\controllers;
 	
 class UniversityController extends BaseController {
 	
@@ -46,7 +46,7 @@ class UniversityController extends BaseController {
 		$model->id = 0;
 		$model->courses_available = 5;
 
-		return $this->render("university-view", ["modelQuery" => $model->getSaveQuery()]);
+		return $this->render("view", ["modelQuery" => $model->getSaveQuery()]);
 	}
 	
 	public function findModel($id) 

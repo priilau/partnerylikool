@@ -1,6 +1,6 @@
 <?php
 namespace app\models;
-	
+
 class University extends BaseModel {
 	
 	public static function tableName() {

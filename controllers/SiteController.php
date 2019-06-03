@@ -1,11 +1,10 @@
 <?php
-
 namespace app\controllers;
 	
 class SiteController extends BaseController {
 	
-	public function actionIndex($params) {
-		return $this->render("index", ["tere" => "uus väärtus"]);
+	public function actionIndex() {
+		return $this->render("index", ["tere" => "uus vï¿½ï¿½rtus"]);
 	}
 	
 }
