@@ -4,6 +4,7 @@ $files = [
     __DIR__ . '/../components/Request.php',
     __DIR__ . '/../components/GridView.php',
     __DIR__ . '/../components/DetailView.php',
+    __DIR__ . '/../components/ActiveForm.php',
     __DIR__ . '/../components/Router.php',
 	__DIR__ . '/../components/QueryBuilder.php',
     __DIR__ . '/../components/BaseModel.php',

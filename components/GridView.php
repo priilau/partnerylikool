@@ -30,7 +30,6 @@ class GridView {
         $str .= "<th></th>";
         $str .= "</tr>";
         foreach($models as $model){
-            var_dump($model);
             $str .= "<tr>";
             foreach($attributes as $atr){
                 $str .= "<td>". $model->$atr. "</td>"; 

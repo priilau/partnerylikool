@@ -26,7 +26,7 @@ class BaseController {
 		call_user_func_array([$instance, $actionName], $params);
 	}
 	
-	public function render($viewName, $params) {
+	public function render($viewName, $params = []) {
 	    Request::applyHeaders();
 		global $content;
         $viewName = Request::getController()."/".$viewName;

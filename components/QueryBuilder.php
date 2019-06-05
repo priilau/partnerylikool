@@ -43,11 +43,10 @@ class QueryBuilder {
     }
     
     public function leftJoin($otherTableName, $firstTableField, $otherTableField){
-        //SELECT column_name(s)FROM table1 LEFT JOIN table2 ON table1.column_name = table2.column_name;
         if(!$this->isStringClean($this->tableName) || !$this->isStringClean($otherTableName) || !$this->isStringClean($firstTableField) || !$this->isStringClean($otherTableField)){
             return false;
         }
-        $this->sql .= "SELECT column_names FROM ". $this->tableName. " LEFT JOIN ". $otherTableName. " ON ". $this->tableName. ".". $firstTableField. "=". $otherTableName. ".". $otherTableField. ";";
+        $this->sql .= "SELECT column_names FROM {$this->tableName} LEFT JOIN {$otherTableName} ON {$this->tableName}.{$firstTableField}={$otherTableName}.{$otherTableField};";
         return $this->sql;
     }
     
@@ -100,16 +99,15 @@ class QueryBuilder {
         }
         switch($this->queryType){
             case "insert":{
-                //INSERT INTO table_name (column1, column2, column3, ... VALUES (value1, value2, value3, ...);
-                $this->sql = "INSERT INTO ". $this->tableName. " (";
-                //. $fieldStr. ") ". "VALUES (";
+                $this->sql = "INSERT INTO {$this->tableName} ";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
+                        echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
                         return false;
                     }
-                    $fieldStr .= $fieldName. ",";
-                    $fieldVals .= "?,";
+                    $fieldStr .= $fieldName. ", ";
+                    $fieldVals .= "?, ";
                     
                     if(is_string($fieldValue)){
                         $fieldParams .= "s";
@@ -118,29 +116,24 @@ class QueryBuilder {
                     } else if(is_float($fieldValue) || is_double($fieldValue)){
                         $fieldParams .= "d";
                     } else {
-                        return false;
+                        $fieldParams .= "s";
                     }
                     $this->fieldValues[] = $fieldValue;
                 }
                 $fieldStr = rtrim($fieldStr,", ");
                 $fieldVals = rtrim($fieldVals,", ");
                 array_splice($this->fieldValues, 0, 0, [$fieldParams]);
-                $this->sql .= $fieldStr. ") VALUES (". $fieldVals. ")";
+                $this->sql .= "({$fieldStr}) VALUES ({$fieldVals})";
                 break;
             }
             case "update":{
-                //UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
-                //var_dump($this->updateCondition);
-                $this->sql = "UPDATE ". $this->tableName. " SET (";
+                $this->sql = "UPDATE {$this->tableName} SET (";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
-                    //echo $fieldName;
                     if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
                         return false;
                     }
-                    $fieldStr .= $fieldName. " = ?, ";
-                    
-                    //$fieldVals .= "?,";
+                    $fieldStr .= "{$fieldName} = ?, ";
                     
                     if(is_string($fieldValue)){
                         $fieldParams .= "s";
@@ -165,7 +158,7 @@ class QueryBuilder {
                         if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
                             return false;
                         }
-                        $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 
+                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
@@ -175,8 +168,7 @@ class QueryBuilder {
                 break;
             }
             case "delete":{  
-                //DELETE FROM table_name WHERE condition;
-                $this->sql = "DELETE FROM ". $this->tableName;
+                $this->sql = "DELETE FROM {$this->tableName}";
                 $whereSql = " WHERE (";
                 foreach($this->deleteCondition as $whereBlock){
                     if($whereSql != " WHERE ("){
@@ -186,7 +178,7 @@ class QueryBuilder {
                         if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
                             return false;
                         }
-                        $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 
+                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
@@ -195,8 +187,6 @@ class QueryBuilder {
                 break;
             }
             case "select":{ 
-                //SELECT * FROM table_name;
-                //var_dump($this->leftJoin("reciever", "id", "number"));
                 $this->sql .= "SELECT * FROM ". $this->tableName;
                 if(count($this->wheres) > 0){
                     $whereSql = " WHERE (";
@@ -208,7 +198,7 @@ class QueryBuilder {
                             if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
                                 return false;
                             }
-                            $whereSql .= $whereItem[1]. " ".$whereItem[0]. " ".$whereItem[2]. " AND "; 
+                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
                         }
                         $whereSql = rtrim($whereSql," AND ");
                         $whereSql .= ")";
@@ -231,9 +221,15 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
         $stmt = $mysqli->prepare($this->sql);
-        call_user_func_array([$stmt, 'bind_result'], $this->refValues($this->fieldValues));
+        if(!$stmt){
+            echo $mysqli->error;
+            exit("Unable to create stmt!");    
+        }
+        call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $id = $stmt->execute();
-        if($this->queryType == "insert"){
+        if(!$id){
+            exit($stmt->error);    
+        } else if($this->queryType == "insert"){
             $id = $stmt->insert_id;
         }
         $stmt->close();
