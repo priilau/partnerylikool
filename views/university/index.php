@@ -4,7 +4,7 @@ use app\components\GridView;
 
 ?>
 
-<a href="/university/create">Create</a>
+<a class="btn btn-primary" href="/university/create">Create</a>
 
 <?= GridView::widget([
 	"models" => $models,

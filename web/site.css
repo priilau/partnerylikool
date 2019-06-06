@@ -1,5 +1,375 @@
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    border: solid 1px #EEE;
+body {
+	font-family: Verdana, Arial;
+	font-size: 12px;
+	margin: 0;
 }
+
+a {
+	color: #282627;
+	text-decoration: none;
+}
+
+/* HEADER */
+
+.top-menu {
+	margin-top: 32px;
+}
+
+.top-menu a {
+	font-family: Cousine, Verdana;
+	font-size: 14px;
+}
+
+.top-menu .left-menu a {
+	height: 23px;
+	display: inline-block;
+	padding-top: 1px;
+	margin-right: 2.0833vw;
+}
+
+.top-menu .left-menu a {
+	padding-left: 1.2972vw;
+}
+
+.top-menu .right-menu a {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	font-size: .1px;
+	text-indent: -9999px;
+	color: transparent;
+	overflow: hidden;
+}
+
+.top-menu a.i-home {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-home.svg) no-repeat 0 50%/auto 18px;
+	background-position-y: 0px;
+}
+.top-menu a.i-contact {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-contact.svg) no-repeat 0 50%/auto 18px;
+	background-position-y: 0px;
+}
+.top-menu a.i-accessibility {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-accessibility.svg) no-repeat 0 50%/auto 18px;
+	background-position-y: 0px;
+}
+
+.lower-menu a {
+	font-family: Times New Roman, Verdana;
+	font-size: 14px;
+}
+
+.top-menu, .lower-menu {
+	position: relative;
+	display: flex;
+	text-transform: uppercase;
+}
+
+.top-menu > div, .lower-menu > div {
+	flex: 1;
+	bottom: 0;
+}
+
+.link-bottom-aligner {
+	position: absolute;
+	bottom: 0;
+}
+
+.lower-menu > div a {
+	vertical-align: bottom;
+	font-size: 16px;
+	font-style: italic;
+}
+
+.top-menu > div.right-menu {
+	text-align: right;
+}
+
+.base-align {
+	padding: 0 4.86111vw;
+}
+
+.banner-section > div {
+	display: inline-block;
+	min-height: 408px;
+}
+
+.banner-image {
+	position: relative;
+	padding-left: 48px;
+	background: #6bcaba;
+}
+
+.banner-image img {
+	max-height: 100%;
+	width: 100%;
+}
+
+.banner-section ol {
+	padding: 20px;
+}
+.banner-section ol li {
+	display: inline-block;
+}
+
+.banner-section {
+	position: relative;
+}
+
+.breadcrumb-background {
+	position: absolute;
+	top: 0;
+	background: rgba(0,0,0,0.2);
+	width: 100%;
+	color: #FFF;
+}
+
+.top-menu a[href*="facebook"] {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-facebook.svg) no-repeat 50% 50%/8px auto;
+}
+.top-menu a[href*="twitter"] {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-twitter.svg) no-repeat 50% 50%/16px auto;
+}
+.top-menu a[href*="instagram"] {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-instagram.svg) no-repeat 50% 50%/16px auto;
+}
+.top-menu a[href*="flickr"] {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-flickr.svg) no-repeat 50% 50%/16px auto;
+}
+.top-menu a[href*="youtube"] {
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-youtube.svg) no-repeat 50% 50%/16px auto;
+}
+
+.side-menu {
+	padding-bottom: 48px;
+	font-family: Times New Roman, Verdana;
+	font-size: 20px;
+	font-style: italic;
+	background: #6bcaba;
+	width: 228px;
+}
+
+.menu-container {
+	display: inline-block;
+	background: #6bcaba;
+	padding-left: 48px;
+	width: 0;
+	min-height: 400px;
+}
+
+.menu-wrapper {
+	width: 277px;
+	display: inline-block;
+}
+
+.content {
+	display: inline-block;
+	vertical-align: top;
+	padding: 20px;
+}
+
+.side-menu a {
+	display: block;
+	color: #FFF;
+	padding: 4px;
+}
+.side-menu a:hover {
+	text-decoration: underline;
+}
+.side-menu a.active {
+	color: #000;
+	background: #FFF;
+}
+
+/*FOOTER */
+
+.footer {
+	display: flex;
+}
+
+.red-section {
+	background: #b71234;
+	width: 270px;
+	display: inline-block;
+	vertical-align: top;
+	height: 100%;
+	flex: 0 0 23em;
+	min-height: 450px;
+}
+
+.red-section img {
+	padding-top: 60px;
+	padding-bottom: 20px;
+	padding-left: 60px;
+}
+
+.red-section .information {
+	padding-left: 60px;
+	padding-bottom: 60px;
+}
+
+.red-section p {
+	margin: 4px;
+	color: #FFF;
+}
+
+.red-section a {
+	color: #FFF;
+}
+
+.white-section {
+	margin-top: 42px;
+	display: inline-block;
+	flex: 1;
+}
+
+.white-section .upper-footer .footer-section {
+	display: inline-block;
+	vertical-align: top;
+	width: 235px;
+	padding-left: 104px;
+}
+
+.white-section .upper-footer .footer-section a {
+	display: block;
+}
+
+.white-section h3 {
+    font-size: 32px;
+    font-family: Times New Roman, Verdana;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.lower-footer {
+	border-top: 1px solid #DDD;
+	margin-top: 64px;
+}
+
+.footer-logo-container {
+	width: 86px;
+	height: 60px;
+	display: inline-block;
+	margin: 0 20px;
+}
+
+.footer-logo-container:nth-child(3), .footer-logo-container:nth-child(4) {
+	margin: 0 40px;
+}
+
+.footer-logo-container:nth-child(3) {
+	margin-right: 60px;
+}
+
+.footer-logo-container:nth-child(3) {
+	margin-left: 60px;
+}
+
+.footer-logo-container img {
+	height: 100%;
+}
+
+.logo-aligner {
+	text-align: center;
+	margin-top: 40px;
+}
+
+.titanic {
+	float: none;
+}
+
+/* FORMS, INPUTS, BUTTONS, ETC */
+
+label {
+    min-width: 200px;
+    display: inline-block;
+	font-weight: bold;
+}
+
+input {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #A8A8A8;
+    width: 200px;
+}
+
+input[type=button], input[type=submit], .btn {
+    padding: 5px;
+    border-radius: 4px;
+    width: 100px;
+	cursor: pointer;
+    background: #EFEFEF;
+	transition: 0.2s ease;
+	display: inline-block;
+	text-align: center;
+}
+
+input[type=button]:hover, input[type=submit]:hover, .btn:hover {
+    background: #F8F8F8;
+}
+
+.btn {
+	color: #FFF;
+}
+
+input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
+	background: #2196F3;
+	border: none;
+}
+
+input[type=button].btn-success, input[type=submit].btn-success {
+	background: #4caf50;
+	border: none;
+}
+
+input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
+    background: #3CB1FF;
+}
+
+input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn-success:hover {
+    background: #5fc263;
+}
+
+.form-group {
+	padding: 5px;
+}
+
+/* GRIDVIEW */
+
+.grid-view, .detail-view {
+	border: 1px solid #DDD;
+	border-radius: 4px;
+	margin-top: 10px;
+}
+
+.grid-view a {
+	text-decoration: underline;
+	transition: 0.2s ease;
+}
+
+.grid-view a:hover {
+	color: #2196F3;
+}
+
+.grid-view th, .grid-view td {
+	padding: 6px 10px;
+}
+
+.grid-view th {
+	text-transform: capitalize;
+	background: #EEE;
+}
+
+.detail-view tr td:first-child {
+	text-transform: capitalize;
+	font-weight: bold;
+	padding-right: 40px;
+	border-right: 1px solid #DDD;
+}
+
+.grid-view tr:nth-child(odd), .detail-view tr:nth-child(odd) {
+	background: #F3F3F3;
+}
+
+/* CONTENT */
