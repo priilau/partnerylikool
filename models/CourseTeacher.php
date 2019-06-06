@@ -1,8 +1,10 @@
 <?php
 
 namespace app\models;
-	
-class CourseTeacher extends BaseModel {
+
+use app\components\ActiveRecord;
+
+class CourseTeacher extends ActiveRecord {
 	
 }
 

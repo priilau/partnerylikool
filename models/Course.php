@@ -1,8 +1,10 @@
 <?php
 
 namespace app\models;
-	
-class Course extends BaseModel {
+
+use app\components\ActiveRecord;
+
+class Course extends ActiveRecord {
 	
 	public static function tableName() {
 		return "course";
@@ -12,7 +14,7 @@ class Course extends BaseModel {
 		return[
 			[['code', 'name', 'created_at'], ["string"]],
 			[['id', 'department_id', 'parent_course_id', 'eap', 'optional', 'created_by', 'semester'], ["integer"]]
-		]
+		];
 	}
 	
 }

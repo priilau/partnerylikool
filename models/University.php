@@ -1,7 +1,9 @@
 <?php
 namespace app\models;
 
-class University extends BaseModel {
+use app\components\ActiveRecord;
+
+class University extends ActiveRecord {
 	
 	public static function tableName() {
 		return "university";

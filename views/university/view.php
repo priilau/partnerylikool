@@ -1,35 +1,32 @@
 <?php
 
-use app\models\University;
 use app\components\DetailView;
-use app\components\GridView;
-
-$model = new University();
-$model->name = "Tartu Ülikool";
-$model->country = "Estonia";
-
-echo DetailView::widget([
-	"model" => $model,
-	"attributes" => [
-		"name",
-		"country"
-	]
-]);
-
-$models = [];
-for($i = 0; $i < 20; $i++){
-	$model = new University();
-	$model->name = "Tartu Ülikool ". rand(0, 100);
-	$model->country = "Estonia";
-	$model->id = rand(0, 100);
-	$models[] = $model;
-}
-echo GridView::widget([
-	"models" => $models,
-	"columns" => [
-		"name",
-		"country"
-	]
-]);
 
 ?>
+
+<a href="/university/index">Back</a>
+
+<?= DetailView::widget([
+	"model" => $model,
+	"attributes" => [
+		'name', 
+		'country', 
+		'contact_email', 
+		'created_at', 
+		'id', 
+		'courses_available', 
+		'recommended', 
+		'created_by'
+	]
+]); ?>
+
+<script>
+let xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    console.log("responseText: ", this.responseText);
+  }
+};
+xhttp.open("GET", "/university/ajax", true);
+xhttp.send(); 
+</script>

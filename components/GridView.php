@@ -32,7 +32,7 @@ class GridView {
         foreach($models as $model){
             $str .= "<tr>";
             foreach($attributes as $atr){
-                $str .= "<td>". $model->$atr. "</td>"; 
+                $str .= "<td>{$model->$atr}</td>"; 
             }
             $str .= "<td>";
             foreach($buttons as $btn){

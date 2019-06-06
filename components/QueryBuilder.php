@@ -127,13 +127,13 @@ class QueryBuilder {
                 break;
             }
             case "update":{
-                $this->sql = "UPDATE {$this->tableName} SET (";
+                $this->sql = "UPDATE {$this->tableName} SET ";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
                         return false;
                     }
-                    $fieldStr .= "{$fieldName} = ?, ";
+                    $fieldStr .= "`{$fieldName}` = ?, ";
                     
                     if(is_string($fieldValue)){
                         $fieldParams .= "s";
@@ -147,7 +147,6 @@ class QueryBuilder {
                     $this->fieldValues[] = $fieldValue;
                 }
                 $fieldStr = rtrim($fieldStr,", ");
-                $fieldStr .=  ")";
                 
                 $whereSql = " WHERE (";
                 foreach($this->updateCondition as $whereBlock){
@@ -186,7 +185,7 @@ class QueryBuilder {
                 $this->sql .= $whereSql;
                 break;
             }
-            case "select":{ 
+            case "select":{
                 $this->sql .= "SELECT * FROM ". $this->tableName;
                 if(count($this->wheres) > 0){
                     $whereSql = " WHERE (";
@@ -210,7 +209,7 @@ class QueryBuilder {
             
         }
         if($limit > 0) {
-            $this->sql = " LIMIT ". $limit;
+            $this->sql .= " LIMIT ". $limit;
         }
         $this->sql .=  ";";
         return $this->sql;
@@ -238,29 +237,33 @@ class QueryBuilder {
     }
     
     public function query(){
-        $dataFromDB = [];
         $this->compose(1);
         $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         $stmt->execute();
-        $dataFromDB = $stmt->fetch();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $dataFromDb = $row;
+        $stmt->free_result();
         $stmt->close();
 		$mysqli->close();
-		return $dataFromDB;
+		return $dataFromDb;
     }
     
     public function queryAll(){
-        $dataFromDB = [];
+        $dataFromDb = [];
         $this->compose();
         $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         $stmt->execute();
-        while($row = $stmt->fetch()){
-            $dataFromDB[] = $row;
+        $result = $stmt->get_result();
+        while($row = $result->fetch_assoc()){
+            $dataFromDb[] = $row;
         }
+        $stmt->free_result();
         $stmt->close();
-		$mysqli->close();
-		return $dataFromDB;
+        $mysqli->close();
+		return $dataFromDb;
     }
     
     public static function insert($tableName, $data){

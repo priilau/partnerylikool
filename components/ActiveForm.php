@@ -7,6 +7,7 @@ class ActiveForm {
     public $inputType = "text";
     public $fieldName = "";
     public $modelName = "";
+    public $inputValue = "";
     public $labelStatus = true;
     public $options = [];
 
@@ -51,10 +52,10 @@ class ActiveForm {
         $str .= "<label class='control-label' for='{$this->modelName}-{$this->fieldName}'>{$labelName}</label>";
 
         if($this->elementType == "input"){
-            $str .= "<{$this->elementType} id='{$this->modelName}-{$this->fieldName}' type='{$this->inputType}' name='{$this->fieldName}'>";
+            $str .= "<{$this->elementType} id='{$this->modelName}-{$this->fieldName}' type='{$this->inputType}' name='{$this->fieldName}' value='{$this->inputValue}'>";
         }
         else if($this->elementType == "select"){
-            $str .= "<{$this->elementType} id='{$this->modelName}-{$this->fieldName}' name='{$this->fieldName}'}>";
+            $str .= "<{$this->elementType} id='{$this->modelName}-{$this->fieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
             foreach ($this->options as $optionValue => $optionName){
                 $optionName = ucfirst($optionName);
                 $str .= "<option value='{$optionValue}'>{$optionName}</option>";
@@ -75,6 +76,7 @@ class ActiveForm {
         $this->elementType = "input";
         $this->modelName = strtolower((new \ReflectionClass($model))->getShortName());
         $this->fieldName = strtolower($fieldName);
+        $this->inputValue = $model->$fieldName;
         return $this;
     }
     

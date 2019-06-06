@@ -1,8 +1,10 @@
 <?php
 
 namespace app\models;
-	
-class StudyModule extends BaseModel {
+
+use app\components\ActiveRecord;
+
+class StudyModule extends ActiveRecord {
 	
 }
 

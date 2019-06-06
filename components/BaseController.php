@@ -35,16 +35,25 @@ class BaseController {
 		require_once($viewPath);
 	}
 	
-	public function redirect($action, $params){
+	public function redirect($action, $params = []){
 	    $host = $_SERVER["HTTP_HOST"];
         $this->controller = Request::getController();
 	    if($this->controller == "site" && $action == "index") {
             header("Location: http://{$host}/");
         } else if(isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"]) >= 3) {
-            header("Location: http://{$host}/{$this->controller}/{$action}?".$_SERVER["QUERY_STRING"]);
+            header("Location: http://{$host}/{$this->controller}/{$action}?{$_SERVER['QUERY_STRING']}");
         } else if(count($params) <= 0) {
             header("Location: http://{$host}/{$this->controller}/{$action}");
-        }
+		} else if(count($params) > 0) {
+			$queryStr = "?";
+			foreach ($params as $key => $value) {
+				$queryStr .= "{$key}={$value}&";
+			}
+			$queryStr = rtrim($queryStr, "&");
+			header("Location: http://{$host}/{$this->controller}/{$action}{$queryStr}");
+		}
+		echo 1;
+		var_dump($this->controller, $action, isset($_SERVER["QUERY_STRING"]), strlen($_SERVER["QUERY_STRING"]), count($params), $params);
         exit();
 	}
 
@@ -64,6 +73,10 @@ class BaseController {
 		$viewPath = __DIR__ . "/../views/".$viewName.".php";
 		require_once($viewPath);
 		return ob_get_clean();
+	}
+
+	public function json($data){
+		echo $data;
 	}
 }
 

@@ -4,15 +4,10 @@ namespace app\models;
 use app\components\QueryBuilder;
 	
 class BaseModel {
-	protected $attributes = [];
+	public $attributes = [];
 	public $errors = [];
 	public $rules = [];
 
-	function __construct() {
-		$this->rules = $this->rules();
-	}
-	// TODO
-	// lisada funktsioonid find(), addWhere(), orWhere(), all(), one()
 	public function getSaveQuery(){
 		if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
 			return \app\components\QueryBuilder::update(static::tableName(), $this->attributes, ["=", "id", $this->attributes["id"]])->compose();
@@ -48,7 +43,7 @@ class BaseModel {
 	public function save(){
 		if($this->validate()){
 			if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
-				QueryBuilder::update(self::tableName(), $this->attributes, ["=","id", $this->attributes["id"]])->execute();
+				QueryBuilder::update(static::tableName(), $this->attributes, ["=","id", $this->attributes["id"]])->execute();
 			} else {
 				$this->attributes["id"] = QueryBuilder::insert(static::tableName(), $this->attributes)->execute();
 				if ($this->attributes["id"] == 0){
@@ -63,6 +58,7 @@ class BaseModel {
 	
 	public function validate(){
 		$errors = [];
+		$this->rules = $this->rules();
 		foreach ($this->attributes as $key => $fieldValue){
 			$ruleFound = false;
 			
@@ -115,14 +111,15 @@ class BaseModel {
 		if(isset($post) && is_array($post) && count($post)){
 			foreach ($post as $key => $value) {
 				$this->attributes[$key] = $value;
-			}	
+				$this->$key = $value;
+			}
 			return true;
 		}
 		return false;
 	}
 	
 	public function delete(){
-		QueryBuilder::delete(self::tableName(), ["id" => $this->id])->execute();
+		QueryBuilder::delete(static::tableName(), ["=", "id", $this->id])->execute();
 	}
 
 }
