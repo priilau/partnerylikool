@@ -4,7 +4,7 @@ use app\components\DetailView;
 
 ?>
 
-<a href="/university/index">Back</a>
+<a class="btn btn-primary" href="/university/index">Back</a>
 
 <?= DetailView::widget([
 	"model" => $model,
