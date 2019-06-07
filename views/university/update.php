@@ -4,6 +4,8 @@ use app\components\ActiveForm;
 
 ?>
 
+<a href="/university/index">Back</a>
+
 <?php $form = ActiveForm::begin();?>
 
 <?= $form->field($model, 'name') ?>
