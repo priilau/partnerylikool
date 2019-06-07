@@ -4,7 +4,7 @@ use app\components\ActiveForm;
 
 ?>
 
-<a href="/university/index">Back</a>
+<a class="btn btn-primary" href="/university/index">Back</a>
 
 <?php $form = ActiveForm::begin();?>
 
