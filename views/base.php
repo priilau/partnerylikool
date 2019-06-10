@@ -123,5 +123,6 @@
 			</div>
 		</div>
 	</div>
+	<script src="/main.js?v=1"></script>
 </body>
 </html>
