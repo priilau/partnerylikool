@@ -54,6 +54,13 @@ a {
 	background-position-y: 0px;
 }
 
+.left-menu{
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	vertical-align: baseline;
+}
+
 .lower-menu a {
 	font-family: Times New Roman, Verdana;
 	font-size: 14px;
@@ -393,6 +400,8 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 }
 .description-text {
 	max-width: 550px;
+	overflow-y: auto;
+	max-height: 130px;
 }
 .filter-container {
 	display: flex;
