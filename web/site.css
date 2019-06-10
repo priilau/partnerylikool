@@ -373,3 +373,58 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 }
 
 /* CONTENT */
+
+.content-container{
+	display: inline-block;
+	max-width: 800px;
+}
+
+.university > div, .filter-container > div, .filter-sub-container select, .university-description > div {
+	display: inline-block;
+}
+.filter-sub-container, .university-description > div {
+	vertical-align: top;
+}
+.filter-options {
+	max-height: 102px;
+	overflow: auto;
+	background: #F5F5F5;
+	padding: 8px 14px;
+}
+.description-text {
+	max-width: 550px;
+}
+.filter-container {
+	display: flex;
+}
+.filter-container > div {
+	flex: 1;
+}
+.percent-with-link {
+	position: relative;
+	min-height: 128px;
+	min-width: 60px;
+}
+.percent-with-link div:first-child {
+}
+.percent-with-link div:last-child {
+	margin-top: 15px;
+}
+h3 {
+	font-weight: bold;
+	font-family: Arial;
+}
+.university h3 {
+	margin-left: 80px;
+}
+.university-icon img {
+	width: 48px;
+}
+.university-map img {
+	width: 128px;
+}
+select {
+	margin: 0px 6px 6px 0px;
+	border-radius: 4px;
+	border: 1px solid #A7A7A7;
+}
