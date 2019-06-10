@@ -68,7 +68,7 @@ class ActiveForm {
     }
     
     public function label($labelVal){
-        $labelVal = $this->labelStatus;
+        $this->labelStatus = $labelVal;
         return $this;
     }
     
