@@ -12,11 +12,10 @@ class Course extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['code', 'name', 'created_at'], ["string"]],
-			[['id', 'department_id', 'parent_course_id', 'eap', 'optional', 'created_by', 'semester'], ["integer"]]
+			[['code', 'name', 'created_at', 'goals', 'description'], ["string"]],
+			[['id', 'department_id', 'parent_course_id', 'ects', 'optional', 'created_by', 'semester', 'contact_hours', 'exam'], ["integer"]]
 		];
 	}
-	
 }
 
 ?>
