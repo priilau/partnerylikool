@@ -13,6 +13,33 @@ class Helper {
 
         return $randomString;
     }
+
+    public function isStringClean($str, $maxLength = 128) {
+		$alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä,.";
+		$strLen = strlen($str);
+		$strLenX = strlen($alphabet);
+		
+		if($strLen >= $maxLength) {
+			return false;
+		}
+		$str = mb_strtolower($str);
+		
+		for($i = 0; $i < $strLen; $i++) {
+			$myError = true;
+			
+			for($x = 0; $x < $strLenX; $x++) {
+				if(strcmp($str[$i], $alphabet[$x])) {
+					$myError = false;
+					break;
+				}
+			}
+			
+			if($myError) {
+				return false;
+			}
+		}
+		return true;
+    }
 }
 
 ?>

@@ -14,10 +14,18 @@ class User extends BaseModel {
 	
 	public function rules(){
 		return[
-			[['email', 'password', 'auth_key', 'created_at', 'newPassword', 'newPasswordConfirm'], ["string"]],
+			[['email', 'password', 'created_at', 'newPassword', 'newPasswordConfirm'], ["string"]],
+			[['auth_key'], ["auto-hash-128"]],
 			[['id'], ["integer"]]
 		];
 	}
+
+	public function attributeLabels() {
+	    return [
+            "newPassword" => "Uus parool",
+            "newPasswordConfirm" => "Uus parool (kinnita)",
+        ];
+    }
 
 	public static function findByEmail($email) {
         $model = new User();
@@ -38,6 +46,8 @@ class User extends BaseModel {
             $this->password = password_hash($this->newPassword, PASSWORD_DEFAULT);
         }
 
+        unset($this->attributes["newPassword"]);
+        unset($this->attributes["newPasswordConfirm"]);
         parent::beforeSave();
     }
 }

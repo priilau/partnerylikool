@@ -9,6 +9,8 @@ $files = [
     __DIR__ . '/../components/GridView.php',
     __DIR__ . '/../components/DetailView.php',
 	__DIR__ . '/../components/ActiveForm.php',
+	__DIR__ . '/../components/Alert.php',
+	__DIR__ . '/../components/Flash.php',
     __DIR__ . '/../components/BaseModel.php',
     __DIR__ . '/../components/ActiveRecord.php',
     __DIR__ . '/../components/Router.php',

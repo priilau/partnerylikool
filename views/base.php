@@ -1,3 +1,9 @@
+<?php 
+
+use app\components\Alert;
+
+?>
+
 <?php if(!isset($content)) { $content = ""; } ?>
 <?php if(!isset($title)) { $title = "Partnerülikool"; } ?>
 
@@ -69,6 +75,7 @@
 		</div>
 		
 		<div class="content">
+			<?= Alert::showMessages(); ?>
 			<?= $content; ?>
 		</div>
     </div>

@@ -1,7 +1,7 @@
 <?php
-use app\config\DB;
-
 namespace app\components;
+
+use app\config\DB;
 
 class QueryBuilder {
     public $tableName;
@@ -43,39 +43,11 @@ class QueryBuilder {
     }
     
     public function leftJoin($otherTableName, $firstTableField, $otherTableField){
-        if(!$this->isStringClean($this->tableName) || !$this->isStringClean($otherTableName) || !$this->isStringClean($firstTableField) || !$this->isStringClean($otherTableField)){
+        if(!Helper::isStringClean($this->tableName) || !Helper::isStringClean($otherTableName) || !Helper::isStringClean($firstTableField) || !Helper::isStringClean($otherTableField)){
             return false;
         }
         $this->sql .= "SELECT column_names FROM {$this->tableName} LEFT JOIN {$otherTableName} ON {$this->tableName}.{$firstTableField}={$otherTableName}.{$otherTableField};";
         return $this->sql;
-    }
-    
-	public function isStringClean($str)
-	{
-		$alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä";
-		$strLen = strlen($str);
-		$strLenX = strlen($alphabet);
-		
-		if($strLen >= 128) {
-			return false;
-		}
-		$str = mb_strtolower($str);
-		
-		for($i = 0; $i < $strLen; $i++) {
-			$myError = true;
-			
-			for($x = 0; $x < $strLenX; $x++) {
-				if(strcmp($str[$i], $alphabet[$x])) {
-					$myError = false;
-					break;
-				}
-			}
-			
-			if($myError) {
-				return false;
-			}
-		}
-		return true;
     }
 
     public function refValues($arr){
@@ -94,7 +66,7 @@ class QueryBuilder {
         $conditionStr = "";
         $fieldVals = "";
         $fieldParams = "";
-        if(!$this->isStringClean($this->tableName)){
+        if(!Helper::isStringClean($this->tableName)){
             return false;
         }
         switch($this->queryType){
@@ -102,7 +74,7 @@ class QueryBuilder {
                 $this->sql = "INSERT INTO {$this->tableName} ";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
+                    if(!Helper::isStringClean($fieldName, 255) || !Helper::isStringClean($fieldValue, 255)){
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
                         return false;
                     }
@@ -130,7 +102,7 @@ class QueryBuilder {
                 $this->sql = "UPDATE {$this->tableName} SET ";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!$this->isStringClean($fieldName) || !$this->isStringClean($fieldValue)){
+                    if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue)){
                         return false;
                     }
                     $fieldStr .= "`{$fieldName}` = ?, ";
@@ -154,10 +126,10 @@ class QueryBuilder {
                         $whereSql .= " OR (";
                     }
                     foreach($whereBlock as $whereItem){
-                        if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
+                        if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
                             return false;
                         }
-                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
+                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND ";
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
@@ -174,7 +146,7 @@ class QueryBuilder {
                         $whereSql .= " OR (";
                     }
                     foreach($whereBlock as $whereItem){
-                        if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
+                        if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
                             return false;
                         }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
@@ -194,16 +166,16 @@ class QueryBuilder {
                             $whereSql .= " OR (";
                         }
                         foreach($whereBlock as $whereItem){
-                            if(!$this->isStringClean($whereItem[1]) || !$this->isStringClean($whereItem[2])){
+                            if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
                                 return false;
                             }
-                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
+                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND ";
                         }
                         $whereSql = rtrim($whereSql," AND ");
                         $whereSql .= ")";
                     }
                     $this->sql .= $whereSql;
-                } 
+                }
                 break;
             }
             
@@ -216,9 +188,8 @@ class QueryBuilder {
     }
     
     public function execute(){
-        $id = 0;
         $this->compose();
-        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
+        $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         if(!$stmt){
             echo $mysqli->error;
@@ -238,8 +209,12 @@ class QueryBuilder {
     
     public function query(){
         $this->compose(1);
-        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
+        $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
+        if(!$stmt){
+            echo $mysqli->error;
+            exit("Unable to create stmt!");
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
@@ -253,7 +228,7 @@ class QueryBuilder {
     public function queryAll(){
         $dataFromDb = [];
         $this->compose();
-        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
+        $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         $stmt->execute();
         $result = $stmt->get_result();

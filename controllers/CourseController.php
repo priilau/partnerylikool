@@ -1,17 +1,19 @@
 <?php
-use app\models\Course;
-
 namespace app\controllers;
+
+use app\models\Course;
+use app\components\QueryBuilder;
+use Exception;
 	
 class CourseController extends BaseController {
 	
 	public function actionIndex() {
-		return $this->render("index");
+		$models = Course::find()->all();
+		return $this->render("index", ["models" => $models]);
 	}
 	
 	public function actionCreate() {
 		$model = new Course();
-		
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
@@ -41,17 +43,15 @@ class CourseController extends BaseController {
 		return $this->render("view", ["model" => $model]);
 	}
 	
-	protected function findModel($id) 
-    {
+	public function findModel($id) {
 		$model = new Course();
 		$data = QueryBuilder::select(Course::tableName())->addWhere("=", "id", $id)->query();
-        
 		if($model->load($data)){
 			return $model;
 		}
-		throw new Exception("Not found");
-		
-    }
+		throw new Exception("Page not found");
+	}
+
 }
 
 ?>

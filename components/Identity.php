@@ -11,8 +11,10 @@ class Identity {
     }
 
     public static function validateIdentity() {
-	    $user = self::get();
-	    if(isset($_COOKIE["auth_key"]) && (strlen($_COOKIE["auth_key"]) === 0 || $_COOKIE["auth_key"] != $user->auth_key)) {
+        session_start();
+	    $identity = self::get();
+
+	    if($identity->user == null || isset($_COOKIE["auth_key"]) && (strlen($_COOKIE["auth_key"]) === 0 || $_COOKIE["auth_key"] != $identity->auth_key)) {
 	        Identity::logout();
         }
     }
@@ -21,6 +23,7 @@ class Identity {
         $identity = &self::get(); // NOTE(Caupo 11.06.2019): & märk self'i ees tähistab, et returnitakse referencena.
         $identity->isGuest = false;
         $identity->user = $user;
+        $identity->authKey = $user->auth_key;
         setcookie("auth_key", $user->auth_key);
     }
 
@@ -31,8 +34,6 @@ class Identity {
     }
 
     public static function &get() { // NOTE(Caupo 11.06.2019): & märk self'i ees tähistab, et returnitakse referencena.
-        session_start();
-
         if(!isset($SESSION["IDENTITY_OBJ"])) {
             $SESSION["IDENTITY_OBJ"] = new Identity();
         }
