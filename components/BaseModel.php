@@ -105,19 +105,17 @@ class BaseModel {
 											$this->addError("{$fieldName} - Email is not valid!");
 										}
 										break;
-									}/*
-									case "created-datetime":{
-										if($fieldValue == null || $fieldValue == ""){
-											date
-										}
-										break;
 									}
 									case "created-datetime":{
 										if($fieldValue == null || $fieldValue == ""){
-											date
+											$this->$fieldValue = (new DateTime('now'))->format('Y-m-d H:i:s');
 										}
 										break;
-									}*/
+									}
+									case "updated-datetime":{
+										$this->$fieldValue = (new DateTime('now'))->format('Y-m-d H:i:s');
+										break;
+									}
 									case "auto-hash-128":{
 										if($fieldValue == null || $fieldValue == "" || !isset($fieldValue)){
 											$this->$fieldName = Helper::generateRandomString();
