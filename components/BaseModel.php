@@ -2,6 +2,7 @@
 namespace app\models;
 
 use app\components\QueryBuilder;
+use app\components\Helper;
 	
 class BaseModel {
 	public $attributes = [];
@@ -42,6 +43,8 @@ class BaseModel {
 	
 	public function save(){
 		if($this->validate()){
+		    $this->beforeSave();
+
 			if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
 				QueryBuilder::update(static::tableName(), $this->attributes, ["=","id", $this->attributes["id"]])->execute();
 			} else {
@@ -55,6 +58,10 @@ class BaseModel {
 		}
 		return false;
 	}
+
+	public function beforeSave() {
+
+    }
 	
 	public function validate(){
 		$errors = [];
@@ -93,6 +100,28 @@ class BaseModel {
 										}
 										break;
 									}
+									case "email":{
+										if(!$this->validate($fieldValue)){
+											$this->addError("{$fieldName} - Email is not valid!");
+										}
+										break;
+									}
+									case "created-datetime":{
+										if($fieldValue == null || $fieldValue == ""){
+											$this->$fieldValue = (new DateTime('now'))->format('Y-m-d H:i:s');
+										}
+										break;
+									}
+									case "updated-datetime":{
+										$this->$fieldValue = (new DateTime('now'))->format('Y-m-d H:i:s');
+										break;
+									}
+									case "auto-hash-128":{
+										if($fieldValue == null || $fieldValue == "" || !isset($fieldValue)){
+											$this->$fieldName = Helper::generateRandomString();
+										}
+										break;
+									}
 								}
 							}
 						} 
@@ -122,6 +151,16 @@ class BaseModel {
 		QueryBuilder::delete(static::tableName(), ["=", "id", $this->id])->execute();
 	}
 
+	public function validateEmail($email){
+		$splitEmail = explode("@", $email);
+		$splitDomain = explode(".", $splitEmail[1]);
+
+		if(!Helper::isStringClean($splitEmail[0]) || !Helper::isStringClean($splitDomain[0]) || !Helper::isStringClean($splitDomain[1])){
+			return false;
+		} else {
+			return true;
+		}
+	}
 }
 
 ?>

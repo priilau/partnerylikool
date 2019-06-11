@@ -54,6 +54,13 @@ a {
 	background-position-y: 0px;
 }
 
+.left-menu{
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	vertical-align: baseline;
+}
+
 .lower-menu a {
 	font-family: Times New Roman, Verdana;
 	font-size: 14px;
@@ -72,12 +79,12 @@ a {
 
 .link-bottom-aligner {
 	position: absolute;
-	bottom: 0;
+	bottom: 40px;
 }
 
 .lower-menu > div a {
 	vertical-align: bottom;
-	font-size: 16px;
+	font-size: 20px;
 	font-style: italic;
 }
 
@@ -86,16 +93,40 @@ a {
 }
 
 .base-align {
-	padding: 0 4.86111vw;
+	padding: 0 4.86111vw 20px;
+	
+}
+
+.lower-menu > div.left-menu {
+	max-width: 350px;
+}
+
+.lower-menu > div.right-menu {
+	text-align: right;
+}
+
+.sticky {
+	position: fixed;
+	z-index: 100;
+	background: #fff;
+	top: 0;
+	width: 100%;
+	padding: 20px 4.86111vw;
+	padding-right: 100px;
+	box-shadow: 0 0 30px rgba(0,0,0,.1);
+}
+
+.sticky + .content {
+	padding-top: 102px;
 }
 
 .banner-section > div {
+	
 	display: inline-block;
 	min-height: 408px;
 }
 
 .banner-image {
-	position: relative;
 	padding-left: 48px;
 	background: #6bcaba;
 }
@@ -386,6 +417,7 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	vertical-align: top;
 }
 .filter-options {
+	display: inline-block;
 	max-height: 102px;
 	overflow: auto;
 	background: #F5F5F5;
@@ -393,6 +425,8 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 }
 .description-text {
 	max-width: 550px;
+	overflow-y: auto;
+	max-height: 130px;
 }
 .filter-container {
 	display: flex;

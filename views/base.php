@@ -24,11 +24,11 @@
 			<a href="https://www.youtube.com/user/TallinnaYlikool">&nbsp;&nbsp;&nbsp;</a>
 		</div>
 	</div>
-	<div class="lower-menu base-align">
-		<div class="right-menu">
+	<div class="lower-menu base-align" id="header-menu">
+		<div class="left-menu">
 			<img src="https://www.tlu.ee/sites/default/files/2018-05/DTI-est_2.svg" alt="Tallinna Ülikool">
 		</div>
-		<div class="left-menu">
+		<div class="right-menu">
 			<div class="link-bottom-aligner">
 				<a href="#">Instituut</a>
 				<a href="#">Sisseastumine</a>

@@ -12,7 +12,8 @@ class Teacher extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['firstname', 'lastname', 'email', 'created_at'], ["string"]],
+			[['firstname', 'lastname', 'created_at'], ["string"]],
+			[['email'], ['email']],
 			[['id', 'created_by'], ["integer"]]
 		];
 	}
