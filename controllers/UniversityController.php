@@ -44,17 +44,14 @@ class UniversityController extends BaseController {
 	}
 	
 	public function findModel($id) {
-		$model = new \app\models\University();
-		$data = \app\components\QueryBuilder::select(\app\models\University::tableName())->addWhere("=", "id", $id)->query();
+		$model = new University();
+		$data = QueryBuilder::select(University::tableName())->addWhere("=", "id", $id)->query();
 		if($model->load($data)){
 			return $model;
 		}
 		throw new Exception("Page not found");
 	}
 
-	public function actionAjax() {
-		return $this->json(json_encode(["message" => "straight out of compton"]));
-	}
 }
 
 ?>

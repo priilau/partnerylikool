@@ -1,19 +1,19 @@
 <?php
 namespace app\controllers;
 
-use app\models\Course;
+use app\models\CourseTeacher;
 use app\components\QueryBuilder;
 use Exception;
 	
-class CourseController extends BaseController {
+class CourseTeacherController extends BaseController {
 	
 	public function actionIndex() {
-		$models = Course::find()->all();
+		$models = CourseTeacher::find()->all();
 		return $this->render("index", ["models" => $models]);
 	}
 	
 	public function actionCreate() {
-		$model = new Course();
+		$model = new CourseTeacher();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
@@ -44,8 +44,8 @@ class CourseController extends BaseController {
 	}
 	
 	public function findModel($id) {
-		$model = new Course();
-		$data = QueryBuilder::select(Course::tableName())->addWhere("=", "id", $id)->query();
+		$model = new CourseTeacher();
+		$data = QueryBuilder::select(CourseTeacher::tableName())->addWhere("=", "id", $id)->query();
 		if($model->load($data)){
 			return $model;
 		}
