@@ -6,17 +6,39 @@ class Identity {
 	public $authKey = "";
 	public $user = null;
 
-	/* AuthKey on sessioonis
-	    Iga requestiga kontrollida, kas cookies ja sessionis on sama auth key. Kui cookies on midagi aga authkey ei klapi siis logoutida.
-	    Kui cookies ei ole midagi, siis määrata, et on logged out.
-	    Edukal sisselogimises gettida useri modeli andmed ja määrata Model object $this->user'isse. Määrata isGuest = false.
+	public function isLoggedIn() {
+	    return (!$this->isGuest || $this->user === null);
+    }
 
-	Lisada funktsioon isLoggedIn, mis returnib vastavalt isGuest-i
-	Lisada funktsioon random generateb auth stringi
-	Lisada funktsioon mis validateb igal web requestil nt routeris või basecontrolleris, et kas sul auth key klapib
-	    kui sessionis kirjas, et oled logged in. Ja kui ei klapi siis logged-outib.
-	Lisada funktsioon logIn, mis võtab sisse omale user model objeti ja määrab selle külge
-    */
+    public static function validateIdentity() {
+	    $user = self::get();
+	    if(isset($_COOKIE["auth_key"]) && (strlen($_COOKIE["auth_key"]) === 0 || $_COOKIE["auth_key"] != $user->auth_key)) {
+	        Identity::logout();
+        }
+    }
+
+    public static function login($user) { // NOTE(Caupo 11.06.2019): Kui paroolid on edukalt kontrollitud, siis kutsuda välja see funktsioon.
+        $identity = &self::get(); // NOTE(Caupo 11.06.2019): & märk self'i ees tähistab, et returnitakse referencena.
+        $identity->isGuest = false;
+        $identity->user = $user;
+        setcookie("auth_key", $user->auth_key);
+    }
+
+    public static function logout() {
+        $identity = &self::get(); // NOTE(Caupo 11.06.2019): & märk self'i ees tähistab, et returnitakse referencena.
+        $identity->isGuest = true;
+        $identity->user = null;
+    }
+
+    public static function &get() { // NOTE(Caupo 11.06.2019): & märk self'i ees tähistab, et returnitakse referencena.
+        session_start();
+
+        if(!isset($SESSION["IDENTITY_OBJ"])) {
+            $SESSION["IDENTITY_OBJ"] = new Identity();
+        }
+
+	    return $SESSION["IDENTITY_OBJ"];
+    }
 }
 
 ?>
