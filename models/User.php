@@ -19,6 +19,13 @@ class User extends BaseModel {
 		];
 	}
 
+	public function attributeLabels() {
+	    return [
+            "newPassword" => "Uus parool",
+            "newPasswordConfirm" => "Uus parool (kinnita)",
+        ];
+    }
+
 	public static function findByEmail($email) {
         $model = new User();
         $data = QueryBuilder::select(self::tableName())->addWhere("=", "email", $email)->query();

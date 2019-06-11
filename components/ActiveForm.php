@@ -10,6 +10,7 @@ class ActiveForm {
     public $inputValue = "";
     public $labelStatus = true;
     public $options = [];
+    public $model = null;
 
     public static function begin($method = "POST", $enctype = null, $action = null){
         $activeForm = new ActiveForm();
@@ -44,18 +45,26 @@ class ActiveForm {
     }
 
     public function __toString(){
-        $str = "<div class='form-group field-{$this->modelName}-{$this->fieldName}'>";
-  
-        $labelName = str_replace("_", " ", $this->fieldName);
-        $labelName = ucfirst($labelName);
+        $lowerFieldName = strtolower($this->fieldName);
+        $str = "<div class='form-group field-{$this->modelName}-{$lowerFieldName}'>";
 
-        $str .= "<label class='control-label' for='{$this->modelName}-{$this->fieldName}'>{$labelName}</label>";
+        $labels = $this->model->attributeLabels();
+        $labelName = $this->fieldName;
+
+        if(isset($labels[$this->fieldName])) {
+            $labelName = $labels[$this->fieldName];
+        } else {
+            $labelName = str_replace("_", " ", $this->fieldName);
+            $labelName = ucfirst($labelName);
+        }
+
+        $str .= "<label class='control-label' for='{$this->modelName}-{$lowerFieldName}'>{$labelName}</label>";
 
         if($this->elementType == "input"){
-            $str .= "<{$this->elementType} id='{$this->modelName}-{$this->fieldName}' type='{$this->inputType}' name='{$this->fieldName}' value='{$this->inputValue}'>";
+            $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' value='{$this->inputValue}'>";
         }
         else if($this->elementType == "select"){
-            $str .= "<{$this->elementType} id='{$this->modelName}-{$this->fieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
+            $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
             foreach ($this->options as $optionValue => $optionName){
                 $optionName = ucfirst($optionName);
                 $str .= "<option value='{$optionValue}'>{$optionName}</option>";
@@ -75,8 +84,9 @@ class ActiveForm {
     public function field($model, $fieldName, $options = []){
         $this->elementType = "input";
         $this->modelName = strtolower((new \ReflectionClass($model))->getShortName());
-        $this->fieldName = strtolower($fieldName);
+        $this->fieldName = $fieldName;
         $this->inputValue = $model->$fieldName;
+        $this->model = $model;
         return $this;
     }
     
