@@ -54,6 +54,13 @@ a {
 	background-position-y: 0px;
 }
 
+.left-menu{
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	vertical-align: baseline;
+}
+
 .lower-menu a {
 	font-family: Times New Roman, Verdana;
 	font-size: 14px;
@@ -179,6 +186,16 @@ a {
 .side-menu a.active {
 	color: #000;
 	background: #FFF;
+}
+
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%
+}
+
+.sticky + .content {
+	padding-top: 102px;
 }
 
 /*FOOTER */
@@ -386,6 +403,7 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	vertical-align: top;
 }
 .filter-options {
+	display: inline-block;
 	max-height: 102px;
 	overflow: auto;
 	background: #F5F5F5;
@@ -393,6 +411,8 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 }
 .description-text {
 	max-width: 550px;
+	overflow-y: auto;
+	max-height: 130px;
 }
 .filter-container {
 	display: flex;

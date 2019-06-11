@@ -24,7 +24,7 @@
 			<a href="https://www.youtube.com/user/TallinnaYlikool">&nbsp;&nbsp;&nbsp;</a>
 		</div>
 	</div>
-	<div class="lower-menu base-align">
+	<div class="lower-menu base-align" id="headerMenu">
 		<div class="right-menu">
 			<img src="https://www.tlu.ee/sites/default/files/2018-05/DTI-est_2.svg" alt="Tallinna Ülikool">
 		</div>
