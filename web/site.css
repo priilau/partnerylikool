@@ -79,12 +79,12 @@ a {
 
 .link-bottom-aligner {
 	position: absolute;
-	bottom: 0;
+	bottom: 40px;
 }
 
 .lower-menu > div a {
 	vertical-align: bottom;
-	font-size: 16px;
+	font-size: 20px;
 	font-style: italic;
 }
 
@@ -93,16 +93,40 @@ a {
 }
 
 .base-align {
-	padding: 0 4.86111vw;
+	padding: 0 4.86111vw 20px;
+	
+}
+
+.lower-menu > div.left-menu {
+	max-width: 350px;
+}
+
+.lower-menu > div.right-menu {
+	text-align: right;
+}
+
+.sticky {
+	position: fixed;
+	z-index: 100;
+	background: #fff;
+	top: 0;
+	width: 100%;
+	padding: 20px 4.86111vw;
+	padding-right: 100px;
+	box-shadow: 0 0 30px rgba(0,0,0,.1);
+}
+
+.sticky + .content {
+	padding-top: 102px;
 }
 
 .banner-section > div {
+	
 	display: inline-block;
 	min-height: 408px;
 }
 
 .banner-image {
-	position: relative;
 	padding-left: 48px;
 	background: #6bcaba;
 }
@@ -186,16 +210,6 @@ a {
 .side-menu a.active {
 	color: #000;
 	background: #FFF;
-}
-
-.sticky {
-	position: fixed;
-	top: 0;
-	width: 100%
-}
-
-.sticky + .content {
-	padding-top: 102px;
 }
 
 /*FOOTER */
