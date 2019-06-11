@@ -42,6 +42,8 @@ class BaseModel {
 	
 	public function save(){
 		if($this->validate()){
+		    $this->beforeSave();
+
 			if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
 				QueryBuilder::update(static::tableName(), $this->attributes, ["=","id", $this->attributes["id"]])->execute();
 			} else {
@@ -55,6 +57,10 @@ class BaseModel {
 		}
 		return false;
 	}
+
+	public function beforeSave() {
+
+    }
 	
 	public function validate(){
 		$errors = [];

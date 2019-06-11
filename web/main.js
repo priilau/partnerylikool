@@ -1,15 +1,15 @@
 console.log("main.js töötab");
 
 // site/index.php
-window.onscroll = function() {scrollHeader()};
+window.onscroll = function() { scrollHeader(); }
 
-let header = document.getElementById("headerMenu");
+let header = document.getElementById("header-menu");
 let sticky = header.offsetTop;
 let filtersArr = {};
-let degree = document.getElementById("#degree");
-let semester = document.getElementById("#semester");
-let speciality = document.getElementById("#speciality");
-let practice = document.getElementById("#practise");
+let degree = document.querySelector("#degree");
+let semester = document.querySelector("#semester");
+let speciality = document.querySelector("#speciality");
+let practice = document.querySelector("#practice");
 let topicsArr = document.querySelectorAll("#topics");
 let universities = document.querySelector(".universities");
 
@@ -46,15 +46,15 @@ if(practice !== null && practice !== undefined) {
 }
 
 if(topicsArr !== null && topicsArr !== undefined) {
-    topicsArr.addEventListener("change", function() {
-        for (let i = 0; i < topicsArr.length; i++) { // addEventListener for sisse
-            if (topicsArr[i].selected) {
-                selectedArr.push(topicsArr[i].value);
-            }
+    for (let i = 0; i < topicsArr.length; i++) {
+        if (topicsArr[i].selected) {
+            selectedArr.push(topicsArr[i].value);
         }
-        filtersArr.topicsArr = selectedArr;
-        FetchResults();
-    });
+        topicsArr[i].addEventListener("change", function() {
+            filtersArr.topicsArr = selectedArr;
+            FetchResults();
+        });
+    }
 }
 
 function FetchResults(){
@@ -65,18 +65,17 @@ function FetchResults(){
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             //document.getElementById("input").innerHTML = this.responseText;
-            console.log("fetchResults");
+            console.log("FetchResults");
             console.log("filtersArr: ", filtersArr);
         }
     };
-    xhttp.open("POST", "/university/getResults");
+    xhttp.open("POST", "/university/getResults", true);
 	xhttp.send(formData);
 }
 
 function CreateUniversity(name, icon, description, percent, link, map){
     let uniBlock = document.createElement("div");
     uniBlock.className = "university";
-    console.log(uniBlock);
     
     let uniHeader = document.createElement("h3");
     uniHeader.innerHTML = name;
@@ -124,8 +123,8 @@ function CreateUniversity(name, icon, description, percent, link, map){
 
 function scrollHeader() {
     if (window.pageYOffset > sticky) {
-      header.classList.add("sticky");
+        header.classList.add("sticky");
     } else {
-      header.classList.remove("sticky");
+        header.classList.remove("sticky");
     }
-  }
+}

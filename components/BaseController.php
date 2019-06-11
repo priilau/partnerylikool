@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\components\Identity;
 use app\components\Request;
 	
 class BaseController {
@@ -14,6 +15,7 @@ class BaseController {
         Request::setUserAgent($_SERVER["HTTP_USER_AGENT"]);
         Request::setParams($params);
         Request::setUserIP();
+        Identity::validateIdentity();
 
         $this->action = $action;
         $this->controller = $controller;
@@ -36,8 +38,19 @@ class BaseController {
 	}
 	
 	public function redirect($action, $params = []){
-	    $host = $_SERVER["HTTP_HOST"];
         $this->controller = Request::getController();
+
+	    if(substr_count($action, '/') >= 2) { // NOTE(Caupo 11.06.2019): Kui anname funktsioonist sisse mitte ainult viewi, vaid ka controlleri kujul /controller/actionName, siis saaks ühest controllerist teisse redirectida.
+            $controllerName = ltrim($action, '/');
+            $controllerName = explode("/", $action);
+
+            if(count($controllerName) >= 2) {
+                $controllerName = $controllerName[0];
+                $this->controller = $controllerName;
+            }
+        }
+
+	    $host = $_SERVER["HTTP_HOST"];
 	    if($this->controller == "site" && $action == "index") {
             header("Location: http://{$host}/");
         } else if(isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"]) >= 3) {
