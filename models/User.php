@@ -14,7 +14,8 @@ class User extends BaseModel {
 	
 	public function rules(){
 		return[
-			[['email', 'password', 'auth_key', 'created_at', 'newPassword', 'newPasswordConfirm'], ["string"]],
+			[['email', 'password', 'created_at', 'newPassword', 'newPasswordConfirm'], ["string"]],
+			[['auth_key'], ["auto-hash-128"]],
 			[['id'], ["integer"]]
 		];
 	}
@@ -45,6 +46,8 @@ class User extends BaseModel {
             $this->password = password_hash($this->newPassword, PASSWORD_DEFAULT);
         }
 
+        unset($this->attributes["newPassword"]);
+        unset($this->attributes["newPasswordConfirm"]);
         parent::beforeSave();
     }
 }
