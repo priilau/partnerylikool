@@ -1,8 +1,7 @@
 <?php
-use app\config\DB;
-use app\components\Helper;
-
 namespace app\components;
+
+use app\config\DB;
 
 class QueryBuilder {
     public $tableName;
@@ -75,7 +74,7 @@ class QueryBuilder {
                 $this->sql = "INSERT INTO {$this->tableName} ";
                 $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue)){
+                    if(!Helper::isStringClean($fieldName, 255) || !Helper::isStringClean($fieldValue, 255)){
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
                         return false;
                     }
@@ -130,7 +129,7 @@ class QueryBuilder {
                         if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
                             return false;
                         }
-                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
+                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND ";
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
@@ -170,13 +169,13 @@ class QueryBuilder {
                             if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
                                 return false;
                             }
-                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} {$whereItem[2]} AND "; 
+                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND ";
                         }
                         $whereSql = rtrim($whereSql," AND ");
                         $whereSql .= ")";
                     }
                     $this->sql .= $whereSql;
-                } 
+                }
                 break;
             }
             
@@ -189,9 +188,8 @@ class QueryBuilder {
     }
     
     public function execute(){
-        $id = 0;
         $this->compose();
-        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
+        $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         if(!$stmt){
             echo $mysqli->error;
@@ -211,8 +209,12 @@ class QueryBuilder {
     
     public function query(){
         $this->compose(1);
-        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
+        $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
+        if(!$stmt){
+            echo $mysqli->error;
+            exit("Unable to create stmt!");
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
@@ -226,7 +228,7 @@ class QueryBuilder {
     public function queryAll(){
         $dataFromDb = [];
         $this->compose();
-        $mysqli = new \mysqli(\app\config\DB::$host, \app\config\DB::$user, \app\config\DB::$pw, \app\config\DB::$name);
+        $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
         $stmt->execute();
         $result = $stmt->get_result();

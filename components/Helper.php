@@ -14,12 +14,12 @@ class Helper {
         return $randomString;
     }
 
-    public function isStringClean($str) {
+    public function isStringClean($str, $maxLength = 128) {
 		$alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä,.";
 		$strLen = strlen($str);
 		$strLenX = strlen($alphabet);
 		
-		if($strLen >= 128) {
+		if($strLen >= $maxLength) {
 			return false;
 		}
 		$str = mb_strtolower($str);

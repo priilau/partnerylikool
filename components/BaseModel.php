@@ -15,6 +15,10 @@ class BaseModel {
 		}
 		return \app\components\QueryBuilder::insert(static::tableName(), $this->attributes)->compose();
 	}
+
+    public function attributeLabels() {
+        return [];
+    }
 	
 	public function __get($key)
     {
@@ -35,7 +39,7 @@ class BaseModel {
 	
 	public function showErrorsAsHtml(){
 		$html = "";
-		foreach ($errors as $key => $error){
+		foreach ($this->errors as $key => $error){
 			$html .= "{($key + 1)}{$error}<br>";
 		}
 		return $html;
@@ -60,7 +64,36 @@ class BaseModel {
 	}
 
 	public function beforeSave() {
+        $this->rules = $this->rules();
 
+        foreach ($this->rules as $value) {
+            if(is_array($value)){
+
+                switch ($value[1][0]) {
+                    case "auto-hash-128": {
+                        $this->setValueToAllRuleFields($value[0], Helper::generateRandomString());
+                        break;
+                    }
+                    case "created-datetime":{
+                        $this->setValueToAllRuleFields($value[0], (new DateTime('now'))->format('Y-m-d H:i:s'));
+                        break;
+                    }
+                    case "updated-datetime":{
+                        $this->setValueToAllRuleFields($value[0], (new DateTime('now'))->format('Y-m-d H:i:s'), true);
+                        break;
+                    }
+                }
+            }
+        }
+	}
+
+	public function setValueToAllRuleFields($fields, $value, $byPassEmpty = false) {
+        foreach ($fields as $fieldName){
+            $fieldValue = $this->$fieldName;
+            if($byPassEmpty || ($fieldValue == null || $fieldValue == "" || !isset($fieldValue))) {
+                $this->$fieldName = $value;
+            }
+        }
     }
 	
 	public function validate(){
@@ -103,22 +136,6 @@ class BaseModel {
 									case "email":{
 										if(!$this->validate($fieldValue)){
 											$this->addError("{$fieldName} - Email is not valid!");
-										}
-										break;
-									}
-									case "created-datetime":{
-										if($fieldValue == null || $fieldValue == ""){
-											$this->$fieldValue = (new DateTime('now'))->format('Y-m-d H:i:s');
-										}
-										break;
-									}
-									case "updated-datetime":{
-										$this->$fieldValue = (new DateTime('now'))->format('Y-m-d H:i:s');
-										break;
-									}
-									case "auto-hash-128":{
-										if($fieldValue == null || $fieldValue == "" || !isset($fieldValue)){
-											$this->$fieldName = Helper::generateRandomString();
 										}
 										break;
 									}
