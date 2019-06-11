@@ -188,6 +188,16 @@ a {
 	background: #FFF;
 }
 
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%
+}
+
+.sticky + .content {
+	padding-top: 102px;
+}
+
 /*FOOTER */
 
 .footer {
@@ -393,6 +403,7 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	vertical-align: top;
 }
 .filter-options {
+	display: inline-block;
 	max-height: 102px;
 	overflow: auto;
 	background: #F5F5F5;

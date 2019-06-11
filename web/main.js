@@ -1,7 +1,10 @@
 console.log("main.js töötab");
 
 // site/index.php
+window.onscroll = function() {scrollHeader()};
 
+let header = document.getElementById("headerMenu");
+let sticky = header.offsetTop;
 let filtersArr = {};
 let degree = document.getElementById("#degree");
 let semester = document.getElementById("#semester");
@@ -118,3 +121,11 @@ function CreateUniversity(name, icon, description, percent, link, map){
     uniBlock.appendChild(uniContainer);
     universities.appendChild(uniBlock);
 }
+
+function scrollHeader() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("sticky");
+    } else {
+      header.classList.remove("sticky");
+    }
+  }
