@@ -26,7 +26,7 @@
 	</div>
 	<div class="lower-menu base-align" id="header-menu">
 		<div class="left-menu">
-			<img src="https://www.tlu.ee/sites/default/files/2018-05/DTI-est_2.svg" alt="Tallinna Ülikool">
+		<a href="https://www.tlu.ee/dt"><img src="https://www.tlu.ee/sites/default/files/2018-05/DTI-est_2.svg" alt="Tallinna Ülikool"></a>
 		</div>
 		<div class="right-menu">
 			<div class="link-bottom-aligner">
@@ -45,8 +45,8 @@
 		<div class="banner-image">
 			<div class="breadcrumb-background">
 				<ol>
-					<li>Avaleht</li>
-					<li>Digitehnoloogiate instituut</li>
+					<li><a href="https://www.tlu.ee/">Avaleht</a></li>
+					<li><a href="https://www.tlu.ee/dt">Digitehnoloogiate instituut</a></li>
 				</ol>
 			</div>
 			<img src="https://www.tlu.ee/sites/default/files/styles/image_1300xn/public/2018-04/graphicstock-man-in-green-shirt-sitting-on-sofa-by-the-table-with-tablet-and-laptop-in-office-coworking_BU_wnPQOhe_2.jpg?itok=Y27grBuj" alt="poiss">
@@ -57,6 +57,7 @@
 		<div class="menu-wrapper">
 			<div class="menu-container">
 				<div class="side-menu">
+					<br><br>
 					<a href="#">Õppetöö</a>
 					<a href="#">Õppeinfo</a>
 					<a href="#">Olulised kuupäevad</a>
