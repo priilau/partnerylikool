@@ -1,24 +1,25 @@
 <?php
 namespace app\controllers;
 
-use app\models\University;
+use app\models\StudyModule;
 use app\components\QueryBuilder;
 use Exception;
 	
-class UniversityController extends BaseController {
+class StudyModuleController extends BaseController {
 	
 	public function actionIndex() {
-		$models = University::find()->all();
+		$models = StudyModule::find()->all();
 		return $this->render("index", ["models" => $models]);
 	}
 	
 	public function actionCreate() {
-		$model = new University();
+		$model = new StudyModule();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
 			return $this->render("create", ["model" => $model]);
 		}
+		
 	}
 	
 	public function actionUpdate($id) {
@@ -43,36 +44,12 @@ class UniversityController extends BaseController {
 	}
 	
 	public function findModel($id) {
-		$model = new University();
-		$data = QueryBuilder::select(University::tableName())->addWhere("=", "id", $id)->query();
+		$model = new StudyModule();
+		$data = QueryBuilder::select(StudyModule::tableName())->addWhere("=", "id", $id)->query();
 		if($model->load($data)){
 			return $model;
 		}
 		throw new Exception("Page not found");
-	}
-
-	public function actionGetResults(){
-		//  TODO p2ring v2lja m6elda, oodata searchIndexi valmimist
-		foreach($_POST["filtersArr"] as $key => $value){
-			switch($key){
-				case("degree"):{
-					break;
-				}
-				case("semester"):{
-					break;
-				}
-				case("speciality"):{
-					break;
-				}
-				case("practice"):{
-					break;
-				}
-				case("topicsArr"):{
-					break;
-				}	
-			}
-		}
-		return json_encode();
 	}
 
 }

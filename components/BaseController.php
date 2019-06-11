@@ -87,7 +87,12 @@ class BaseController {
 		require_once($viewPath);
 		return ob_get_clean();
 	}
-
+/**
+ * USAGE: 	
+ * public function actionAjax() {
+ *		return $this->json(json_encode(["message" => "straight out of compton"]));
+ *	}
+ */
 	public function json($data){
 		echo $data;
 	}
