@@ -5,9 +5,6 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     padding-right: 0px;
     border: 0;
     font-size: 100%;
-    font: inherit;
-    font-size: inherit;
-    vertical-align: baseline;
 }
 
 body {
@@ -108,8 +105,7 @@ a {
 }
 
 .base-align {
-	padding: 0 4.86111vw 20px;
-	
+	padding: 20px 4.86111vw 20px;
 }
 
 .lower-menu > div.left-menu {
@@ -129,6 +125,10 @@ a {
 	padding: 20px 4.86111vw;
 	padding-right: 100px;
 	box-shadow: 0 0 30px rgba(0,0,0,.1);
+}
+
+.sticky + .banner-section +.banner-image +.breadcrumb-background {
+	padding-top: 43px;
 }
 
 .banner-section > div {
@@ -500,6 +500,11 @@ h3 {
 .university-map img {
 	width: 128px;
 }
+
+.university-description {
+	border-bottom: 3px solid #F3F3F3 
+}
+
 select {
 	margin: 0px 6px 6px 0px;
 	border-radius: 4px;
