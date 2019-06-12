@@ -63,6 +63,7 @@ class QueryBuilder {
     }
 
     public function composeParams($fieldValues){
+        var_dump($fieldValues);
         foreach($fieldValues as $fieldValue){
             if(is_string($fieldValue)){
                 $this->fieldParams .= "s";
@@ -81,13 +82,13 @@ class QueryBuilder {
         $conditionStr = "";
         $fieldVals = "";
         $this->fieldParams = "";
+        $this->fieldValues = [];
         if(!Helper::isStringClean($this->tableName)){
             return false;
         }
         switch($this->queryType){
             case "insert":{
                 $this->sql = "INSERT INTO {$this->tableName} ";
-                $this->fieldValues = [];
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!Helper::isStringClean($fieldName, 255) || !Helper::isStringClean($fieldValue, 255)){
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
@@ -105,7 +106,6 @@ class QueryBuilder {
                 break;
             }
             case "update":{
-                $this->fieldValues = [];
                 $this->sql = "UPDATE {$this->tableName} SET ";
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue)){
@@ -135,7 +135,7 @@ class QueryBuilder {
                 }
                 $this->composeParams($this->fieldValues);
                 array_splice($this->fieldValues, 0, 0, [$this->fieldParams]);
-                $this->sql .= $fieldStr. $whereSql;
+                $this->sql .= "{$fieldStr}{$whereSql}";
                 break;
             }
             case "delete":{  
@@ -225,8 +225,7 @@ class QueryBuilder {
         call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $dataFromDb = $row;
+        $dataFromDb = $result->fetch_assoc();
         $stmt->free_result();
         $stmt->close();
 		$mysqli->close();
@@ -238,7 +237,6 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
-        call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $stmt->execute();
         $result = $stmt->get_result();
         while($row = $result->fetch_assoc()){
