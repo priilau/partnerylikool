@@ -14,7 +14,11 @@ class Helper {
         return $randomString;
     }
 
-    public function isStringClean($str, $maxLength = 128) {
+    public static function getClassName($obj) {
+        return strtolower((new \ReflectionClass($obj))->getShortName());
+    }
+
+    public static function isStringClean($str, $maxLength = 128) {
 		$alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä,.";
 		$strLen = strlen($str);
 		$strLenX = strlen($alphabet);

@@ -1,6 +1,7 @@
 <?php 
 
 use app\components\Alert;
+use app\components\Identity;
 
 ?>
 
@@ -76,6 +77,12 @@ use app\components\Alert;
 		
 		<div class="content">
 			<?= Alert::showMessages(); ?>
+            <?php if(!Identity::isGuest()): ?>
+                <div class="admin-buttons">
+                    <a href="/user/logout">Logi välja</a>
+                    <a href="/site/admin">Adminpaneel</a>
+                </div>
+            <?php endif; ?>
 			<?= $content; ?>
 		</div>
     </div>

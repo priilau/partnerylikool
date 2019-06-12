@@ -30,7 +30,7 @@ class ActiveRecord extends BaseModel {
         $obj = (new $this->className)->load($data);
         return $obj;
     }
-    
+
     public function all(){
         $objArray = [];
         $data = $this->queryObj->queryAll();
@@ -42,5 +42,17 @@ class ActiveRecord extends BaseModel {
         return $objArray;
     }
 
+    public function allNames(){
+        $nameArray = [];
+        $data = $this->queryObj->queryAll();
+
+        foreach($data as $row)
+        {
+            $model = new $this->className;
+            $model->load($row);
+            $nameArray[$model->id] = $model."";
+        }
+        return $nameArray;
+    }
 }
 ?>

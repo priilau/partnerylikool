@@ -20,8 +20,24 @@ class BaseController {
         $this->action = $action;
         $this->controller = $controller;
 
-		$action = ucfirst($action);
-		$controller = ucfirst($controller);
+        $controller = ucfirst($controller);
+        $controllerParts = explode("-", $controller);
+        if(is_array($controllerParts) && count($controllerParts) > 0) {
+            $controller = "";
+            foreach($controllerParts as $controllerPart) {
+                $controller .= ucfirst($controllerPart);
+            }
+        }
+
+        $action = ucfirst($action);
+        $actionParts = explode("-", $action);
+        if(is_array($actionParts) && count($actionParts) > 0) {
+            $action = "";
+            foreach($actionParts as $actionPart) {
+                $action .= ucfirst($actionPart);
+            }
+        }
+
 		$controllerName = "app\controllers\\{$controller}Controller";
 		$instance = new $controllerName;
 		$actionName = "action{$action}";
