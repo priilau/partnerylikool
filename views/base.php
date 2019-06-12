@@ -2,11 +2,12 @@
 
 use app\components\Alert;
 use app\components\Identity;
+use app\components\Helper;
 
 ?>
 
 <?php if(!isset($content)) { $content = ""; } ?>
-<?php if(!isset($title)) { $title = "Partnerülikool"; } ?>
+<?php if(!isset($title)) { $title = Helper::getTitle(); } ?>
 
 <!DOCTYPE html>
 <html>

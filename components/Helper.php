@@ -14,6 +14,17 @@ class Helper {
         return $randomString;
     }
 
+    public static function setTitle($name) {
+        $GLOBALS["title"] = $name;
+    }
+
+    public static function getTitle() {
+        if(!isset($GLOBALS["title"])) {
+            $GLOBALS["title"] = "Partnerülikooli valimine";
+        }
+        return $GLOBALS["title"];
+    }
+
     public static function getClassName($obj) {
         return strtolower((new \ReflectionClass($obj))->getShortName());
     }

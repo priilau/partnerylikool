@@ -27,7 +27,8 @@ class ActiveRecord extends BaseModel {
 	
     public function one(){
         $data = $this->queryObj->query();
-        $obj = (new $this->className)->load($data);
+        $obj = (new $this->className);
+        $obj->load($data);
         return $obj;
     }
 

@@ -10,7 +10,6 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
 body {
 	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	font-size: 12px;
-	margin: 0;
 	line-height: 20px;
 }
 
@@ -18,8 +17,6 @@ a {
 	color: #282627;
 	text-decoration: none;
 }
-
-
 
 /* HEADER */
 
@@ -29,18 +26,23 @@ a {
 
 .top-menu a {
 	font-family: Cousine, Verdana;
-	font-size: 14px;
+	display: block;
+	text-transform: uppercase;
+	padding-left: 23px;
+	font-size: 11px;
+	letter-spacing: 2px;
+	color: #282627;
+}
+
+.top-menu a:hover {
+	color: #b71234;
 }
 
 .top-menu .left-menu a {
-	height: 23px;
 	display: inline-block;
 	padding-top: 1px;
 	margin-right: 2.0833vw;
-}
-
-.top-menu .left-menu a {
-	padding-left: 1.2972vw;
+	padding-left: 1.5972vw;
 }
 
 .top-menu .right-menu a {
@@ -58,11 +60,11 @@ a {
 	background-position-y: 0px;
 }
 .top-menu a.i-contact {
-    background: url(https://www.tlu.ee/themes/tlu/images/icon-contact.svg) no-repeat 0 50%/auto 18px;
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-contact.svg) no-repeat 0 50%/auto 15px;
 	background-position-y: 0px;
 }
 .top-menu a.i-accessibility {
-    background: url(https://www.tlu.ee/themes/tlu/images/icon-accessibility.svg) no-repeat 0 50%/auto 18px;
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-accessibility.svg) no-repeat 0 50%/auto 11px;
 	background-position-y: 0px;
 }
 
@@ -71,6 +73,15 @@ a {
 	padding: 0px;
 	border: 0px;
 	vertical-align: baseline;
+}
+
+.top-menu > div.left-menu {
+	display: block;
+	text-transform: uppercase;
+	padding-left: 23px;
+	font-size: 11px;
+	letter-spacing: 2px;
+	color: #282627;
 }
 
 .lower-menu a {
@@ -110,7 +121,7 @@ a {
 
 .lower-menu {
 	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-bottom: 14px;
 }
 
 .lower-menu > div.left-menu {
@@ -133,7 +144,11 @@ a {
 }
 
 .sticky + .banner-section * {
-	padding-top: 50px;
+	padding-top: 42px;
+}
+
+.sticky + .banner-section > div {
+	padding-top: 65px;
 }
 
 .banner-section > div {
@@ -174,7 +189,6 @@ a {
 }
 
 .breadcrumb-background ol{
-	display: -webkit-box
 	padding: 20px 1.38889vw;
 }
 
@@ -252,12 +266,6 @@ a {
 .side-menu a.active {
 	color: #000;
 	background: #FFF;
-}
-
-/*BODY CONTAINER */
-
-.container{
-
 }
 
 /*FOOTER */
@@ -454,37 +462,102 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 /* CONTENT */
 
 .alert {
+	position: relative;
+	width: max-content;
 	max-width: 800px;
 	color: rgb(0, 0, 0);
-	padding: 20px;
+	padding: 10px;
 	background-color: #F3F3F3;
 	margin-bottom: 15px;
 	font-size: 16px;
 	border-radius: 4px;
-	border: 1px solid #6bcaba;
+	border: 1px solid transparent;
+}
+.alert-primary {
+	color: #004085;
+	background-color: #cce5ff;
+	border-color: #b8daff;
+}
+
+.alert-primary .alert-link {
+	color: #002752;
+}
+
+.alert-secondary {
+	color: #383d41;
+	background-color: #e2e3e5;
+	border-color: #d6d8db;
+}
+
+.alert-secondary .alert-link {
+	color: #202326;
 }
 
 .alert-success {
-	background-color: #F3F3F3;
+	color: #155724;
+	background-color: #d4edda;
+	border-color: #c3e6cb;
+}
+
+.alert-success .alert-link {
+	color: #0b2e13;
 }
 
 .alert-info {
-	background-color: #F3F3F3;
+	color: #0c5460;
+	background-color: #d1ecf1;
+	border-color: #bee5eb;
+}
+
+.alert-info .alert-link {
+	color: #062c33;
 }
 
 .alert-warning {
-	background-color: #F3F3F3;
+	color: #856404;
+	background-color: #fff3cd;
+	border-color: #ffeeba;
+}
+
+.alert-warning .alert-link {
+	color: #533f03;
 }
 
 .alert-danger {
-	background-color: #F3F3F3;
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+}
+
+.alert-danger .alert-link {
+	color: #491217;
+}
+
+.alert-light {
+	color: #818182;
+	background-color: #fefefe;
+	border-color: #fdfdfe;
+}
+
+.alert-light .alert-link {
+	color: #686868;
+}
+
+.alert-dark {
+	color: #1b1e21;
+	background-color: #d6d8d9;
+	border-color: #c6c8ca;
+}
+
+.alert-dark .alert-link {
+	color: #040505;
 }
 
 .alert-error {
 	background-color: #F3F3F3;
 }
 
-.content-container{
+.content-container, .content{
 	display: inline-block;
 	max-width: 800px;
 }
@@ -519,7 +592,9 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	min-width: 60px;
 }
 .percent-with-link div:first-child {
+
 }
+
 .percent-with-link div:last-child {
 	margin-top: 15px;
 }

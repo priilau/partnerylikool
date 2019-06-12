@@ -9,7 +9,7 @@ use app\components\ActiveForm;
 <?php $form = ActiveForm::begin();?>
 
 <?= $form->field($model, 'name') ?>
-<?= $form->field($model, 'department_id') ?>
+<?= $form->field($model, 'department_id')->dropDownList($options) ?>
 <?= $form->field($model, 'general_information') ?>
 <?= $form->field($model, 'instruction') ?>
 <?= $form->field($model, 'examinations') ?>

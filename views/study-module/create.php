@@ -8,7 +8,7 @@ use app\components\ActiveForm;
 
 <?php $form = ActiveForm::begin();?>
 
-<?= $form->field($model, 'speciality_id') ?>
+<?= $form->field($model, 'speciality_id')->dropDownList($options) ?>
 <?= $form->field($model, 'name') ?>
 
 <div class="form-group">

@@ -3,11 +3,18 @@ namespace app\controllers;
 
 use app\components\Identity;
 use app\components\Request;
+use Exception;
 	
 class BaseController {
 
     public $controller = "site";
     public $action = "index";
+
+    public function behaviors() {
+        return [
+            "logged-in-required" => false
+        ];
+    }
 	
 	public function initialAction($action, $controller, $params) {
         Request::setController($controller); // NOTE(Caupo 03.06.2019): Setime Requesti kaudu globalsi kuna call_user_func_array-ga tehes ei lähe edasi baseControlleri property väärtused.
@@ -41,8 +48,22 @@ class BaseController {
 		$controllerName = "app\controllers\\{$controller}Controller";
 		$instance = new $controllerName;
 		$actionName = "action{$action}";
+		$this->handleBehaviors($instance);
 		call_user_func_array([$instance, $actionName], $params);
 	}
+
+	public function handleBehaviors($instance) {
+        foreach($instance->behaviors() as $behavior => $behaviorValue) {
+            switch($behavior) {
+                case "logged-in-required": {
+                    if($behaviorValue && Identity::isGuest()) {
+                        throw new Exception("Access denied");
+                    }
+                    break;
+                }
+            }
+        }
+    }
 	
 	public function render($viewName, $params = []) {
 	    Request::applyHeaders();
@@ -52,6 +73,18 @@ class BaseController {
 		$viewPath = __DIR__ . "/../views/base.php";
 		require_once($viewPath);
 	}
+
+	public function renderPartial($viewName, $params = []) {
+        Request::applyHeaders();
+        $viewPath = __DIR__ . "/../views/".Request::getController()."/".$viewName.".php";
+        if(is_array($params)) {
+            foreach($params as $key => $val) {
+                global ${$key};
+                $GLOBALS[$key] = $val;
+            }
+        }
+        require_once($viewPath);
+    }
 	
 	public function redirect($action, $params = []){
         $this->controller = Request::getController();
