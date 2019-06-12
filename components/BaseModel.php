@@ -4,6 +4,7 @@ namespace app\models;
 use app\components\QueryBuilder;
 use app\components\Helper;
 use app\components\Flash;
+use app\components\Identity;
 	
 class BaseModel {
 	public $attributes = [];
@@ -35,14 +36,15 @@ class BaseModel {
     }
 	
 	public function addError($message){
-		$errors[] = $message;
+		$this->errors[] = $message;
 		Flash::setMessage("error", $this->showErrorsAsHtml());
 	}
 	
 	public function showErrorsAsHtml(){
 		$html = "";
 		foreach ($this->errors as $key => $error){
-			$html .= "{($key + 1)}{$error}<br>";
+			$spot = $key + 1;
+			$html .= "{$spot} {$error}<br>";
 		}
 		return $html;
 	}
@@ -65,10 +67,8 @@ class BaseModel {
 		return false;
 	}
 
-	public function beforeSave() {
-        $this->rules = $this->rules();
-
-        foreach ($this->rules as $value) {
+	public function autoFillFields(){
+		foreach ($this->rules as $value) {
             if(is_array($value)){
 
                 switch ($value[1][0]) {
@@ -91,6 +91,11 @@ class BaseModel {
                 }
             }
         }
+	}
+
+	public function beforeSave() {
+        $this->rules = $this->rules();
+		$this->autoFillFields();
 	}
 
 	public function setValueToAllRuleFields($fields, $value, $byPassEmpty = false) {
@@ -122,20 +127,26 @@ class BaseModel {
 										break;
 									}
 									case "integer":{
-										if(!is_int($fieldValue)){
+										if(!is_int($fieldValue) && ((intval($fieldValue) == 0 && $fieldValue != "0") || (intval($fieldValue) == 1 && $fieldValue != "1"))){
 											$this->addError("{$fieldName} - Must be an integer!");
 										}
 										break;
 									}
 									case "double":{
-										if(!is_double($fieldValue)){
+										$parsedVal = floatval($fieldValue);
+										if(!is_double($fieldValue) && (($parsedVal == 0 && $fieldValue != "0") || ($parsedVal == 1 && $fieldValue != "1"))){
 											$this->addError("{$fieldName} - Must be a double!");
+										} else {
+											$this->$fieldName = $parsedVal;
 										}
 										break;
 									}
 									case "float":{
-										if(!is_float($fieldValue)){
+										$parsedVal = floatval($fieldValue);
+										if(!is_float($fieldValue) && (($parsedVal == 0 && $fieldValue != "0") || ($parsedVal == 1 && $fieldValue != "1"))){
 											$this->addError("{$fieldName} - Must be a float!");
+										} else {
+											$this->$fieldName = $parsedVal;
 										}
 										break;
 									}
@@ -156,7 +167,7 @@ class BaseModel {
 				$this->addError("{$fieldName} - Rule not found!");
 			}
 		}
-		return !(count($errors));
+		return !(count($this->errors));
 	}
 	
 	public function load($post){

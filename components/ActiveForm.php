@@ -90,6 +90,11 @@ class ActiveForm {
         return $this;
     }
     
+    public function password(){
+        $this->inputType = "password";
+        return $this;
+    }
+
     public function dropDownList($options){
         $this->elementType = "select";
         $this->options = $options;
