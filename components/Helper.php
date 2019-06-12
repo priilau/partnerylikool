@@ -19,6 +19,9 @@ class Helper {
     }
 
     public static function getTitle() {
+        if(!isset($GLOBALS["title"])) {
+            $GLOBALS["title"] = "Partnerülikooli valimine";
+        }
         return $GLOBALS["title"];
     }
 
