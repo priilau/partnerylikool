@@ -26,18 +26,23 @@ a {
 
 .top-menu a {
 	font-family: Cousine, Verdana;
-	font-size: 14px;
+	display: block;
+	text-transform: uppercase;
+	padding-left: 23px;
+	font-size: 11px;
+	letter-spacing: 2px;
+	color: #282627;
+}
+
+.top-menu a:hover {
+	color: #b71234;
 }
 
 .top-menu .left-menu a {
-	height: 23px;
 	display: inline-block;
 	padding-top: 1px;
 	margin-right: 2.0833vw;
-}
-
-.top-menu .left-menu a {
-	padding-left: 1.2972vw;
+	padding-left: 1.5972vw;
 }
 
 .top-menu .right-menu a {
@@ -55,11 +60,11 @@ a {
 	background-position-y: 0px;
 }
 .top-menu a.i-contact {
-    background: url(https://www.tlu.ee/themes/tlu/images/icon-contact.svg) no-repeat 0 50%/auto 18px;
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-contact.svg) no-repeat 0 50%/auto 15px;
 	background-position-y: 0px;
 }
 .top-menu a.i-accessibility {
-    background: url(https://www.tlu.ee/themes/tlu/images/icon-accessibility.svg) no-repeat 0 50%/auto 18px;
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-accessibility.svg) no-repeat 0 50%/auto 11px;
 	background-position-y: 0px;
 }
 
@@ -68,6 +73,15 @@ a {
 	padding: 0px;
 	border: 0px;
 	vertical-align: baseline;
+}
+
+.top-menu > div.left-menu {
+	display: block;
+	text-transform: uppercase;
+	padding-left: 23px;
+	font-size: 11px;
+	letter-spacing: 2px;
+	color: #282627;
 }
 
 .lower-menu a {
@@ -107,7 +121,7 @@ a {
 
 .lower-menu {
 	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-bottom: 14px;
 }
 
 .lower-menu > div.left-menu {
