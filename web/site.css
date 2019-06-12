@@ -105,7 +105,12 @@ a {
 }
 
 .base-align {
-	padding: 20px 4.86111vw 20px;
+	padding: 0px 4.86111vw;
+}
+
+.lower-menu {
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .lower-menu > div.left-menu {
@@ -127,8 +132,8 @@ a {
 	box-shadow: 0 0 30px rgba(0,0,0,.1);
 }
 
-.sticky + .banner-section +.banner-image +.breadcrumb-background {
-	padding-top: 43px;
+.sticky + .banner-section * {
+	padding-top: 50px;
 }
 
 .banner-section > div {
@@ -509,4 +514,8 @@ select {
 	margin: 0px 6px 6px 0px;
 	border-radius: 4px;
 	border: 1px solid #A7A7A7;
+}
+
+.content-alert {
+	
 }
