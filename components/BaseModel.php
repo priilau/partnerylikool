@@ -136,7 +136,7 @@ class BaseModel {
 										break;
 									}
 									case "email":{
-										if(!$this->validate($fieldValue)){
+										if(!$this->validateEmail($fieldValue)){
 											$this->addError("{$fieldName} - Email is not valid!");
 										}
 										break;
