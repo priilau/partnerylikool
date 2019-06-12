@@ -13,6 +13,7 @@ class QueryBuilder {
     private $updateCondition = [];
     private $deleteCondition = [];
     private $fieldValues = [];
+    private $fieldParams = "";
 
     function __construct($tableName){
         $this->tableName = $tableName;
@@ -60,12 +61,26 @@ class QueryBuilder {
         }
         return $arr;
     }
+
+    public function composeParams($fieldValues){
+        foreach($fieldValues as $fieldValue){
+            if(is_string($fieldValue)){
+                $this->fieldParams .= "s";
+            } else if(is_int($fieldValue)){
+                $this->fieldParams .= "i";
+            } else if(is_float($fieldValue) || is_double($fieldValue)){
+                $this->fieldParams .= "d";
+            } else {
+                $this->fieldParams .= "s"; // insertis oli nii, k6igis teistes oli "return false;"
+            }
+        }
+    }
     
-    public function compose($limit = 0){
+    public function compose($limit = 0){ // TODO refactoring
         $fieldStr = "";
         $conditionStr = "";
         $fieldVals = "";
-        $fieldParams = "";
+        $this->fieldParams = "";
         if(!Helper::isStringClean($this->tableName)){
             return false;
         }
@@ -80,21 +95,12 @@ class QueryBuilder {
                     }
                     $fieldStr .= $fieldName. ", ";
                     $fieldVals .= "?, ";
-                    
-                    if(is_string($fieldValue)){
-                        $fieldParams .= "s";
-                    } else if(is_int($fieldValue)){
-                        $fieldParams .= "i";
-                    } else if(is_float($fieldValue) || is_double($fieldValue)){
-                        $fieldParams .= "d";
-                    } else {
-                        $fieldParams .= "s";
-                    }
                     $this->fieldValues[] = $fieldValue;
                 }
                 $fieldStr = rtrim($fieldStr,", ");
                 $fieldVals = rtrim($fieldVals,", ");
-                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
+                $this->composeParams($this->fieldValues);
+                array_splice($this->fieldValues, 0, 0, [$this->fieldParams]);
                 $this->sql .= "({$fieldStr}) VALUES ({$fieldVals})";
                 break;
             }
@@ -107,16 +113,6 @@ class QueryBuilder {
                         return false;
                     }
                     $fieldStr .= "`{$fieldName}` = ?, ";
-                    
-                    if(is_string($fieldValue)){
-                        $fieldParams .= "s";
-                    } else if(is_int($fieldValue)){
-                        $fieldParams .= "i";
-                    } else if(is_float($fieldValue) || is_double($fieldValue)){
-                        $fieldParams .= "d";
-                    } else {
-                        return false;
-                    }
                     $this->fieldValues[] = $fieldValue;
                 }
                 $fieldStr = rtrim($fieldStr,", ");
@@ -132,22 +128,13 @@ class QueryBuilder {
                             return false;
                         }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
-
-                        if(is_string($whereItem[2])){
-                            $fieldParams .= "s";
-                        } else if(is_int($whereItem[2])){
-                            $fieldParams .= "i";
-                        } else if(is_float($whereItem[2]) || is_double($whereItem[2])){
-                            $fieldParams .= "d";
-                        } else {
-                            return false;
-                        }
                         $this->fieldValues[] = $whereItem[2];
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
                 }
-                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
+                $this->composeParams($this->fieldValues);
+                array_splice($this->fieldValues, 0, 0, [$this->fieldParams]);
                 $this->sql .= $fieldStr. $whereSql;
                 break;
             }
@@ -164,22 +151,13 @@ class QueryBuilder {
                             return false;
                         }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
-
-                        if(is_string($whereItem[2])){
-                            $fieldParams .= "s";
-                        } else if(is_int($whereItem[2])){
-                            $fieldParams .= "i";
-                        } else if(is_float($whereItem[2]) || is_double($whereItem[2])){
-                            $fieldParams .= "d";
-                        } else {
-                            return false;
-                        }
                         $this->fieldValues[] = $whereItem[2]; 
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
                 }
-                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
+                $this->composeParams($this->fieldValues);
+                array_splice($this->fieldValues, 0, 0, [$this->fieldParams]);
                 $this->sql .= $whereSql;
                 break;
             }
@@ -197,22 +175,13 @@ class QueryBuilder {
                                 return false;
                             }
                             $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
-
-                            if(is_string($whereItem[2])){
-                                $fieldParams .= "s";
-                            } else if(is_int($whereItem[2])){
-                                $fieldParams .= "i";
-                            } else if(is_float($whereItem[2]) || is_double($whereItem[2])){
-                                $fieldParams .= "d";
-                            } else {
-                                return false;
-                            }
                             $this->fieldValues[] = $whereItem[2];
                         }
                         $whereSql = rtrim($whereSql," AND ");
                         $whereSql .= ")";
                     }
-                    array_splice($this->fieldValues, 0, 0, [$fieldParams]);
+                    $this->composeParams($this->fieldValues);
+                    array_splice($this->fieldValues, 0, 0, [$this->fieldParams]);
                     $this->sql .= $whereSql;
                 }
                 break;
@@ -229,7 +198,6 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
-        //var_dump($this->sql, "<br><br>", $this->fieldValues);die;
         if(!$stmt){
             echo $mysqli->error;
             exit("Unable to create stmt!");    
