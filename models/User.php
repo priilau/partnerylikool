@@ -2,8 +2,9 @@
 namespace app\models;
 
 use app\components\QueryBuilder;
+use app\components\ActiveRecord;
 	
-class User extends BaseModel {
+class User extends ActiveRecord {
 
     public $newPassword = "";
     public $newPasswordConfirm = "";
