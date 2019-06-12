@@ -83,7 +83,11 @@ class BaseModel {
                     case "updated-datetime":{
                         $this->setValueToAllRuleFields($value[0], (new DateTime('now'))->format('Y-m-d H:i:s'), true);
                         break;
-                    }
+					}
+					case "auto-user-id":{
+						$this->setValueToAllRuleFields($value[0], Identity::getUserId());
+						break;
+					}
                 }
             }
         }
