@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\Department;
 use app\components\QueryBuilder;
+use app\models\University;
 use Exception;
 	
 class DepartmentController extends BaseController {
@@ -15,7 +16,9 @@ class DepartmentController extends BaseController {
 	
 	public function actionIndex() {
 		$models = Department::find()->all();
-		return $this->render("index", ["models" => $models]);
+		$universityNames = University::find()->allNames();
+
+		return $this->render("index", ["models" => $models, "universityNames" => $universityNames]);
 	}
 	
 	public function actionCreate() {

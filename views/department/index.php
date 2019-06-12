@@ -1,6 +1,8 @@
 <?php
 
 use app\components\GridView;
+use app\components\QueryBuilder;
+use app\models\University;
 
 ?>
 
@@ -11,7 +13,15 @@ use app\components\GridView;
 	"columns" => [
 		'id',
 		'name',
-		'university_id',
+		[
+		        'label' => "University",
+		        'value' => function($model) use ($universityNames){
+                    if(isset($universityNames[$model->university_id])) {
+                        return $universityNames[$model->university_id];
+                    }
+                    return "-";
+                }
+        ],
 		'created_by',
 		'created_at'
 	]
