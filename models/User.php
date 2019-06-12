@@ -40,8 +40,7 @@ class User extends BaseModel {
         return password_verify($password, $this->password);
     }
 
-    public function beforeSave()
-    {
+    public function beforeSave() {
         if(strlen($this->newPassword) > 0 && $this->newPassword == $this->newPasswordConfirm) {
             $this->password = password_hash($this->newPassword, PASSWORD_DEFAULT);
         }

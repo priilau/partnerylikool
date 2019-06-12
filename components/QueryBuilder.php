@@ -99,8 +99,8 @@ class QueryBuilder {
                 break;
             }
             case "update":{
-                $this->sql = "UPDATE {$this->tableName} SET ";
                 $this->fieldValues = [];
+                $this->sql = "UPDATE {$this->tableName} SET ";
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue)){
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
@@ -131,7 +131,18 @@ class QueryBuilder {
                             echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean!";
                             return false;
                         }
-                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND ";
+                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
+
+                        if(is_string($whereItem[2])){
+                            $fieldParams .= "s";
+                        } else if(is_int($whereItem[2])){
+                            $fieldParams .= "i";
+                        } else if(is_float($whereItem[2]) || is_double($whereItem[2])){
+                            $fieldParams .= "d";
+                        } else {
+                            return false;
+                        }
+                        $this->fieldValues[] = $whereItem[2];
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
@@ -152,11 +163,23 @@ class QueryBuilder {
                             echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean!";
                             return false;
                         }
-                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND "; 
+                        $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
+
+                        if(is_string($whereItem[2])){
+                            $fieldParams .= "s";
+                        } else if(is_int($whereItem[2])){
+                            $fieldParams .= "i";
+                        } else if(is_float($whereItem[2]) || is_double($whereItem[2])){
+                            $fieldParams .= "d";
+                        } else {
+                            return false;
+                        }
+                        $this->fieldValues[] = $whereItem[2]; 
                     }
                     $whereSql = rtrim($whereSql," AND ");
                     $whereSql .= ")";
                 }
+                array_splice($this->fieldValues, 0, 0, [$fieldParams]);
                 $this->sql .= $whereSql;
                 break;
             }
@@ -173,16 +196,27 @@ class QueryBuilder {
                                 echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean!";
                                 return false;
                             }
-                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} '{$whereItem[2]}' AND ";
+                            $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
+
+                            if(is_string($whereItem[2])){
+                                $fieldParams .= "s";
+                            } else if(is_int($whereItem[2])){
+                                $fieldParams .= "i";
+                            } else if(is_float($whereItem[2]) || is_double($whereItem[2])){
+                                $fieldParams .= "d";
+                            } else {
+                                return false;
+                            }
+                            $this->fieldValues[] = $whereItem[2];
                         }
                         $whereSql = rtrim($whereSql," AND ");
                         $whereSql .= ")";
                     }
+                    array_splice($this->fieldValues, 0, 0, [$fieldParams]);
                     $this->sql .= $whereSql;
                 }
                 break;
             }
-            
         }
         if($limit > 0) {
             $this->sql .= " LIMIT ". $limit;
@@ -195,6 +229,7 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
+        //var_dump($this->sql, "<br><br>", $this->fieldValues);die;
         if(!$stmt){
             echo $mysqli->error;
             exit("Unable to create stmt!");    
@@ -219,6 +254,7 @@ class QueryBuilder {
             echo $mysqli->error;
             exit("Unable to create stmt!");
         }
+        call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
@@ -234,6 +270,7 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
+        call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $stmt->execute();
         $result = $stmt->get_result();
         while($row = $result->fetch_assoc()){

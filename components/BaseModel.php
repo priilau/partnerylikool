@@ -141,8 +141,11 @@ class BaseModel {
 										break;
 									}
 									case "integer":{
-										if(!is_int($fieldValue) && ((intval($fieldValue) == 0 && $fieldValue != "0") || (intval($fieldValue) == 1 && $fieldValue != "1"))){
+										$parsedVal = intval($fieldValue);
+										if(!is_int($fieldValue) && (($parsedVal == 0 && $fieldValue != "0") || ($parsedVal == 1 && $fieldValue != "1"))){
 											$this->addError("{$fieldName} - Must be an integer!");
+										} else {
+											$this->$fieldName = $parsedVal;
 										}
 										break;
 									}

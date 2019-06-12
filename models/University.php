@@ -18,6 +18,18 @@ class University extends ActiveRecord {
 			[['created_by'], ["auto-user-id"]]
 		];
 	}
+	
+	public function beforeSave() {
+		$this->resetSearchIndex();
+        parent::beforeSave();
+	}
+	
+	public function resetSearchIndex(){
+		QueryBuilder::delete(self::tableName(), ["=", ]);
+		foreach ($departments as $key => $value) {
+			# code...
+		}
+	}
 }
 
 ?>
