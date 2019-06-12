@@ -11,6 +11,7 @@ body {
 	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	color: #3c4445;
 	line-height: 20px;
+	font-size: 12px;
 }
 
 a {
@@ -104,6 +105,30 @@ a {
 .link-bottom-aligner {
 	position: absolute;
 	bottom: 40px;
+}
+
+
+.link-bottom-aligner a{
+	margin-left: 1.04167vw;
+	padding-bottom: 30px;
+
+	padding: 0 0 22px 0;
+    padding-bottom: 22px;
+	margin-left: 10px;
+	text-transform: uppercase;
+	font-family: "Times New Roman",serif;
+	color: #3c4445;
+	font-style: italic;
+	font-size: 20px;
+	letter-spacing: -1px;
+	z-index: 2;
+}
+
+
+
+.link-bottom-aligner a:hover{
+	color: #6bcaba;
+	box-shadow: inset -3px 0 #6bcaba;
 }
 
 .lower-menu > div a {
@@ -240,9 +265,9 @@ a {
 .menu-container {
 	display: inline-block;
 	background: #6bcaba;
-	padding-left: 48px;
+	padding-left: 3.47222vw;
 	width: 0;
-	min-height: 400px;
+	min-height: 700px;
 }
 
 .menu-wrapper {
@@ -260,6 +285,7 @@ a {
 	display: block;
 	color: #FFF;
 	padding: 4px;
+	border-radius: 3px 0 0 3px;
 }
 .side-menu a:hover {
 	text-decoration: underline;
@@ -273,6 +299,7 @@ a {
 
 .footer {
 	display: flex;
+	box-shadow: inset 10px 0 0 #b71234,0 0 20px rgba(0,0,0,.05);
 }
 
 .red-section {
@@ -561,14 +588,25 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 .content-container, .content{
 	display: inline-block;
 	max-width: 800px;
+	margin-left: 1vw;
 }
 
 .university > div, .filter-container > div, .filter-sub-container select, .university-description > div {
 	display: inline-block;
 }
+
+.university {
+	margin-top: 20px;
+}
+
+.universities {
+	margin-top: 20px;
+}
+
 .filter-sub-container, .university-description > div {
 	vertical-align: top;
 }
+
 .filter-options {
 	display: inline-block;
 	max-height: 102px;
@@ -576,38 +614,48 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	background: #F5F5F5;
 	padding: 8px 14px;
 }
+
 .description-text {
 	max-width: 550px;
 	overflow-y: auto;
 	max-height: 130px;
 }
+
 .filter-container {
 	display: flex;
 }
+
 .filter-container > div {
 	flex: 1;
 }
+
 .percent-with-link {
 	position: relative;
 	min-height: 128px;
 	min-width: 60px;
 }
+
 .percent-with-link div:first-child {
+
 }
 
 .percent-with-link div:last-child {
 	margin-top: 15px;
 }
+
 h3 {
 	font-weight: bold;
 	font-family: Arial;
 }
+
 .university h3 {
 	margin-left: 80px;
 }
+
 .university-icon img {
 	width: 48px;
 }
+
 .university-map img {
 	width: 128px;
 }
