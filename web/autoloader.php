@@ -19,10 +19,24 @@ $files = [
     __DIR__ . '/../components/BaseController.php',
     __DIR__ . '/../models/LoginForm.php',
 	__DIR__ . '/../models/University.php',
+	__DIR__ . '/../models/Course.php',
+	__DIR__ . '/../models/CourseLearningOutcomes.php',
+	__DIR__ . '/../models/CourseTeacher.php',
+	__DIR__ . '/../models/Department.php',
+	__DIR__ . '/../models/Speciality.php',
+	__DIR__ . '/../models/StudyModule.php',
+	__DIR__ . '/../models/Teacher.php',
 	__DIR__ . '/../models/Test.php',
     __DIR__ . '/../controllers/SiteController.php',
     __DIR__ . '/../controllers/UserController.php',
-	__DIR__ . '/../controllers/UniversityController.php'
+	__DIR__ . '/../controllers/UniversityController.php',
+	__DIR__ . '/../controllers/CourseController.php',
+	__DIR__ . '/../controllers/CourseLearningOutcomesController.php',
+	__DIR__ . '/../controllers/CourseTeacherController.php',
+	__DIR__ . '/../controllers/DepartmentController.php',
+	__DIR__ . '/../controllers/SpecialityController.php',
+	__DIR__ . '/../controllers/StudyModuleController.php',
+	__DIR__ . '/../controllers/TeacherController.php'
 ];
 
 foreach($files as $file) {
