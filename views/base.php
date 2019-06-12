@@ -20,9 +20,9 @@ use app\components\Helper;
 <body>
 	<div class="top-menu base-align">
 		<div class="left-menu">
-			<a class="i-home" href="#">Avalehele</a>
-			<a class="i-contact" href="#">Kontakt</a>
-			<a class="i-accessibility" href="#">Ligipääsetavus</a>
+			<a class="i-home" href="https://www.tlu.ee/">Avalehele</a>
+			<a class="i-contact" href="https://www.tlu.ee/uldkontaktid">Kontakt</a>
+			<a class="i-accessibility" href="https://www.tlu.ee/ligipaasetavus">Ligipääsetavus</a>
 		</div>
 		<div class="right-menu">
 			<a href="https://www.facebook.com/tallinna.ylikool/">&nbsp;</a>
