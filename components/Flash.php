@@ -6,10 +6,10 @@ class Flash {
     public $messages = [];
 
     public function get(){
-        if(!isset($SESSION["FLASH_OBJ"])) {
-            $SESSION["FLASH_OBJ"] = new Flash();
+        if(!isset($_SESSION["FLASH_OBJ"])) {
+            $_SESSION["FLASH_OBJ"] = new Flash();
         }
-	    return $SESSION["FLASH_OBJ"];
+	    return $_SESSION["FLASH_OBJ"];
     }
     
     public function setMessage($index, $message) {
