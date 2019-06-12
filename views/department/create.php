@@ -9,7 +9,7 @@ use app\components\ActiveForm;
 <?php $form = ActiveForm::begin();?>
 
 <?= $form->field($model, 'name') ?>
-<?= $form->field($model, 'university_id') ?>
+<?= $form->field($model, 'university_id')->dropDownList($options) ?>
 
 <div class="form-group">
 <?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>
