@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+
 class GridView {
     public static function widget($data){
         if(!isset($data["models"])){
@@ -24,22 +25,34 @@ class GridView {
         }
 
         $str = "<table class='grid-view'><tr>";
+
         foreach($attributes as $atr){
-            $str .= "<th>". $atr. "</th>"; 
+            if(is_array($atr)) {
+                $str .= "<th>". $atr["label"]. "</th>";
+            } else {
+                $str .= "<th>". $atr. "</th>";
+            }
         }
+
         $str .= "<th></th>";
         $str .= "</tr>";
-        foreach($models as $model){
+
+        foreach($models as $m){
             $str .= "<tr>";
-            foreach($attributes as $atr){
-                $str .= "<td>{$model->$atr}</td>"; 
+            foreach($attributes as $atr) {
+                if(is_array($atr)) {
+                    $columnValue = $atr["value"]($m);
+                    $str .= "<td>{$columnValue}</td>";
+                } else {
+                    $str .= "<td>{$m->$atr}</td>";
+                }
             }
             $str .= "<td>";
             foreach($buttons as $btn){
                 $btnName = ucfirst($btn);
                 switch($btn){
                     case "view":case "update":case "delete":{
-                        $str .= "<a href='/{$controller}/{$btn}?id={$model->id}'>{$btnName}</a> ";
+                        $str .= "<a href='/{$controller}/{$btn}?id={$m->id}'>{$btnName}</a> ";
                         break;
                     }
                 }
