@@ -18,6 +18,14 @@ class Identity {
         return 0;
     }
 
+    public static function isGuest() {
+        $identity = self::get();
+        if($identity) {
+            return $identity->isGuest;
+        }
+        return false;
+    }
+
     public static function validateIdentity() {
         session_start();
 	    $identity = self::get();
