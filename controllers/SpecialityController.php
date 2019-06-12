@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\Speciality;
+use app\models\Department;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -20,21 +21,22 @@ class SpecialityController extends BaseController {
 	
 	public function actionCreate() {
 		$model = new Speciality();
+		$options = Department::find()->allNames();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-			return $this->render("create", ["model" => $model]);
+			return $this->render("create", ["model" => $model, "options" => $options]);
 		}
 		
 	}
 	
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-		
+		$options = Department::find()->allNames();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-			return $this->render("update", ["model" => $model]);
+			return $this->render("update", ["model" => $model, "options" => $options]);
 		}
 	}
 	
