@@ -6,6 +6,12 @@ use app\components\QueryBuilder;
 use Exception;
 	
 class CourseTeacherController extends BaseController {
+
+	public function behaviors() {
+        return [
+            "logged-in-required" => true
+        ];
+    }
 	
 	public function actionIndex() {
 		$models = CourseTeacher::find()->all();

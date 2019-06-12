@@ -18,8 +18,6 @@ a {
 	text-decoration: none;
 }
 
-
-
 /* HEADER */
 
 .top-menu {
@@ -132,7 +130,11 @@ a {
 }
 
 .sticky + .banner-section * {
-	padding-top: 50px;
+	padding-top: 42px;
+}
+
+.sticky + .banner-section > div {
+	padding-top: 65px;
 }
 
 .banner-section > div {
