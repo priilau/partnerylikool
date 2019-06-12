@@ -182,7 +182,7 @@ a {
 
 .breadcrumb-background {
 	position: absolute;
-	width: 100%;
+	width: calc(100% - 3.47222vw);
 	top: 0;
 	z-index: 4;
 	background: rgba(0,0,0,.4);
@@ -593,7 +593,6 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	min-width: 60px;
 }
 .percent-with-link div:first-child {
-
 }
 
 .percent-with-link div:last-child {
