@@ -7,6 +7,12 @@ use Exception;
 	
 class UniversityController extends BaseController {
 
+	public function behaviors() {
+        return [
+            "logged-in-required" => true
+        ];
+    }
+
     public function actionIndex() {
         $models = University::find()->all();
         return $this->render("index", ["models" => $models]);
