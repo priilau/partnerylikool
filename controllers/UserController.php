@@ -62,6 +62,7 @@ class UserController extends BaseController {
 
     public function actionLogout() {
         Identity::logout();
+        return $this->redirect("/site/index");
     }
 }
 

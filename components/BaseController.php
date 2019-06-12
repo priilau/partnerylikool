@@ -45,14 +45,15 @@ class BaseController {
             $controllerName = explode("/", $action);
 
             if(count($controllerName) >= 2) {
-                $controllerName = $controllerName[0];
+                $action = $controllerName[2];
+                $controllerName = $controllerName[1];
                 $this->controller = $controllerName;
             }
         }
 
 	    $host = $_SERVER["HTTP_HOST"];
 	    if($this->controller == "site" && $action == "index") {
-            header("Location: http://{$host}/");
+            header("Location: http://{$host}");
         } else if(isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"]) >= 3) {
             header("Location: http://{$host}/{$this->controller}/{$action}?{$_SERVER['QUERY_STRING']}");
         } else if(count($params) <= 0) {
@@ -65,8 +66,6 @@ class BaseController {
 			$queryStr = rtrim($queryStr, "&");
 			header("Location: http://{$host}/{$this->controller}/{$action}{$queryStr}");
 		}
-		echo 1;
-		var_dump($this->controller, $action, isset($_SERVER["QUERY_STRING"]), strlen($_SERVER["QUERY_STRING"]), count($params), $params);
         exit();
 	}
 
