@@ -13,7 +13,8 @@ class Department extends ActiveRecord {
 	public function rules(){
 		return[
 			[['name', 'created_at'], ["string"]],
-			[['id', 'university_id', 'created_by'], ["integer"]]
+			[['id', 'university_id'], ["integer"]],
+			[['created_by'], ["auto-user-id"]]
 		];
 	}
 }
