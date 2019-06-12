@@ -36,7 +36,7 @@ class BaseModel {
 	
 	public function addError($message){
 		$errors[] = $message;
-		Flash::setMessage("error", $message);
+		Flash::setMessage("error", $this->showErrorsAsHtml());
 	}
 	
 	public function showErrorsAsHtml(){
