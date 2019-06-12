@@ -14,7 +14,8 @@ class Teacher extends ActiveRecord {
 		return[
 			[['firstname', 'lastname', 'created_at'], ["string"]],
 			[['email'], ['email']],
-			[['id', 'created_by'], ["integer"]]
+			[['id'], ["integer"]],
+			[['created_by'], ["auto-user-id"]]
 		];
 	}
 }
