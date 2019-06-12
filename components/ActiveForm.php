@@ -83,7 +83,7 @@ class ActiveForm {
     
     public function field($model, $fieldName, $options = []){
         $this->elementType = "input";
-        $this->modelName = strtolower((new \ReflectionClass($model))->getShortName());
+        $this->modelName = Helper::getClassName($model);
         $this->fieldName = $fieldName;
         $this->inputValue = $model->$fieldName;
         $this->model = $model;

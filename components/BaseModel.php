@@ -11,6 +11,20 @@ class BaseModel {
 	public $errors = [];
 	public $rules = [];
 
+    public function __toString() {
+        $str = "";
+        if(isset($this->attributes["name"])) {
+            $str = $this->attributes["name"];
+        } else if(isset($this->attributes["email"])) {
+            $str = $this->attributes["email"];
+        } else if(isset($this->attributes["outcome"])) {
+            $str = $this->attributes["outcome"];
+        } else {
+            $str = Helper::getClassName()." ".$this->attributes["id"];
+        }
+        return $str;
+    }
+
 	public function getSaveQuery(){
 		if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
 			return QueryBuilder::update(static::tableName(), $this->attributes, ["=", "id", $this->attributes["id"]])->compose();
