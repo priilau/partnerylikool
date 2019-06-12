@@ -18,12 +18,11 @@ class LoginForm extends BaseModel {
 	public function login() {
         if ($this->validate()) {
             $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
+            if ($user !== null && $user->validatePassword($this->password)) {
                 Identity::login($user);
             }
 
-            return Identity::login($user);
+            return true;
         }
         return false;
     }

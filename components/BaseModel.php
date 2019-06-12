@@ -11,9 +11,9 @@ class BaseModel {
 
 	public function getSaveQuery(){
 		if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
-			return \app\components\QueryBuilder::update(static::tableName(), $this->attributes, ["=", "id", $this->attributes["id"]])->compose();
+			return QueryBuilder::update(static::tableName(), $this->attributes, ["=", "id", $this->attributes["id"]])->compose();
 		}
-		return \app\components\QueryBuilder::insert(static::tableName(), $this->attributes)->compose();
+		return QueryBuilder::insert(static::tableName(), $this->attributes)->compose();
 	}
 
     public function attributeLabels() {
