@@ -6,11 +6,15 @@ use app\components\QueryBuilder;
 use Exception;
 	
 class UniversityController extends BaseController {
-	
-	public function actionIndex() {
-		$models = University::find()->all();
-		return $this->render("index", ["models" => $models]);
-	}
+
+    public function actionIndex() {
+        $models = University::find()->all();
+        return $this->render("index", ["models" => $models]);
+    }
+    public function actionIndexPartial() {
+        $models = University::find()->all();
+        return $this->renderPartial("index", ["models" => $models]);
+    }
 	
 	public function actionCreate() {
 		$model = new University();

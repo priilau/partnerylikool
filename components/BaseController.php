@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\components\Identity;
 use app\components\Request;
+use Exception;
 	
 class BaseController {
 
@@ -47,8 +48,22 @@ class BaseController {
 		$controllerName = "app\controllers\\{$controller}Controller";
 		$instance = new $controllerName;
 		$actionName = "action{$action}";
+		$this->handleBehaviors($instance);
 		call_user_func_array([$instance, $actionName], $params);
 	}
+
+	public function handleBehaviors($instance) {
+        foreach($instance->behaviors() as $behavior => $behaviorValue) {
+            switch($behavior) {
+                case "logged-in-required": {
+                    if($behaviorValue && Identity::isGuest()) {
+                        throw new Exception("Access denied");
+                    }
+                    break;
+                }
+            }
+        }
+    }
 	
 	public function render($viewName, $params = []) {
 	    Request::applyHeaders();
@@ -61,7 +76,7 @@ class BaseController {
 
 	public function renderPartial($viewName, $params = []) {
         Request::applyHeaders();
-        $viewPath = __DIR__ . "/../views/".$viewName.".php";
+        $viewPath = __DIR__ . "/../views/".Request::getController()."/".$viewName.".php";
         if(is_array($params)) {
             foreach($params as $key => $val) {
                 global ${$key};
