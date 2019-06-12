@@ -3,6 +3,7 @@ namespace app\models;
 
 use app\components\QueryBuilder;
 use app\components\Helper;
+use app\components\Flash;
 	
 class BaseModel {
 	public $attributes = [];
@@ -35,6 +36,7 @@ class BaseModel {
 	
 	public function addError($message){
 		$errors[] = $message;
+		Flash::setMessage("error", $message);
 	}
 	
 	public function showErrorsAsHtml(){
@@ -134,7 +136,7 @@ class BaseModel {
 										break;
 									}
 									case "email":{
-										if(!$this->validate($fieldValue)){
+										if(!$this->validateEmail($fieldValue)){
 											$this->addError("{$fieldName} - Email is not valid!");
 										}
 										break;
