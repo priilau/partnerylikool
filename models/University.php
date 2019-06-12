@@ -14,7 +14,8 @@ class University extends ActiveRecord {
 		return[
 			[['name', 'country', 'created_at'], ["string"]],
 			[['contact_email'], ['email']],
-			[['id', 'courses_available', 'recommended', 'created_by'], ["integer"]]
+			[['id', 'courses_available', 'recommended'], ["integer"]],
+			[['created_by'], ["auto-user-id"]]
 		];
 	}
 }

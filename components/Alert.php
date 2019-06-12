@@ -9,7 +9,7 @@ class Alert {
             $label = ucfirst($key);
             $msg = ucfirst($error);
             $str .= "<div class='alert alert-{$key}'>";
-            $str .= "<strong>{$label}!</strong> {$msg}.";
+            $str .= "<strong>{$label}!</strong> {$msg}";
             $str .= "</div>";
         }
         $str .= "</div>";
