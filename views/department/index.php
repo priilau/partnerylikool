@@ -1,10 +1,12 @@
 <?php
 
 use app\components\GridView;
-use app\components\QueryBuilder;
-use app\models\University;
+use app\components\Helper;
 
+Helper::setTitle("Departments");
 ?>
+
+<h1><?= Helper::getTitle() ?></h1>
 
 <a class="btn btn-primary" href="/department/create">Create</a>
 

@@ -4,7 +4,6 @@ namespace app\controllers;
 use app\models\Department;
 use app\models\University;
 use app\components\QueryBuilder;
-use app\models\University;
 use Exception;
 	
 class DepartmentController extends BaseController {

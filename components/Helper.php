@@ -14,6 +14,14 @@ class Helper {
         return $randomString;
     }
 
+    public static function setTitle($name) {
+        $GLOBALS["title"] = $name;
+    }
+
+    public static function getTitle() {
+        return $GLOBALS["title"];
+    }
+
     public static function getClassName($obj) {
         return strtolower((new \ReflectionClass($obj))->getShortName());
     }
