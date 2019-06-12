@@ -109,26 +109,22 @@ a {
 
 
 .link-bottom-aligner a{
-	margin-left: 1.04167vw;
-	padding-bottom: 30px;
-
-	padding: 0 0 22px 0;
-    padding-bottom: 22px;
-	margin-left: 10px;
+	padding: 0 0 36px 0;
+	margin-left: 40px;
 	text-transform: uppercase;
 	font-family: "Times New Roman",serif;
 	color: #3c4445;
 	font-style: italic;
 	font-size: 20px;
 	letter-spacing: -1px;
-	z-index: 2;
+	z-index: 11;
 }
 
 
 
 .link-bottom-aligner a:hover{
 	color: #6bcaba;
-	box-shadow: inset -3px 0 #6bcaba;
+	box-shadow: 0px 3px #6bcaba;
 }
 
 .lower-menu > div a {
@@ -160,7 +156,7 @@ a {
 
 .sticky {
 	position: fixed;
-	z-index: 10;
+	z-index: 7;
 	background: #fff;
 	width: 100%;
 	top: 0;
@@ -229,7 +225,7 @@ a {
 }
 
 .breadcrumb ol:last-child {
-	z-index: 10;
+	z-index: 7;
     background: url(https://i.imgur.com/YK1MnpY.jpg) no-repeat 100% 50%;
 }
 
