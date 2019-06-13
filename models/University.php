@@ -20,42 +20,51 @@ class University extends ActiveRecord {
 		];
 	}
 	
-	public function beforeSave() {
+	public function afterSave() {
 		$this->resetSearchIndex();
-        parent::beforeSave();
+        parent::afterSave();
 	}
 
-	public function addToSearch($str){
+	public function addToSearch($str) {
 		$words = explode(" ", $str);
-		foreach ($words as $word) {
-			(new SearchIndex($this->id, $word))->save();
+		$words = array_flip($words);
+
+		foreach ($words as $word => $value) {
+			$index = new SearchIndex();
+			$index->university_id = $this->id;
+        	$index->keyword = $word;
+			$index->save();
 		}
 	}
 	
 	public function resetSearchIndex() {
 		$departments = QueryBuilder::select(Department::tableName())->addWhere("=", "university_id", $this->id)->queryAll();
+		$str = "";
 
 		foreach ($departments as $department) {
-			$str = $department->name;
-			$this->addToSearch($str);
+			$str .= $department->name." ";
 			$specialities = QueryBuilder::select(Speciality::tableName())->addWhere("=", "department_id", $department->id)->queryAll();
 			
 			foreach ($specialities as $speciality) {
-				$str = $speciality->name;
-				$this->addToSearch($str);
+				$str .= "{$speciality->name} {$speciality->general_information} {$speciality->instruction} {$speciality->examinations} ";
 				$studyModules = QueryBuilder::select(StudyModule::tableName())->addWhere("=", "speciality_id", $speciality->id)->queryAll();
+				
 				foreach ($studyModules as $studyModule) {
-					$str = $studyModule->name;
-					$this->addToSearch($str);
+					$str .= $studyModule->name." ";
 					$courses = QueryBuilder::select(Course::tableName())->addWhere("=", "study_module_id", $studyModule->id)->queryAll();
+
 					foreach ($courses as $course) {
-						$str = $course->name;
-						$this->addToSearch($str);
-						$learningO = QueryBuilder::select(Course::tableName())->addWhere("=", "parent_course_id", $studyModule->id)->queryAll();
+						$str .= "{$course->code} {$course->name} ";
+						$learningOutcomes = QueryBuilder::select(CourseLearningOutcome::tableName())->addWhere("=", "course_id", $course->id)->queryAll();
+
+						foreach ($learningOutcomes as $learningOutcome) {
+							$str .= $learningOutcome->outcome." ";
+						}
 					}
 				}
 			}
 		}
+		$this->addToSearch($str);
 	}
 }
 

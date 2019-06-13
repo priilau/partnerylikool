@@ -93,7 +93,7 @@ class QueryBuilder {
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
                         return false;
                     }
-                    $fieldStr .= $fieldName. ", ";
+                    $fieldStr .= "{$fieldName}, ";
                     $fieldVals .= "?, ";
                     $this->fieldValues[] = $fieldValue;
                 }
@@ -201,6 +201,7 @@ class QueryBuilder {
             echo $mysqli->error;
             exit("Unable to create stmt!");    
         }
+        //var_dump($this->fieldParams, "<br><br>", $this->fieldValues);
         call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $id = $stmt->execute();
         if(!$id){
@@ -236,6 +237,9 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
+        if(!empty($this->fieldValues)){
+            call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         while($row = $result->fetch_assoc()){

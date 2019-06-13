@@ -5,10 +5,9 @@ use app\components\ActiveRecord;
 
 class SearchIndex extends ActiveRecord {
 	
-	public function SearchIndex($uid, $word) {
-        $this->university_id = $uid;
-        $this->keyword = $word;
-    }
+	public static function tableName() {
+		return "search_index";
+	}
 
     public function rules(){
 		return[
