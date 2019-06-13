@@ -38,13 +38,13 @@ use app\components\Helper;
 		</div>
 		<div class="right-menu">
 			<div class="link-bottom-aligner">
-				<a href="#">Instituut</a>
-				<a href="#">Sisseastumine</a>
-				<a class="active" href="#">Õpingud</a>
-				<a href="#">Teadus</a>
-				<a href="#">Koolitused</a>
-				<a href="#">Meediavärav</a>
-				<a href="#">Kontaktid</a>
+				<a href="https://www.tlu.ee/dt">Instituut</a>
+				<a href="https://www.tlu.ee/dti/sisseastumine">Sisseastumine</a>
+				<a class="active" href="https://www.tlu.ee/dt/oppetoo">Õpingud</a>
+				<a href="https://www.tlu.ee/dt/teadlasele">Teadus</a>
+				<a href="https://www.tlu.ee/dt/koolitused">Koolitused</a>
+				<a href="https://www.tlu.ee/dt/meediavarav">Meediavärav</a>
+				<a href="https://www.tlu.ee/dt/kontaktid">Kontaktid</a>
 			</div>
 		</div>
 	</div>
@@ -66,12 +66,12 @@ use app\components\Helper;
 			<div class="menu-container">
 				<div class="side-menu">
 					<br><br>
-					<a href="#">Õppetöö</a>
-					<a href="#">Õppeinfo</a>
-					<a href="#">Olulised kuupäevad</a>
-					<a href="#">Õppenõustajad ja -spetsialistid</a>
-					<a href="#">Akadeemiline raamatukogu</a>
-					<a class="active" href="#">Õppimine välismaal</a>
+					<a href="https://www.tlu.ee/dt/oppetoo">Õppetöö</a>
+					<a href="https://www.tlu.ee/oppeinfo">Õppeinfo</a>
+					<a href="https://www.tlu.ee/dt/opingud/olulised-kuupaevad">Olulised kuupäevad</a>
+					<a href="https://www.tlu.ee/dt/opingud/oppenoustajad-ja-spetsialistid">Õppenõustajad ja -spetsialistid</a>
+					<a href="https://www.tlu.ee/dt/opingud/akadeemiline-raamatukogu">Akadeemiline raamatukogu</a>
+					<a class="active" href="https://www.tlu.ee/dt/opingud/oppimine-valismaal">Õppimine välismaal</a>
 				</div>
 			</div>
 		</div>
