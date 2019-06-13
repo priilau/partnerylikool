@@ -2,6 +2,8 @@
 namespace app\controllers;
 
 use app\models\CourseTeacher;
+use app\models\Teacher;
+use app\models\Course;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -20,21 +22,24 @@ class CourseTeacherController extends BaseController {
 	
 	public function actionCreate() {
 		$model = new CourseTeacher();
+		$optionsCourse = Course::find()->allNames();
+		$optionsTeacher = Teacher::find()->allNames();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-			return $this->render("create", ["model" => $model]);
+			return $this->render("create", ["model" => $model, "optionsCourse" => $optionsCourse, "optionsTeacher" => $optionsTeacher]);
 		}
 		
 	}
 	
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-		
+		$optionsCourse = Course::find()->allNames();
+		$optionsTeacher = Teacher::find()->allNames();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-			return $this->render("update", ["model" => $model]);
+			return $this->render("update", ["model" => $model, "optionsCourse" => $optionsCourse, "optionsTeacher" => $optionsTeacher]);
 		}
 	}
 	

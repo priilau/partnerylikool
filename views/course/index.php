@@ -1,8 +1,12 @@
 <?php
 
 use app\components\GridView;
+use app\components\Helper;
 
+Helper::setTitle("Courses");
 ?>
+
+<h1><?= Helper::getTitle() ?></h1>
 
 <a class="btn btn-primary" href="/course/create">Create</a>
 
@@ -11,7 +15,7 @@ use app\components\GridView;
 	"columns" => [
 		'id',
 		'department_id',
-		'parent_course_id',
+		'study_module_id',
 		'code',
 		'name',
 		'ects',

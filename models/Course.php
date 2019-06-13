@@ -12,8 +12,9 @@ class Course extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['code', 'name', 'created_at', 'goals', 'description'], ["string"]],
-			[['id', 'department_id', 'parent_course_id', 'ects', 'optional', 'semester', 'contact_hours', 'exam'], ["integer"]],
+			[['code', 'name', 'goals', 'description'], ["string"]],
+			[['id', 'department_id', 'study_module_id', 'ects', 'optional', 'semester', 'contact_hours', 'exam'], ["integer"]],
+			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
 	}

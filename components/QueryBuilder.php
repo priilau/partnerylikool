@@ -237,6 +237,10 @@ class QueryBuilder {
         $this->compose();
         $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
         $stmt = $mysqli->prepare($this->sql);
+        if(!$stmt){
+            echo $mysqli->error;
+            exit("Unable to create stmt!");
+        }
         if(!empty($this->fieldValues)){
             call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         }
