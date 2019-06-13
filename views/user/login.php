@@ -12,9 +12,9 @@ Helper::setTitle("User");
 
 <?php $form = ActiveForm::begin() ?>
 
-<?= $form->field($model, "username"); ?>
+<?= $form->field($model, "Kasutajanimi"); ?>
 
-<?= $form->field($model, "password"); ?>
+<?= $form->field($model, "Salasõna"); ?>
 
 <?= ActiveForm::submitButton("Logi sisse", ["class" => "btn-success"]); ?>
 
