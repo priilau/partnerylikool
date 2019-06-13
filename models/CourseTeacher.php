@@ -12,7 +12,7 @@ class CourseTeacher extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['created_at'], ["string"]],
+			[['created_at'], ["created-datetime"]],
 			[['id', 'course_id', 'teacher_id'], ["integer"]]
 		];
 	}
