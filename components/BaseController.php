@@ -73,7 +73,6 @@ class BaseController {
                     }   
                 }                
             } else {
-                var_dump($behavior);
                 switch($behavior) {
                     case "logged-in-required": {
                         if($behaviorValue && Identity::isGuest()) {
