@@ -20,9 +20,8 @@ class LoginForm extends BaseModel {
             $user = $this->getUser();
             if ($user !== null && $user->validatePassword($this->password)) {
                 Identity::login($user);
+                return true;
             }
-
-            return true;
         }
         return false;
     }

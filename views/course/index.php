@@ -11,7 +11,7 @@ use app\components\GridView;
 	"columns" => [
 		'id',
 		'department_id',
-		'parent_course_id',
+		'study_module_id',
 		'code',
 		'name',
 		'ects',

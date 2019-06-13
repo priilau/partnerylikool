@@ -59,13 +59,19 @@ class ActiveForm {
         }
 
         $str .= "<label class='control-label' for='{$this->modelName}-{$lowerFieldName}'>{$labelName}</label>";
+        $fName = $this->fieldName;
 
         if($this->elementType == "input"){
-            $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' value='{$this->inputValue}'>";
+            $value = "";
+            $checked = "";
+            if($this->inputType == "checkbox") {
+                $checked = ($this->model->$fName) ? 'checked' : '';
+            } else {
+                $value = "value='{$this->inputValue}'";
+            }
+            $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' {$value} {$checked}>";
         }
         else if($this->elementType == "select"){
-            $fName = $this->fieldName;
-
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
             foreach ($this->options as $optionValue => $optionName){
                 $optionName = ucfirst($optionName);
@@ -87,6 +93,7 @@ class ActiveForm {
     
     public function field($model, $fieldName, $options = []){
         $this->elementType = "input";
+        $this->inputType = "text";
         $this->modelName = Helper::getClassName($model);
         $this->fieldName = $fieldName;
         $this->inputValue = $model->$fieldName;
