@@ -14,13 +14,19 @@ class BaseModel {
     public function __toString() {
         $str = "";
         if(isset($this->attributes["name"])) {
-            $str = $this->attributes["name"];
+			$str = $this->attributes["name"];
+        } else if(isset($this->attributes["firstname"]) && isset($this->attributes["lastname"])) {
+			$str = $this->attributes["firstname"]." ".$this->attributes["lastname"];
+        } else if(isset($this->attributes["firstname"])) {
+			$str = $this->attributes["firstname"];
+        } else if(isset($this->attributes["lastname"])) {
+			$str = $this->attributes["lastname"];
         } else if(isset($this->attributes["email"])) {
-            $str = $this->attributes["email"];
+			$str = $this->attributes["email"];
         } else if(isset($this->attributes["outcome"])) {
             $str = $this->attributes["outcome"];
         } else {
-            $str = Helper::getClassName()." ".$this->attributes["id"];
+            $str = Helper::getClassName($this)." ".$this->attributes["id"];
         }
         return $str;
     }
@@ -64,6 +70,8 @@ class BaseModel {
 	}
 	
 	public function save(){
+		$this->beforeValidate();
+
 		if($this->validate()){
 		    $this->beforeSave();
 
@@ -83,10 +91,13 @@ class BaseModel {
 		return false;
 	}
 
+	public function beforeValidate(){
+    	$this->rules = $this->rules();
+		$this->autoFillFields();
+	}
 	public function autoFillFields(){
 		foreach ($this->rules as $value) {
             if(is_array($value)){
-
                 switch ($value[1][0]) {
                     case "auto-hash-128": {
                         $this->setValueToAllRuleFields($value[0], Helper::generateRandomString());
@@ -110,8 +121,7 @@ class BaseModel {
 	}
 
 	public function beforeSave() {
-        $this->rules = $this->rules();
-		$this->autoFillFields();
+
 	}
 
 	public function afterSave() {

@@ -7,7 +7,7 @@ use app\components\ActiveRecord;
 class CourseLearningOutcome extends ActiveRecord {
 	
 	public static function tableName() {
-		return "course_learning_outcomes";
+		return "course_learning_outcome";
 	}
 	
 	public function rules(){

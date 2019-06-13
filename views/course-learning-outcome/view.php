@@ -1,10 +1,14 @@
 <?php
 
 use app\components\DetailView;
+use app\components\Helper;
 
+Helper::setTitle("Course learning outcome");
 ?>
 
-<a class="btn btn-primary" href="/course-learning-outcomes/index">Back</a>
+<h1><?= Helper::getTitle() ?></h1>
+
+<a class="btn btn-primary" href="/course-learning-outcome/index">Back</a>
 
 <?= DetailView::widget([
 	"model" => $model,
