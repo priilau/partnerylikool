@@ -16,7 +16,9 @@ class CourseLearningOutcomeController extends BaseController {
 	
 	public function actionIndex() {
 		$models = CourseLearningOutcome::find()->all();
-		return $this->render("index", ["models" => $models]);
+		$courseNames = Course::find()->allNames();
+
+		return $this->render("index", ["models" => $models, "courseNames" => $courseNames]);
 	}
 	
 	public function actionCreate() {

@@ -14,7 +14,15 @@ Helper::setTitle("Course learning outcome");
 	"models" => $models,
 	"columns" => [
 		'id',
-		'course_id',
+		[
+				'label' => "Course",
+				'value' => function($model) use ($courseNames){
+					if(isset($courseNames[$model->course_id])) {
+						return $courseNames[$model->course_id];
+				}
+				return "-";
+				}
+		],
 		'outcome',
 		'created_by',
 		'created_at'

@@ -15,8 +15,9 @@ class User extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['email', 'password', 'created_at', 'newPassword', 'newPasswordConfirm'], ["string"]],
+			[['email', 'password', 'newPassword', 'newPasswordConfirm'], ["string"]],
 			[['auth_key'], ["auto-hash-128"]],
+			[['created_at'], ["created-datetime"]],
 			[['id'], ["integer"]]
 		];
 	}

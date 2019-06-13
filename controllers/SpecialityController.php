@@ -16,7 +16,9 @@ class SpecialityController extends BaseController {
 	
 	public function actionIndex() {
 		$models = Speciality::find()->all();
-		return $this->render("index", ["models" => $models]);
+		$departmentNames = Department::find()->allNames();
+
+		return $this->render("index", ["models" => $models, "departmentNames" => $departmentNames]);
 	}
 	
 	public function actionCreate() {

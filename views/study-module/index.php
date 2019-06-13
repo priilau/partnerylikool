@@ -14,7 +14,15 @@ Helper::setTitle("Study module");
 	"models" => $models,
 	"columns" => [
 		'id',
-		'speciality_id',
+		[
+				'label' => "Speciality",
+				'value' => function($model) use ($specialityNames){
+					if(isset($specialityNames[$model->speciality_id])) {
+						return $specialityNames[$model->speciality_id];
+				}
+				return "-";
+			}
+		],
 		'name',
 		'created_by',
 		'created_at'

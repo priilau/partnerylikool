@@ -17,7 +17,9 @@ class CourseController extends BaseController {
 	
 	public function actionIndex() {
 		$models = Course::find()->all();
-		return $this->render("index", ["models" => $models]);
+		$departmentNames = Department::find()->allNames();
+		$studyModuleNames = StudyModule::find()->allNames();
+		return $this->render("index", ["models" => $models, "departmentNames" => $departmentNames, "studyModuleNames" => $studyModuleNames]);
 	}
 	
 	public function actionCreate() {

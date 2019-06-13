@@ -18,6 +18,13 @@ class Course extends ActiveRecord {
 			[['created_by'], ["auto-user-id"]]
 		];
 	}
+
+    public function attributeLabels() {
+        return [
+            "department_id" => "Department",
+            "study_module_id" => "Study Module",
+        ];
+    }
 }
 
 ?>
