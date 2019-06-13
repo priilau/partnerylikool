@@ -284,8 +284,15 @@ a {
     background: url(https://www.tlu.ee/themes/tlu/images/icon-youtube.svg) no-repeat 50% 50%/16px auto;
 }
 
-.container {
-	
+@media (min-width: 1281px) {
+.container::before {
+	width: 3.47222vw;
+	background: #6bcaba;
+}
+
+@media (min-width: 1081px) {
+.main--content::before {
+    width: 50px;
 }
 
 .side-menu {
@@ -435,15 +442,15 @@ label {
 
 input {
     padding: 5px;
-    border-radius: 4px;
+
     border: 1px solid #A8A8A8;
     width: 200px;
 }
 
 input[type=button], input[type=submit], .btn {
     padding: 5px;
-    border-radius: 4px;
-    width: 100px;
+
+    width: auto;
 	cursor: pointer;
     background: #EFEFEF;
 	transition: 0.2s ease;
@@ -478,7 +485,7 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 }
 
 .form-group {
-	padding: 5px;
+	padding: 5px 0px;
 }
 
 /* GRIDVIEW */
@@ -711,24 +718,43 @@ select {
 	border: 1px solid #A7A7A7;
 }
 
-/* COURSES */
+/* BUTTONS */
 
-.btn-primary {
-	background: ;
-	border-radius: 2px;
+.btn {
+	text-decoration: none;
+	background: #b71234;
+	color: #fff;
+	border: none;
+	text-decoration: none;
+	padding: 7px 20px;
+	line-height: normal;
+	font-size: 1em;
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
-.btn-primary:hover {
-	background: ;
-}
-
-.btn-success {
-	background: #5fc263;
-	border-radius: 2px;
+input[type="submit"].btn-success {
+	background: #b71234;
+	color: #fff;
+	text-transform: uppercase;
+    border: none;
+    text-decoration: none;
+    padding: 7px 20px;
+    line-height: normal;
+    font-size: 1em;
+    font-size: 13px;
+    font-weight: bold;
+	cursor: pointer;
 }
 
 .btn-success:hover {
-	background: ;
+
+}
+
+.control-label {
+	min-width: 100px;
+	display: block;
 }
 
 }
