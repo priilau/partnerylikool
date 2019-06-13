@@ -65,7 +65,6 @@ use app\components\Helper;
 		<div class="menu-wrapper">
 			<div class="menu-container">
 				<div class="side-menu">
-					<br><br>
 					<a href="https://www.tlu.ee/dt/oppetoo">Õppetöö</a>
 					<a href="https://www.tlu.ee/oppeinfo">Õppeinfo</a>
 					<a href="https://www.tlu.ee/dt/opingud/olulised-kuupaevad">Olulised kuupäevad</a>
