@@ -127,12 +127,29 @@ a {
 
 .link-bottom-aligner a:hover{
 	color: #6bcaba;
-	box-shadow: inset 0px -5px #6bcaba;
+	box-shadow: inset 0px -4px #6bcaba;
 }
 
-.link-bottom-aligner a:nth-child(n+2)::before {
+/*
+.link-bottom-aligner a:not(:first-child) {
+	content: "";
+	position: relative;
+	background: url(https://upload.wikimedia.org/wikipedia/commons/4/48/GoogleMaps_logo.svg) no-repeat 100% 50%;
+	width: 50px;
+	height: 50px;
+	z-index: 20;
+}
+
+.breadcrumb-background ol li:not(:last-child){
+	background: url(https://www.tlu.ee/themes/tlu/images/icon-arrow.svg) no-repeat 100% 50%;
+	margin-right: 13px;
+	padding-top: 0px;
+}
+.link-bottom-aligner a::after{
 	content: "";
 	position: absolute;
+	left: 0;
+	top: 0;
     display: block;
 	background: #6bcaba;
 	transform-origin: 0 0;
@@ -141,7 +158,7 @@ a {
 	width: 3px;
 	top: -10px;
 	height: 40px;
-}
+}*/
 
 .lower-menu > div a {
 	vertical-align: bottom;
@@ -204,7 +221,7 @@ a {
 .banner-image img {
 	display: block;
 	height: auto;
-	width: 100%;
+	max-width: 100%;
 }
 
 .banner-section ol {
