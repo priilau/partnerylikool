@@ -522,6 +522,8 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 
 @media only screen and (min-width: 961px) {
 
+/* GENERAL */
+
 .content {
 	display: inline-block;
 	vertical-align: top;
@@ -707,6 +709,26 @@ select {
 	margin: 0px 6px 6px 0px;
 	border-radius: 4px;
 	border: 1px solid #A7A7A7;
+}
+
+/* COURSES */
+
+.btn-primary {
+	background: ;
+	border-radius: 2px;
+}
+
+.btn-primary:hover {
+	background: ;
+}
+
+.btn-success {
+	background: #5fc263;
+	border-radius: 2px;
+}
+
+.btn-success:hover {
+	background: ;
 }
 
 }
