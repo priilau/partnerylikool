@@ -90,7 +90,7 @@ class QueryBuilder {
                 $this->sql = "INSERT INTO {$this->tableName} ";
                 foreach($this->data as $fieldName => $fieldValue){
                     if(!Helper::isStringClean($fieldName, 255) || !Helper::isStringClean($fieldValue, 255)){
-                        echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
+                        echo "[{$fieldName}] or [{$fieldValue}] is not clean (1)!";
                         return false;
                     }
                     $fieldStr .= "{$fieldName}, ";
@@ -107,8 +107,8 @@ class QueryBuilder {
             case "update":{
                 $this->sql = "UPDATE {$this->tableName} SET ";
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue)){
-                        echo "[{$fieldName}] or [{$fieldValue}] is not clean!";
+                    if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue, 255)){
+                        echo "[{$fieldName}] or [{$fieldValue}] is not clean (2)!";
                         return false;
                     }
                     $fieldStr .= "`{$fieldName}` = ?, ";
@@ -123,7 +123,7 @@ class QueryBuilder {
                     }
                     foreach($whereBlock as $whereItem){
                         if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
-                            echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean!";
+                            echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (3)!";
                             return false;
                         }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
@@ -146,7 +146,7 @@ class QueryBuilder {
                     }
                     foreach($whereBlock as $whereItem){
                         if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
-                            echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean!";
+                            echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (4)!";
                             return false;
                         }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
@@ -170,7 +170,7 @@ class QueryBuilder {
                         }
                         foreach($whereBlock as $whereItem){
                             if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
-                                echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean!";
+                                echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (5)!";
                                 return false;
                             }
                             $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";

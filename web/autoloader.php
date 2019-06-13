@@ -3,6 +3,7 @@
 
 $files = [
 	__DIR__ . '/../config/db.php',
+	__DIR__ . '/../config/app.php',
     __DIR__ . '/../components/Helper.php',
     __DIR__ . '/../components/Identity.php',
     __DIR__ . '/../components/Request.php',
@@ -18,6 +19,7 @@ $files = [
     __DIR__ . '/../models/User.php',
     __DIR__ . '/../components/BaseController.php',
     __DIR__ . '/../models/LoginForm.php',
+    __DIR__ . '/../models/ForgotPasswordForm.php',
 	__DIR__ . '/../models/University.php',
 	__DIR__ . '/../models/Course.php',
 	__DIR__ . '/../models/CourseLearningOutcome.php',
