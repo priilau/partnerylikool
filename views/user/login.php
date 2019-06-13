@@ -16,6 +16,7 @@ Helper::setTitle("User");
 
 <?= $form->field($model, "password"); ?>
 
-<?= ActiveForm::submitButton("Logi sisse", ["class" => "btn-success"]); ?>
+<?= ActiveForm::submitButton("Logi sisse", ["class" => "btn-success"]); ?><br>
+<a class="btn btn-success" href="/user/forgot-password">Unustasid parooli?</a>
 
 <?php ActiveForm::end(); ?>

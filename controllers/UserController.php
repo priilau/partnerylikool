@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\LoginForm;
+use app\models\ForgotPasswordForm;
 use app\models\User;
 use app\components\Identity;
 use app\components\QueryBuilder;
@@ -25,6 +26,14 @@ class UserController extends BaseController {
             return $this->redirect("/site/admin");
         }
 	    return $this->render("login", ["model" => $model]);
+    }
+
+    public function actionForgotPassword() {
+        $model = new ForgotPasswordForm();
+        if($model->load($_POST) && $model->recover()){
+            return $this->redirect("/site/index");
+        }
+	    return $this->render("forgot-password", ["model" => $model]);
     }
 
     public function actionIndex() {
