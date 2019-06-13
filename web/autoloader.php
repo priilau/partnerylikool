@@ -20,7 +20,7 @@ $files = [
     __DIR__ . '/../models/LoginForm.php',
 	__DIR__ . '/../models/University.php',
 	__DIR__ . '/../models/Course.php',
-	__DIR__ . '/../models/CourseLearningOutcomes.php',
+	__DIR__ . '/../models/CourseLearningOutcome.php',
 	__DIR__ . '/../models/CourseTeacher.php',
 	__DIR__ . '/../models/Department.php',
 	__DIR__ . '/../models/Speciality.php',
@@ -31,12 +31,13 @@ $files = [
     __DIR__ . '/../controllers/UserController.php',
 	__DIR__ . '/../controllers/UniversityController.php',
 	__DIR__ . '/../controllers/CourseController.php',
-	__DIR__ . '/../controllers/CourseLearningOutcomesController.php',
+	__DIR__ . '/../controllers/CourseLearningOutcomeController.php',
 	__DIR__ . '/../controllers/CourseTeacherController.php',
 	__DIR__ . '/../controllers/DepartmentController.php',
 	__DIR__ . '/../controllers/SpecialityController.php',
 	__DIR__ . '/../controllers/StudyModuleController.php',
-	__DIR__ . '/../controllers/TeacherController.php'
+	__DIR__ . '/../controllers/TeacherController.php',
+	__DIR__ . '/../controllers/AdminController.php'
 ];
 
 foreach($files as $file) {
