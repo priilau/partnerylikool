@@ -14,8 +14,14 @@ class DetailView {
         $attributes = $data["attributes"];
         $str = "<table class='detail-view'>";
         foreach($attributes as $atr){
-            $str .= "<tr><td>". $atr. "</td>"; 
-            $str .= "<td>". $model->$atr. "</td></tr>"; 
+            if(is_array($atr)) {
+                $str .= "<tr><td>{$atr["label"]}</td>";
+                $str .= "<td>{$atr["value"]()}</td></tr>";
+            } else {
+                $label = str_ireplace("_", " ", $atr);
+                $str .= "<tr><td>{$label}</td>";
+                $str .= "<td>{$model->$atr}</td></tr>";
+            }
         }
         $str .= "</table>";
         return $str;

@@ -11,7 +11,12 @@ use app\components\DetailView;
 	"attributes" => [
 		'id',
 		'name',
-		'university_id',
+		[
+		    "label" => "University",
+            "value" => function() use ($university) {
+                return $university->name;
+            }
+        ],
 		'created_by',
 		'created_at'
 	]
