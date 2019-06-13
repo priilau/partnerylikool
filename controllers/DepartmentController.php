@@ -50,7 +50,9 @@ class DepartmentController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+		$university = University::find()->addWhere("=", "id", $model->university_id)->one();
+
+		return $this->render("view", ["model" => $model, "university" => $university]);
 	}
 	
 	public function findModel($id) {
