@@ -12,7 +12,7 @@ use app\components\ActiveForm;
 <?= $form->field($model, 'country') ?>
 <?= $form->field($model, 'contact_email') ?>
 <?= $form->field($model, 'courses_available') ?>
-<?= $form->field($model, 'recommended') ?>
+<?= $form->field($model, 'recommended')->checkBox() ?>
 
 <div class="form-group">
 <?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>

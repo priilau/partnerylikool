@@ -13,7 +13,7 @@ use app\components\ActiveForm;
 <?= $form->field($model, 'code') ?>
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'ects') ?>
-<?= $form->field($model, 'optional') ?>
+<?= $form->field($model, 'optional')->checkBox() ?>
 <?= $form->field($model, 'semester') ?>
 <?= $form->field($model, 'contact_hours') ?>
 <?= $form->field($model, 'exam') ?>
