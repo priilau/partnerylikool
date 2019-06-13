@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\Identity;
+use app\components\Flash;
 
 class LoginForm extends BaseModel {
     public $username;
@@ -22,6 +23,7 @@ class LoginForm extends BaseModel {
                 Identity::login($user);
                 return true;
             }
+            Flash::setMessage("error", "Sellist kasutajat ei eksisteeri või parool ei klapi!");
         }
         return false;
     }

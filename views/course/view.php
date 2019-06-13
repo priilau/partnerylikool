@@ -20,7 +20,12 @@ Helper::setTitle("Courses");
 		'code',
 		'name',
 		'ects',
-		'optional',
+        [
+            "label" => "Valikuline",
+            "value" => function($model) {
+                return $model->optional ? "Jah" : "Ei";
+            }
+        ],
 		'semester',
 		'contact_hours',
 		'exam',
