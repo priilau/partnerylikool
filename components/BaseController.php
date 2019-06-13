@@ -152,8 +152,11 @@ class BaseController {
 			}
 		}
 		$viewPath = __DIR__ . "/../views/".$viewName.".php";
-		require_once($viewPath);
-		return ob_get_clean();
+		if(file_exists($viewPath)) {
+            require_once($viewPath);
+            return ob_get_clean();
+        }
+		return "<strong>Error: View file [{$viewName}] not found!</strong>";
 	}
 /**
  * USAGE: 	
