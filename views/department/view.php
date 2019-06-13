@@ -17,7 +17,7 @@ Helper::setTitle("Departments");
 		'name',
 		[
 		    "label" => "University",
-            "value" => function() use ($university) {
+            "value" => function($model) use ($university) {
                 return $university->name;
             }
         ],
