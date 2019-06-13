@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
+use app\components\QueryBuilder;
 
 class Course extends ActiveRecord {
 	
@@ -17,6 +18,12 @@ class Course extends ActiveRecord {
 			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
+	}
+
+	public function beforeDelete() {
+		QueryBuidler::delete(CourseLearningOutcome::tableName(), ["=", "course_id", $this->id])->execute();
+		QueryBuidler::delete(CourseTeacher::tableName(), ["=", "course_id", $this->id])->execute();
+		parent::beforeDelete();
 	}
 }
 

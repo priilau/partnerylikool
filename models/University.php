@@ -67,6 +67,15 @@ class University extends ActiveRecord {
 		}
 		$this->addToSearch($str);
 	}
+
+	public function beforeDelete() {
+		QueryBuilder::delete(SearchIndex::tableName(), ["=", "university_id", $this->id])->execute();
+		$entities = Department::find()->addWhere("=", "university_id", $this->id)->all();
+		foreach ($entities as $entity) {
+			$entity->delete();
+		}
+		parent::beforeDelete();
+	}
 }
 
 ?>

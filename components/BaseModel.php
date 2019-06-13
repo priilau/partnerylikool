@@ -131,6 +131,10 @@ class BaseModel {
 	public function afterSave() {
 		
 	}
+	
+	public function beforeDelete() {
+		
+	}
 
 	public function setValueToAllRuleFields($fields, $value, $byPassEmpty = false) {
         foreach ($fields as $fieldName){
