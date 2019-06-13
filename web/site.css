@@ -107,7 +107,7 @@ li {
 
 .link-bottom-aligner {
 	position: absolute;
-	bottom: 15px;
+	bottom: -7px;
 	right: 0px;
 }
 
@@ -116,9 +116,9 @@ li {
 	box-shadow: inset 0px -4px #6bcaba;
 }
 
-.link-bottom-aligner a{
+.link-bottom-aligner li a{
 	margin-left: 1.04167vw;
-	padding: 0 0 30px 0;
+	padding: 0 0 22px 0;
 	text-transform: uppercase;
 	font-family: "Times New Roman",serif;
 	color: #3c4445;
@@ -130,38 +130,41 @@ li {
 
 .link-bottom-aligner a:hover{
 	color: #6bcaba;
-	box-shadow: inset 0px -4px #6bcaba;
+	box-shadow: inset 0px -3px #6bcaba;
 }
 
-/*
-.link-bottom-aligner a:not(:first-child) {
-	content: "";
+.link-bottom-aligner li{
+	float: left;
+	padding: 0 10px;
+}
+
+
+.link-bottom-aligner li a{
 	position: relative;
-	background: url(https://upload.wikimedia.org/wikipedia/commons/4/48/GoogleMaps_logo.svg) no-repeat 100% 50%;
-	width: 50px;
-	height: 50px;
-	z-index: 20;
+    display: block;
+    padding: 0 0 22px 0;
+    margin-left: 10px;
+    text-transform: uppercase;
+    font-family: "Times New Roman",serif;
+    color: #3c4445;
+    font-style: italic;
+    font-size: 20px;
+    letter-spacing: -1px;
+    z-index: 2;
 }
 
-.breadcrumb-background ol li:not(:last-child){
-	background: url(https://www.tlu.ee/themes/tlu/images/icon-arrow.svg) no-repeat 100% 50%;
-	margin-right: 13px;
-	padding-top: 0px;
-}
-.link-bottom-aligner a::after{
+.link-bottom-aligner ul li a:before{
 	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-    display: block;
-	background: #6bcaba;
-	transform-origin: 0 0;
-    transform: rotate(15deg);
-	background: #6bcaba;
-	width: 3px;
+    position: absolute;
 	top: -10px;
-	height: 40px;
-}*/
+	left: -0.5vw;
+    display: block;
+    width: 3px;
+    height: 40px;
+    background: #6bcaba;
+    transform: rotate(15deg);
+    transform-origin: 0 0;
+}
 
 .lower-menu > div a {
 	vertical-align: bottom;
