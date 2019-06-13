@@ -110,7 +110,7 @@ a {
 
 .link-bottom-aligner a + .active{
 	color: #6bcaba;
-	box-shadow: inset 0px -5px #6bcaba;
+	box-shadow: inset 0px -4px #6bcaba;
 }
 
 .link-bottom-aligner a{
@@ -182,16 +182,13 @@ a {
 	box-shadow: 0 0 30px rgba(0,0,0,.1);
 }
 
-.sticky + .right-menu {
-	
-}
-
 .sticky + .banner-section * {
 	padding-top: 42px;
 }
 
 .sticky + .banner-section > div {
 	padding-top: 65px;
+	
 }
 
 .banner-section > div {
@@ -235,8 +232,10 @@ a {
 	padding: 20px 1.38889vw;
 }
 
-.breadcrumb-background ol li{
+.breadcrumb-background ol li:not(:last-child){
 	background: url(https://www.tlu.ee/themes/tlu/images/icon-arrow.svg) no-repeat 100% 50%;
+	margin-right: 13px;
+	padding-top: 0px;
 }
 
 .breadcrumb-background ol li a{
@@ -244,15 +243,8 @@ a {
 	color: #fff;
 	text-shadow: 0 1px 1px rgba(0,0,0,.2);
 	padding-right: 27px;
-	margin-right: 13px;
 	font-size: 12px;
 	text-transform: uppercase;
-}
-
-.breadcrumb li:not(:last-child) {
-	padding-right: 27px;
-	margin-right: 13px;
-    background: url(https://www.tlu.ee/themes/tlu/images/icon-arrow.svg) no-repeat 100% 50%;
 }
 
 .breadcrumb-background ol li a:hover{
