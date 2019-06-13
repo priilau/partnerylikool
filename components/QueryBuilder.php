@@ -63,7 +63,6 @@ class QueryBuilder {
     }
 
     public function composeParams($fieldValues){
-        var_dump($fieldValues);
         foreach($fieldValues as $fieldValue){
             if(is_string($fieldValue)){
                 $this->fieldParams .= "s";
