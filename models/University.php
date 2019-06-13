@@ -53,6 +53,7 @@ class University extends ActiveRecord {
 				foreach ($studyModules as $studyModule) {
 					$str .= $studyModule->name." ";
 					$courses = QueryBuilder::select(Course::tableName())->addWhere("=", "study_module_id", $studyModule->id)->queryAll();
+					$this->courses_available = count($courses);
 
 					foreach ($courses as $course) {
 						$str .= "{$course->code} {$course->name} ";
