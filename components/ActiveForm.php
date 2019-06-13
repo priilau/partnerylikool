@@ -64,10 +64,14 @@ class ActiveForm {
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' value='{$this->inputValue}'>";
         }
         else if($this->elementType == "select"){
+            $fName = $this->fieldName;
+
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
             foreach ($this->options as $optionValue => $optionName){
                 $optionName = ucfirst($optionName);
-                $str .= "<option value='{$optionValue}'>{$optionName}</option>";
+                $selected = ($this->model->$fName == $optionValue) ? 'selected="selected"' : '';
+
+                $str .= "<option value='{$optionValue}' {$selected}>{$optionName}</option>";
             }
             $str .= "</select>";
         }
