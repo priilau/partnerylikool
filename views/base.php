@@ -38,13 +38,15 @@ use app\components\Helper;
 		</div>
 		<div class="right-menu">
 			<div class="link-bottom-aligner">
-				<a href="https://www.tlu.ee/dt">Instituut</a>
-				<a href="https://www.tlu.ee/dti/sisseastumine">Sisseastumine</a>
-				<a class="active" href="https://www.tlu.ee/dt/oppetoo">Õpingud</a>
-				<a href="https://www.tlu.ee/dt/teadlasele">Teadus</a>
-				<a href="https://www.tlu.ee/dt/koolitused">Koolitused</a>
-				<a href="https://www.tlu.ee/dt/meediavarav">Meediavärav</a>
-				<a href="https://www.tlu.ee/dt/kontaktid">Kontaktid</a>
+				<ul>
+					<li><a href="https://www.tlu.ee/dt">Instituut</a></li>
+					<li><a href="https://www.tlu.ee/dti/sisseastumine">Sisseastumine</a>
+					<li><a class="active" href="https://www.tlu.ee/dt/oppetoo">Õpingud</a></li>
+					<li><a href="https://www.tlu.ee/dt/teadlasele">Teadus</a></li>
+					<li><a href="https://www.tlu.ee/dt/koolitused">Koolitused</a></li>
+					<li><a href="https://www.tlu.ee/dt/meediavarav">Meediavärav</a></li>
+					<li><a href="https://www.tlu.ee/dt/kontaktid">Kontaktid</a></li>
+				</ul>
 			</div>
 		</div>
 	</div>
