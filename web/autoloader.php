@@ -27,6 +27,7 @@ $files = [
 	__DIR__ . '/../models/StudyModule.php',
 	__DIR__ . '/../models/Teacher.php',
 	__DIR__ . '/../models/Test.php',
+	__DIR__ . '/../models/SearchIndex.php',
     __DIR__ . '/../controllers/SiteController.php',
     __DIR__ . '/../controllers/UserController.php',
 	__DIR__ . '/../controllers/UniversityController.php',

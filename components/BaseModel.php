@@ -69,12 +69,14 @@ class BaseModel {
 
 			if(isset($this->attributes["id"]) && $this->attributes["id"] > 0){
 				QueryBuilder::update(static::tableName(), $this->attributes, ["=","id", $this->attributes["id"]])->execute();
+				$this->afterSave();
 			} else {
 				$this->attributes["id"] = QueryBuilder::insert(static::tableName(), $this->attributes)->execute();
 				if ($this->attributes["id"] == 0){
 					$this->addError("Model save insert failed!");
 					return false;
 				}
+				$this->afterSave();
 			}
 			return true;
 		}
@@ -110,6 +112,10 @@ class BaseModel {
 	public function beforeSave() {
         $this->rules = $this->rules();
 		$this->autoFillFields();
+	}
+
+	public function afterSave() {
+		
 	}
 
 	public function setValueToAllRuleFields($fields, $value, $byPassEmpty = false) {
