@@ -14,8 +14,24 @@ Helper::setTitle("Courses");
 	"models" => $models,
 	"columns" => [
 		'id',
-		'department_id',
-		'study_module_id',
+		[
+		        'label' => "Department",
+		        'value' => function($model) use ($departmentNames){
+                    if(isset($departmentNames[$model->department_id])) {
+                        return $departmentNames[$model->department_id];
+                    }
+                    return "-";
+                }
+        ],
+		[
+				'label' => "Study module",
+				'value' => function($model) use ($studyModuleNames){
+					if(isset($studyModuleNames[$model->study_module_id])) {
+						return $studyModuleNames[$model->study_module_id];
+					}
+					return "-";
+				}
+		],
 		'code',
 		'name',
 		'ects',

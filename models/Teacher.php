@@ -12,9 +12,10 @@ class Teacher extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['firstname', 'lastname', 'created_at'], ["string"]],
+			[['firstname', 'lastname'], ["string"]],
 			[['email'], ['email']],
 			[['id'], ["integer"]],
+			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
 	}

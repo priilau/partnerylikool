@@ -16,7 +16,9 @@ class StudyModuleController extends BaseController {
 	
 	public function actionIndex() {
 		$models = StudyModule::find()->all();
-		return $this->render("index", ["models" => $models]);
+		$specialityNames = Speciality::find()->allNames();
+
+		return $this->render("index", ["models" => $models, "specialityNames" => $specialityNames]);
 	}
 	
 	public function actionCreate() {

@@ -5,15 +5,16 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 class Speciality extends ActiveRecord {
-	
+
 	public static function tableName() {
 		return "speciality";
 	}
-	
+
 	public function rules(){
 		return[
-			[['name', 'general_information', 'instruction', 'created_at', 'examinations'], ["string"]],
+			[['name', 'general_information', 'instruction', 'examinations'], ["string"]],
 			[['id', 'department_id'], ["integer"]],
+			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
 	}
@@ -24,6 +25,12 @@ class Speciality extends ActiveRecord {
 			$entity->delete();
 		}
 		parent::beforeDelete();
+	}
+	
+	public function attributeLabels() {
+		return [
+			"department_id" => "Department",
+		];
 	}
 }
 

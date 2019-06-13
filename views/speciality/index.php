@@ -15,7 +15,15 @@ Helper::setTitle("Speciality");
 	"columns" => [
 		'id',
 		'name',
-		'department_id',
+		[
+				'label' => "Department",
+				'value' => function($model) use ($departmentNames){
+					if(isset($departmentNames[$model->department_id])) {
+						return $departmentNames[$model->department_id];
+				}
+				return "-";
+			}
+		],
 		'general_information',
 		'instruction',
 		'examinations',

@@ -25,6 +25,13 @@ class Course extends ActiveRecord {
 		QueryBuidler::delete(CourseTeacher::tableName(), ["=", "course_id", $this->id])->execute();
 		parent::beforeDelete();
 	}
+	
+    public function attributeLabels() {
+        return [
+            "department_id" => "Department",
+            "study_module_id" => "Study Module",
+        ];
+    }
 }
 
 ?>
