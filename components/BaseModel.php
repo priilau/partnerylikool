@@ -8,6 +8,7 @@ use app\components\Identity;
 	
 class BaseModel {
 	public $attributes = [];
+	public $oldAttributes = [];
 	public $errors = [];
 	public $rules = [];
 
@@ -70,6 +71,7 @@ class BaseModel {
 	}
 	
 	public function save(){
+        $this->oldAttributes = $this->attributes;
 		$this->beforeValidate();
 
 		if($this->validate()){
@@ -82,12 +84,14 @@ class BaseModel {
 				$this->attributes["id"] = QueryBuilder::insert(static::tableName(), $this->attributes)->execute();
 				if ($this->attributes["id"] == 0){
 					$this->addError("Model save insert failed!");
+                    $this->attributes = $this->oldAttributes;
 					return false;
 				}
 				$this->afterSave();
 			}
 			return true;
 		}
+        $this->attributes = $this->oldAttributes;
 		return false;
 	}
 
@@ -104,11 +108,11 @@ class BaseModel {
                         break;
                     }
                     case "created-datetime":{
-                        $this->setValueToAllRuleFields($value[0], (new DateTime('now'))->format('Y-m-d H:i:s'));
+                        $this->setValueToAllRuleFields($value[0], (new \DateTime('now'))->format('Y-m-d H:i:s'));
                         break;
                     }
                     case "updated-datetime":{
-                        $this->setValueToAllRuleFields($value[0], (new DateTime('now'))->format('Y-m-d H:i:s'), true);
+                        $this->setValueToAllRuleFields($value[0], (new \DateTime('now'))->format('Y-m-d H:i:s'), true);
                         break;
 					}
 					case "auto-user-id":{
@@ -140,6 +144,7 @@ class BaseModel {
 	public function validate(){
 		$errors = [];
 		$this->rules = $this->rules();
+
 		foreach ($this->attributes as $key => $fieldValue){
 			$ruleFound = false;
 			
@@ -197,20 +202,54 @@ class BaseModel {
 			}
 			
 			if (!$ruleFound){
-				$this->addError("{$fieldName} - Rule not found!");
+				$this->addError("{$key} - Rule not found!");
 			}
 		}
 		return !(count($this->errors));
 	}
+
+	public function resetAllAttributes() {
+        $this->oldAttributes = $this->attributes;
+        $this->rules = $this->rules();
+
+        foreach($this->attributes as $key => $val) {
+            if($key == "id") { continue; }
+            foreach ($this->rules as $value){
+                if(is_array($value)){
+                    foreach ($value[0] as $fieldName){
+                        if($fieldName == $key){
+                            foreach ($value[1] as $dataRule){
+                                switch($dataRule){
+                                    case "integer": { $this->attributes[$key] = 0; break; }
+                                    case "float": { $this->attributes[$key] = 0; break; }
+                                    case "double": { $this->attributes[$key] = 0; break; }
+                                    case "number": { $this->attributes[$key] = 0; break; }
+                                    case "string": { $this->attributes[$key] = ""; break; }
+                                    case "email": { $this->attributes[$key] = ""; break; }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 	
 	public function load($post){
+        $this->resetAllAttributes(); // NOTE(Caupo 13.06.2019): This is for posting checbox status. Because post wont give unchecked checbox state to $_POST array. So we need to reset all.
+
 		if(isset($post) && is_array($post) && count($post)){
 			foreach ($post as $key => $value) {
+                if($value === "on") {
+                    $value = 1;
+                }
 				$this->attributes[$key] = $value;
 				$this->$key = $value;
 			}
 			return true;
 		}
+
+        $this->attributes = $this->oldAttributes;
 		return false;
 	}
 	

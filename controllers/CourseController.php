@@ -36,6 +36,7 @@ class CourseController extends BaseController {
 		$model = $this->findModel($id);
 		$optionsDepartment = Department::find()->allNames();
 		$optionsStudyModule = StudyModule::find()->allNames();
+
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
