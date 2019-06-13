@@ -105,7 +105,12 @@ a {
 .link-bottom-aligner {
 	position: absolute;
 	bottom: 15px;
-	right: 1px;
+	right: 0px;
+}
+
+.link-bottom-aligner a + .active{
+	color: #6bcaba;
+	box-shadow: inset 0px -5px #6bcaba;
 }
 
 .link-bottom-aligner a{
@@ -122,22 +127,18 @@ a {
 
 .link-bottom-aligner a:hover{
 	color: #6bcaba;
-	box-shadow: 0px 3px #6bcaba;
+	box-shadow: inset 0px -5px #6bcaba;
 }
 
 .link-bottom-aligner a:nth-child(n+2)::before {
-	position: absolute;
 	content: "";
+	position: absolute;
     display: block;
-    width: 2px;
-    height: 30px;
-    background: #6bcaba;
-    transform: rotate(15deg);
+	background: #6bcaba;
 	transform-origin: 0 0;
-	
+    transform: rotate(15deg);
 	background: #6bcaba;
 	width: 3px;
-	left: -.3vw;
 	top: -10px;
 	height: 40px;
 }
@@ -234,6 +235,10 @@ a {
 	padding: 20px 1.38889vw;
 }
 
+.breadcrumb-background ol li{
+	background: url(https://www.tlu.ee/themes/tlu/images/icon-arrow.svg) no-repeat 100% 50%;
+}
+
 .breadcrumb-background ol li a{
 	z-index: 6;
 	color: #fff;
@@ -244,9 +249,10 @@ a {
 	text-transform: uppercase;
 }
 
-.breadcrumb ol:last-child {
-	z-index: 7;
-    background: url(https://i.imgur.com/YK1MnpY.jpg) no-repeat 100% 50%;
+.breadcrumb li:not(:last-child) {
+	padding-right: 27px;
+	margin-right: 13px;
+    background: url(https://www.tlu.ee/themes/tlu/images/icon-arrow.svg) no-repeat 100% 50%;
 }
 
 .breadcrumb-background ol li a:hover{
@@ -301,9 +307,11 @@ a {
 	padding: 4px;
 	border-radius: 3px 0 0 3px;
 }
+
 .side-menu a:hover {
 	text-decoration: underline;
 }
+
 .side-menu a.active {
 	color: #000;
 	background: #FFF;
