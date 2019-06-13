@@ -8,8 +8,8 @@ use app\components\ActiveForm;
 
 <?php $form = ActiveForm::begin();?>
 
-<?= $form->field($model, 'department_id') ?>
-<?= $form->field($model, 'parent_course_id') ?>
+<?= $form->field($model, 'department_id')->dropDownList($optionsDepartment) ?>
+<?= $form->field($model, 'study_module_id')->dropDownList($optionsStudyModule) ?>
 <?= $form->field($model, 'code') ?>
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'ects') ?>

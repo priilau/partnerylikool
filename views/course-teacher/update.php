@@ -8,8 +8,8 @@ use app\components\ActiveForm;
 
 <?php $form = ActiveForm::begin();?>
 
-<?= $form->field($model, 'course_id') ?>
-<?= $form->field($model, 'teacher_id') ?>
+<?= $form->field($model, 'course_id')->dropDownList($optionsCourse) ?>
+<?= $form->field($model, 'teacher_id')->dropDownList($optionsTeacher) ?>
 
 <div class="form-group">
 <?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>

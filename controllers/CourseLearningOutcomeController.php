@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\CourseLearningOutcome;
+use app\models\Course;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -14,27 +15,28 @@ class CourseLearningOutcomeController extends BaseController {
     }
 	
 	public function actionIndex() {
-		$models = CourseLearningOutcomes::find()->all();
+		$models = CourseLearningOutcome::find()->all();
 		return $this->render("index", ["models" => $models]);
 	}
 	
 	public function actionCreate() {
-		$model = new CourseLearningOutcomes();
+		$model = new CourseLearningOutcome();
+		$options = Course::find()->allNames();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-			return $this->render("create", ["model" => $model]);
+			return $this->render("create", ["model" => $model, "options" => $options]);
 		}
 		
 	}
 	
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-		
+		$options = Course::find()->allNames();
 		if($model->load($_POST) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-			return $this->render("update", ["model" => $model]);
+			return $this->render("update", ["model" => $model, "options" => $options]);
 		}
 	}
 	
@@ -50,8 +52,8 @@ class CourseLearningOutcomeController extends BaseController {
 	}
 	
 	public function findModel($id) {
-		$model = new CourseLearningOutcomes();
-		$data = QueryBuilder::select(CourseLearningOutcomes::tableName())->addWhere("=", "id", $id)->query();
+		$model = new CourseLearningOutcome();
+		$data = QueryBuilder::select(CourseLearningOutcome::tableName())->addWhere("=", "id", $id)->query();
 		if($model->load($data)){
 			return $model;
 		}

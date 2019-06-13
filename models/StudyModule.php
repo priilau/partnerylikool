@@ -7,7 +7,7 @@ use app\components\ActiveRecord;
 class StudyModule extends ActiveRecord {
 	
 	public static function tableName() {
-		return "study_modules";
+		return "study_module";
 	}
 	
 	public function rules(){
