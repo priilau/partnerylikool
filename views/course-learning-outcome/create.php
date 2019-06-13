@@ -1,8 +1,12 @@
 <?php 
 
 use app\components\ActiveForm;
+use app\components\Helper;
 
+Helper::setTitle("Course learning outcome");
 ?>
+
+<h1><?= Helper::getTitle() ?></h1>
 
 <a class="btn btn-primary" href="/course-learning-outcome/index">Back</a>
 

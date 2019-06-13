@@ -1,7 +1,10 @@
 <?php
+use app\components\Helper;
 
-
+Helper::setTitle("Pealeht");
 ?>
+
+<h1><?= Helper::getTitle() ?></h1>
 
 <div class="content-container">
 	<div class="filter-container">
