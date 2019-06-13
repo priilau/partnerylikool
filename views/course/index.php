@@ -15,7 +15,7 @@ Helper::setTitle("Courses");
 	"columns" => [
 		'id',
 		[
-		        'label' => "Department",
+		        'attribute' => "department_id",
 		        'value' => function($model) use ($departmentNames){
                     if(isset($departmentNames[$model->department_id])) {
                         return $departmentNames[$model->department_id];
@@ -24,7 +24,7 @@ Helper::setTitle("Courses");
                 }
         ],
 		[
-				'label' => "Study module",
+				'attribute' => "study_module_id",
 				'value' => function($model) use ($studyModuleNames){
 					if(isset($studyModuleNames[$model->study_module_id])) {
 						return $studyModuleNames[$model->study_module_id];
@@ -36,7 +36,7 @@ Helper::setTitle("Courses");
 		'name',
 		'ects',
         [
-            "label" => "Valikuline",
+            "attribute" => "optional",
             "value" => function($model) {
                 return $model->optional ? "Jah" : "Ei";
             }

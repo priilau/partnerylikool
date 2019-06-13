@@ -16,15 +16,34 @@ class DetailView {
         $model = $data["model"];
         $attributes = $data["attributes"];
         $str = "<table class='detail-view'>";
+        $labels = $model->attributeLabels();
 
         foreach($attributes as $atr){
             if(is_array($atr)) {
-                $str .= "<tr><td>{$atr["label"]}</td>";
-                $str .= "<td>{$atr["value"]($model)}</td></tr>";
-            } else {
-                $label = str_ireplace("_", " ", $atr);
+                $label = "";
+                if(isset($atr["label"])) {
+                    $label = $atr["label"];
+                } else {
+                    $label = $atr["attribute"];
+                    if(isset($labels[$label])) {
+                        $label = $labels[$label];
+                    }
+                }
+
+                $val = $atr["value"]($model);
                 $str .= "<tr><td>{$label}</td>";
-                $str .= "<td>{$model->$atr}</td></tr>";
+                $str .= "<td>{$val}</td></tr>";
+            } else {
+                $label = $atr;
+
+                if(isset($labels[$atr])) {
+                    $label = $labels[$atr];
+                }
+
+                $val = $model->$atr;
+                $label = str_ireplace("_", " ", $label);
+                $str .= "<tr><td>{$label}</td>";
+                $str .= "<td>{$val}</td></tr>";
             }
         }
 
