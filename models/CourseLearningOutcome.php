@@ -12,8 +12,9 @@ class CourseLearningOutcome extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['outcome', 'created_at'], ["string"]],
+			[['outcome'], ["string"]],
 			[['id', 'course_id'], ["integer"]],
+			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
 	}

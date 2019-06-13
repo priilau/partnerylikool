@@ -520,10 +520,14 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 
 /* CONTENT */
 
+@media only screen and (min-width: 961px) {
+
+/* GENERAL */
+
 .content {
 	display: inline-block;
 	vertical-align: top;
-	padding: 80px 4.86111vw 80px 9.02778vw;
+	padding: 80px 4.86111vw 80px 4.86111vw;
 }
 
 .alert {
@@ -707,3 +711,24 @@ select {
 	border: 1px solid #A7A7A7;
 }
 
+/* COURSES */
+
+.btn-primary {
+	background: ;
+	border-radius: 2px;
+}
+
+.btn-primary:hover {
+	background: ;
+}
+
+.btn-success {
+	background: #5fc263;
+	border-radius: 2px;
+}
+
+.btn-success:hover {
+	background: ;
+}
+
+}

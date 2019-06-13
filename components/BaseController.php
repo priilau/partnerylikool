@@ -54,12 +54,32 @@ class BaseController {
 
 	public function handleBehaviors($instance) {
         foreach($instance->behaviors() as $behavior => $behaviorValue) {
-            switch($behavior) {
-                case "logged-in-required": {
-                    if($behaviorValue && Identity::isGuest()) {
-                        throw new Exception("Access denied");
+            if(is_array($behaviorValue)){
+                if(isset($behaviorValue["actions"]) && isset($behaviorValue["conditions"])){
+                    foreach ($behaviorValue["actions"] as $action) {
+                        if($action != Request::getAction()) {
+                            continue;
+                        }
+                        foreach($behaviorValue["conditions"] as $condition => $value){
+                            switch($condition) {
+                                case "logged-in-required": {
+                                    if($value && Identity::isGuest()) {
+                                        throw new Exception("Access denied");
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }   
+                }                
+            } else {
+                switch($behavior) {
+                    case "logged-in-required": {
+                        if($behaviorValue && Identity::isGuest()) {
+                            throw new Exception("Access denied");
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }

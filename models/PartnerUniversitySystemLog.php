@@ -12,8 +12,9 @@ class PartnerUniversitySystemLog extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['updated_table', 'json_string', 'created_at'], ["string"]],
-			[['id', 'user_id', 'updated_id'], ["integer"]]
+			[['updated_table', 'json_string'], ["string"]],
+			[['id', 'user_id', 'updated_id'], ["integer"]],
+			[['created_at'], ["created-datetime"]]
 		];
 	}
 }

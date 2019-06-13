@@ -8,6 +8,17 @@ use app\components\QueryBuilder;
 
 class UserController extends BaseController {
 
+    public function behaviors() {
+        return [
+            [
+                "actions" => ["index", "update", "create", "view"],
+                "conditions" => [
+                    "logged-in-required" => true,
+                ]
+            ]
+        ];
+    }
+
     public function actionLogin() {
         $model = new LoginForm();
         if($model->load($_POST) && $model->login()){

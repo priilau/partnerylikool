@@ -13,9 +13,10 @@ class University extends ActiveRecord {
 	
 	public function rules() {
 		return[
-			[['name', 'country', 'created_at'], ["string"]],
+			[['name', 'country'], ["string"]],
 			[['contact_email'], ['email']],
 			[['id', 'courses_available', 'recommended'], ["integer"]],
+			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
 	}
@@ -52,6 +53,7 @@ class University extends ActiveRecord {
 				foreach ($studyModules as $studyModule) {
 					$str .= $studyModule->name." ";
 					$courses = QueryBuilder::select(Course::tableName())->addWhere("=", "study_module_id", $studyModule->id)->queryAll();
+					$this->courses_available = count($courses);
 
 					foreach ($courses as $course) {
 						$str .= "{$course->code} {$course->name} ";
