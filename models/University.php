@@ -27,37 +27,41 @@ class University extends ActiveRecord {
 	}
 
 	public function addToSearch($str) {
-		$words = explode(" ", $str);
+		$words = explode(" ", strtolower($str));
 		$words = array_flip($words);
 
 		foreach ($words as $word => $value) {
-			$index = new SearchIndex();
-			$index->university_id = $this->id;
-        	$index->keyword = $word;
-			$index->save();
+			if(strlen($word) > 2){
+				$index = new SearchIndex();
+				$index->university_id = $this->id;
+				$index->keyword = $word;
+				$index->save();
+			}
 		}
 	}
 	
 	public function resetSearchIndex() {
-		$departments = QueryBuilder::select(Department::tableName())->addWhere("=", "university_id", $this->id)->queryAll();
-		$str = "";
+		QueryBuilder::delete(SearchIndex::tableName(), ["=", "university_id", $this->id])->execute();
+		$str = "{$this->name} {$this->country} ";
+		$departments = Department::find()->addWhere("=", "university_id", $this->id)->all();
 
 		foreach ($departments as $department) {
 			$str .= $department->name." ";
-			$specialities = QueryBuilder::select(Speciality::tableName())->addWhere("=", "department_id", $department->id)->queryAll();
+			$specialities = Speciality::find()->addWhere("=", "department_id", $department->id)->all();
 			
 			foreach ($specialities as $speciality) {
 				$str .= "{$speciality->name} {$speciality->general_information} {$speciality->instruction} {$speciality->examinations} ";
-				$studyModules = QueryBuilder::select(StudyModule::tableName())->addWhere("=", "speciality_id", $speciality->id)->queryAll();
+				$studyModules = StudyModule::find()->addWhere("=", "speciality_id", $speciality->id)->all();
 				
 				foreach ($studyModules as $studyModule) {
 					$str .= $studyModule->name." ";
-					$courses = QueryBuilder::select(Course::tableName())->addWhere("=", "study_module_id", $studyModule->id)->queryAll();
+					$courses = Course::find()->addWhere("=", "study_module_id", $studyModule->id)->all();
 					$this->courses_available = count($courses);
+					QueryBuilder::update(self::tableName(), ["courses_available" => $this->courses_available], ["=", "id", $this->id])->execute();
 
 					foreach ($courses as $course) {
 						$str .= "{$course->code} {$course->name} ";
-						$learningOutcomes = QueryBuilder::select(CourseLearningOutcome::tableName())->addWhere("=", "course_id", $course->id)->queryAll();
+						$learningOutcomes = CourseLearningOutcome::find()->addWhere("=", "course_id", $course->id)->all();
 
 						foreach ($learningOutcomes as $learningOutcome) {
 							$str .= $learningOutcome->outcome." ";

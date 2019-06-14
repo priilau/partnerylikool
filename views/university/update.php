@@ -15,7 +15,6 @@ Helper::setTitle("University");
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'country') ?>
 <?= $form->field($model, 'contact_email') ?>
-<?= $form->field($model, 'courses_available') ?>
 <?= $form->field($model, 'recommended')->checkBox() ?>
 
 <div class="form-group">

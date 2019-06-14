@@ -21,11 +21,11 @@ class Course extends ActiveRecord {
 	}
 
 	public function beforeDelete() {
-		QueryBuidler::delete(CourseLearningOutcome::tableName(), ["=", "course_id", $this->id])->execute();
-		QueryBuidler::delete(CourseTeacher::tableName(), ["=", "course_id", $this->id])->execute();
+		QueryBuilder::delete(CourseLearningOutcome::tableName(), ["=", "course_id", $this->id])->execute();
+		QueryBuilder::delete(CourseTeacher::tableName(), ["=", "course_id", $this->id])->execute();
 		parent::beforeDelete();
 	}
-	
+
     public function attributeLabels() {
         return [
             "optional" => "Valikuline",

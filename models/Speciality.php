@@ -20,13 +20,13 @@ class Speciality extends ActiveRecord {
 	}
 
 	public function beforeDelete() {
-		$entities = StudyModule::find()->addWhere("=", "university_id", $this->id)->all();
+		$entities = StudyModule::find()->addWhere("=", "speciality_id", $this->id)->all();
 		foreach ($entities as $entity) {
 			$entity->delete();
 		}
 		parent::beforeDelete();
 	}
-	
+
 	public function attributeLabels() {
 		return [
 			"department_id" => "Department",
