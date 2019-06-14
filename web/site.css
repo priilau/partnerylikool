@@ -510,12 +510,11 @@ input[type="submit"].btn-success {
 
 
 .btn-success:hover {
-	background: #3c444598;
+	background: #3c44457a;
 }
 
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
-	background: #3CB1FF;
-	background: #2196F3;
+	background: rgba(33, 149, 243, 0.685);
 	
 }
 
