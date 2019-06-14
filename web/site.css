@@ -455,6 +455,7 @@ input[type=button], input[type=submit], .btn {
 	display: inline-block;
 	text-align: center;
 }
+
 /*
 input[type=button]:hover, input[type=submit]:hover, .btn:hover {
     background: #F8F8F8;
@@ -501,6 +502,10 @@ input[type="submit"].btn-success {
     font-weight: bold;
 	cursor: pointer;
 	margin: 4px 0;
+}
+
+.btn-success {
+	background: #3c4445;
 }
 
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
@@ -718,12 +723,25 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 }
 
 h1 {
-	padding: 20px 0;
+	margin: 20px 0;
+}
+
+h2 {
+	margin: 20px 0;
 }
 
 h3 {
 	font-weight: bold;
 	font-family: Arial;
+	margin: 12px 0;
+}
+
+h4 {
+	margin: 12px 0;
+}
+
+h5 {
+	margin: 12px 0;
 }
 
 .university h3 {
@@ -767,6 +785,7 @@ select {
 .admin-link ul li a{
 	padding: 0 20px;
 	letter-spacing: -1px;
+	color: #3c4445;
 }
 
 .admin-link ul li a:hover{
