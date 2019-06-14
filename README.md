@@ -4,13 +4,10 @@
 # ekraanipilti või eraldi loodud pilti lahendusest – ekraanipilt peab olema samas repos, et nad üks hetk ära ei kaoks (ära tee väga suuri pilte!)
 PILDID TULEVAD SIIA KUNAGI KUI ASJAST ON MIDAGI ÜLES PANNA
 
-# eesmärki ja lühikirjeldust (3-4 lauset, mis probleemi rakendus lahendab);
-
+Projekti eesmärk on arendada välja Tallinna Ülikoolile standardne partnerülikoolidega tutvumiseks ja valimiseks loodud veebirakendus kasutades selleks PHP ning hiljem liidestada rakendus Tallinna Ülikooli veebilehega.
 Rakendus luuakse selleks, et Tallinna Ülikoolil  oleks võimalik pakkuda õpilastele kergesti ligipääsetavat võimalus tutvumiseks partnerülikoolidega, partnerülikoolide poolt pakutavate praktika võimalustega ja edasiste õppevõimalustega.
 
-# viidet instituudile ja paar sõna sellest, mille raames projekt loodud (tehtud selle ja selle raames….);
-
-Arendus on teostatud  Tallinna Ülikooli  Tarkvaraarenduse praktika (IFI6213.DT) 2019. A kevadsemestri raames.
+Arendus on teostatud Tallinna Ülikooli Tarkvaraarenduse praktika(IFI6213.DT) 2019. A kevadsemestri raames.
 
 # kasutatud tehnoloogiad ja nende versioonid(!);
 MyPHPAdmin, Apache, PHP, HTML, CSS

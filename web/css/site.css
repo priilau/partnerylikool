@@ -307,7 +307,6 @@ li {
 	background: #6bcaba;
 	padding-left: 3.47222vw;
 	width: 0;
-	min-height: 700px;
 }
 
 .menu-wrapper {
@@ -471,10 +470,10 @@ input[type=button], input[type=submit], .btn {
 	font-weight: bold;
 	cursor: pointer;
 }
-/*
+
 .btn:hover {
-	background: #e00053;
-}*/
+	background: #b80006cb;
+}
 
 input[type="submit"].btn-success {
 	background: #b80007;
@@ -492,11 +491,11 @@ input[type="submit"].btn-success {
 }
 
 input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
-	background: #2196F3;
+	background: #6bcaba;
 }
 
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
-	background: #86c5f9;
+	background: #6bcabac9
 	
 }
 
@@ -520,7 +519,6 @@ input:-internal-autofill-selected {
 
 .grid-view, .detail-view {
 	border: 1px solid #DDD;
-	border-radius: 4px;
 	margin-top: 10px;
 }
 
@@ -530,7 +528,7 @@ input:-internal-autofill-selected {
 }
 
 .grid-view a:hover {
-	color: #2196F3;
+	color: #6bcaba;
 }
 
 .grid-view th, .grid-view td {
@@ -665,6 +663,19 @@ input:-internal-autofill-selected {
 	margin-left: 1vw;
 }
 
+.content-admin-button {
+	margin-bottom: 30px;
+}
+
+.control-label {
+	min-width: 100px;
+	display: inline-block;
+}
+
+.login-area .control-label{
+	display: block;
+}
+
 .university > div, .filter-container > div, .filter-sub-container select, .university-description > div {
 	display: inline-block;
 }
@@ -714,7 +725,7 @@ input:-internal-autofill-selected {
 }
 
 h1 {
-	margin: 30px 0 40px;
+	margin-bottom: 40px;
 	position: relative;
 	font-size: 26px;
 	text-transform: uppercase;
@@ -774,13 +785,7 @@ h5 {
 
 select {
 	margin: 0px 6px 6px 0px;
-	border-radius: 4px;
 	border: 1px solid #A7A7A7;
-}
-
-.control-label {
-	min-width: 100px;
-	display: inline-block;
 }
 
 .admin-link ul li{
