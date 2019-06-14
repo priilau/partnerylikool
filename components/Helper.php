@@ -14,6 +14,38 @@ class Helper {
         return $randomString;
     }
 
+    public static function getDegrees() {
+        return [
+            1 => "Bakalaureus",
+            2 => "Magister",
+            3 => "Doktor",
+        ];
+    }
+
+    public static function generateSemesters($howManyYears = 3) {
+        $month = intval(date("m"));
+        $semesterYear = intval(date("Y"));
+        $semesterCountToGenerate = $howManyYears * 2;
+        $options = [];
+        $whichSemester = "S";
+        if($month >= 8 && $month <= 12) {
+            $whichSemester = "K";
+        }
+
+        for($i = 0; $i < $semesterCountToGenerate; $i++) {
+            $semestrLabel = "{$whichSemester}{$semesterYear}";
+            $options[] = $semestrLabel;
+
+            if($whichSemester == "S") {
+                $semesterYear++;
+            }
+
+            $whichSemester == "K" ? $whichSemester = "S" : $whichSemester = "K";
+        }
+
+        return $options;
+    }
+
     public static function sendMail($from, $to, $subject, $message) {
         $headers = "From: {$from}\r\n".
             "Reply-To: webmaster@example.com\r\n".
