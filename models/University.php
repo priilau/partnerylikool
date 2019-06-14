@@ -51,6 +51,11 @@ class University extends ActiveRecord {
 			
 			foreach ($specialities as $speciality) {
 				$str .= "{$speciality->name} {$speciality->general_information} {$speciality->instruction} {$speciality->examinations} ";
+
+				if($speciality->practice){
+					$str .= "-o_p-";
+				}
+
 				$studyModules = StudyModule::find()->addWhere("=", "speciality_id", $speciality->id)->all();
 				
 				foreach ($studyModules as $studyModule) {
