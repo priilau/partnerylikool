@@ -90,7 +90,7 @@ class University extends ActiveRecord {
 			return [
 					"name" => "Nimi",
 					"country" => "Riik",
-					"contact_email" => "Kontakt",
+					"contact_email" => "Kontakt email",
 					"created_at" => "Lisatud",
 					"created_by" => "Lisaja",
 					"courses_available" => "Vabad Õppeained",
