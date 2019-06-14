@@ -508,12 +508,19 @@ input[type="submit"].btn-success {
 	background: #3c4445;
 }
 
+
+.btn-success:hover {
+	background: #3c444598;
+}
+
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
-    background: #3CB1FF;
+	background: #3CB1FF;
+	background: #2196F3;
+	
 }
 
 input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn-success:hover {
-    background: #491217;
+    background: #3c444598;
 	color: #fff;
 }
 
@@ -775,7 +782,7 @@ select {
 	padding: 10px 20px 10px 0;
 	position: relative;
 	display: inline-block;
-	font-size: 22px;
+	font-size: 20px;
 	text-transform: uppercase;
 	font-family: "Times New Roman",serif;
 	font-style: italic;
