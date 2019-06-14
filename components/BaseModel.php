@@ -258,6 +258,7 @@ class BaseModel {
 	}
 	
 	public function delete(){
+		$this->beforeDelete();
 		QueryBuilder::delete(static::tableName(), ["=", "id", $this->id])->execute();
 	}
 
