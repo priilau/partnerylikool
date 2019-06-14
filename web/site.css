@@ -116,7 +116,7 @@ li {
 	box-shadow: inset 0px -4px #6bcaba;
 }
 
-.link-bottom-aligner li a{
+.link-bottom-aligner ul li a{
 	margin-left: 1.04167vw;
 	padding: 0 0 22px 0;
 	text-transform: uppercase;
@@ -133,9 +133,14 @@ li {
 	box-shadow: inset 0px -3px #6bcaba;
 }
 
-.link-bottom-aligner li{
-	float: left;
+.link-bottom-aligner ul {
+	margin-bottom: -8px;
+}
+
+.link-bottom-aligner ul li{
 	padding: 0 10px;
+	position: relative;
+    display: inline-block;
 }
 
 
