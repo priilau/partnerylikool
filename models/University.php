@@ -6,11 +6,11 @@ use app\components\QueryBuilder;
 use app\components\ActiveRecord;
 
 class University extends ActiveRecord {
-	
+
 	public static function tableName() {
 		return "university";
 	}
-	
+
 	public function rules() {
 		return[
 			[['name', 'country'], ["string"]],
@@ -20,7 +20,7 @@ class University extends ActiveRecord {
 			[['created_by'], ["auto-user-id"]]
 		];
 	}
-	
+
 	public function afterSave() {
 		$this->resetSearchIndex();
         parent::afterSave();
@@ -37,7 +37,7 @@ class University extends ActiveRecord {
 			$index->save();
 		}
 	}
-	
+
 	public function resetSearchIndex() {
 		$departments = QueryBuilder::select(Department::tableName())->addWhere("=", "university_id", $this->id)->queryAll();
 		$str = "";
@@ -45,11 +45,11 @@ class University extends ActiveRecord {
 		foreach ($departments as $department) {
 			$str .= $department->name." ";
 			$specialities = QueryBuilder::select(Speciality::tableName())->addWhere("=", "department_id", $department->id)->queryAll();
-			
+
 			foreach ($specialities as $speciality) {
 				$str .= "{$speciality->name} {$speciality->general_information} {$speciality->instruction} {$speciality->examinations} ";
 				$studyModules = QueryBuilder::select(StudyModule::tableName())->addWhere("=", "speciality_id", $speciality->id)->queryAll();
-				
+
 				foreach ($studyModules as $studyModule) {
 					$str .= $studyModule->name." ";
 					$courses = QueryBuilder::select(Course::tableName())->addWhere("=", "study_module_id", $studyModule->id)->queryAll();
@@ -76,6 +76,17 @@ class University extends ActiveRecord {
 			$entity->delete();
 		}
 		parent::beforeDelete();
+	}
+	public function attributeLabels() {
+			return [
+					"name" => "Nimi",
+					"country" => "Riik",
+					"contact_email" => "Kontakt",
+					"created_at" => "Lisatud",
+					"created_by" => "Lisaja",
+					"courses_available" => "Vabad Õppeained",
+					"recommended" => "Soovitatud",
+			];
 	}
 }
 

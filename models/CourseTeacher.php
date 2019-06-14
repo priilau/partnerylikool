@@ -18,8 +18,9 @@ class CourseTeacher extends ActiveRecord {
 	}
 	public function attributeLabels() {
 			return [
-					"course_id" => "Course",
-					"teacher_id" => "Teacher",
+					"course_id" => "Õppeaine",
+					"teacher_id" => "Õpetaja",
+					"created_at" => "Lisatud",
 			];
 	}
 }

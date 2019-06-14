@@ -29,7 +29,10 @@ class StudyModule extends ActiveRecord {
 
 	public function attributeLabels() {
 		return [
-			"speciality_id" => "Speciality",
+			"speciality_id" => "Eriala",
+			"name" => "Nimetus",
+			"created_at" => "Lisatud",
+			"created_by" => "Lisaja",
 		];
 	}
 }
