@@ -33,12 +33,15 @@ class TopicController extends BaseController {
 
   	public function actionUpdate($id) {
   		$model = $this->findModel($id);
-
-		$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
-		$searchIndexes = SearchIndex::find()->all();
-  		if($model->load($_POST) && $model->save()){
+		$modelPost = [];
+		if(isset($_POST["name"])){
+			$modelPost["name"] = $_POST["name"];
+		}
+		if($model->load($modelPost) && $model->save()){
   			return $this->redirect("view", ["id" => $model->id]);
   		} else {
+			$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
+			$searchIndexes = SearchIndex::find()->all();
   			return $this->render("update", ["model" => $model, "topicSearches" => $topicSearches, "searchIndexes" => $searchIndexes]);
   		}
   	}
