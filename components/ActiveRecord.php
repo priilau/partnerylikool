@@ -55,5 +55,19 @@ class ActiveRecord extends BaseModel {
         }
         return $nameArray;
     }
+
+    public function allUniqueNames(){
+        $nameArray = [];
+        $data = $this->queryObj->queryAll();
+
+        foreach($data as $row)
+        {
+            $model = new $this->className;
+            $model->load($row);
+            $nameArray[$model->id] = $model."";
+        }
+        $nameArray = array_flip(array_flip($nameArray));
+        return $nameArray;
+    }
 }
 ?>

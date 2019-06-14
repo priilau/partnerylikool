@@ -80,9 +80,9 @@ use app\components\Helper;
 		<div class="content">
 			<?= Alert::showMessages(); ?>
             <?php if(!Identity::isGuest()): ?>
-                <div class="admin-buttons">
-                    <a href="/user/logout">Logi välja</a>
-                    <a href="/site/admin">Adminpaneel</a>
+				<div class="content-admin-button">
+                    <a class="btn" href="/user/logout">Logi välja</a>
+                    <a class="btn" href="/site/admin">Adminpaneel</a>
                 </div>
             <?php endif; ?>
 			<?= $content; ?>
