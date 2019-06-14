@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use app\components\ActiveForm;
 use app\components\Helper;
@@ -18,7 +18,7 @@ Helper::setTitle("Courses");
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'ects') ?>
 <?= $form->field($model, 'optional')->checkBox() ?>
-<?= $form->field($model, 'semester') ?>
+<?= $form->field($model, 'semester')->dropDownList(Helper::generateSemesters()) ?>
 <?= $form->field($model, 'contact_hours') ?>
 <?= $form->field($model, 'exam') ?>
 <?= $form->field($model, 'goals') ?>
