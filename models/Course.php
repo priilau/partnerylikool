@@ -28,8 +28,11 @@ class Course extends ActiveRecord {
 	
     public function attributeLabels() {
         return [
-            "department_id" => "Department",
+            "optional" => "Valikuline",
+            "department_id" => "Instituut",
             "study_module_id" => "Study Module",
+            "created_at" => "Lisatud",
+            "created_by" => "Lisaja",
         ];
     }
 }

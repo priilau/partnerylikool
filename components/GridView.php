@@ -16,6 +16,12 @@ class GridView {
         $attributes = $data["columns"];
         $buttons = ["view", "update", "delete"];
         $controller = Request::getController();
+        $labels = [];
+
+        if(count($models) > 0) {
+            $firstModel = reset($models);
+            $labels = $firstModel->attributeLabels();
+        }
         
         if(isset($data["buttons"]) && $data["buttons"] == false){
             $buttons = [];
@@ -28,9 +34,23 @@ class GridView {
 
         foreach($attributes as $atr){
             if(is_array($atr)) {
-                $str .= "<th>". $atr["label"]. "</th>";
+                $label = "";
+                if(isset($atr["label"])) {
+                    $label = $atr["label"];
+                } else {
+                    $label = $atr["attribute"];
+                    if(isset($labels[$label])) {
+                        $label = $labels[$label];
+                    }
+                }
+
+                $str .= "<th>{$label}</th>";
             } else {
-                $str .= "<th>". $atr. "</th>";
+                $label = $atr;
+                if(isset($labels[$atr])) {
+                    $label = $labels[$atr];
+                }
+                $str .= "<th>{$label}</th>";
             }
         }
 
@@ -41,10 +61,11 @@ class GridView {
             $str .= "<tr>";
             foreach($attributes as $atr) {
                 if(is_array($atr)) {
-                    $columnValue = $atr["value"]($m);
+                    $columnValue = utf8_decode($atr["value"]($m));
                     $str .= "<td>{$columnValue}</td>";
                 } else {
-                    $str .= "<td>{$m->$atr}</td>";
+                    $val = utf8_decode($m->$atr);
+                    $str .= "<td>{$val}</td>";
                 }
             }
             $str .= "<td>";
