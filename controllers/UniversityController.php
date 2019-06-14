@@ -15,8 +15,9 @@ class UniversityController extends BaseController {
     }
 
     public function actionIndex() {
-        $models = University::find()->all();
-        return $this->render("index", ["models" => $models]);
+		$models = University::find()->all();
+		$userNames = User::find()->allNames();
+        return $this->render("index", ["models" => $models, "userNames" => $userNames]);
     }
     public function actionIndexPartial() {
         $models = University::find()->all();

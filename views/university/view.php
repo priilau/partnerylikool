@@ -19,7 +19,12 @@ Helper::setTitle("University");
 		'created_at', 
 		'id', 
 		'courses_available', 
-		'recommended', 
+        [
+			"attribute" => "recommended",
+			"value" => function($model) {
+				return $model->recommended ? "Jah" : "Ei";
+			}
+		],
 		[
 		    "attribute" => "created_by",
             "value" => function($model) use ($user) {

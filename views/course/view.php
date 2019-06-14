@@ -44,7 +44,12 @@ Helper::setTitle("Courses");
         ],
 		'semester',
 		'contact_hours',
-		'exam',
+        [
+				"attribute" => "exam",
+				"value" => function($model) {
+					return $model->exam ? "Jah" : "Ei";
+				}
+		],
 		'goals',
 		'description',
 		'created_at',
