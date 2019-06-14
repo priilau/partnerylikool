@@ -4,7 +4,7 @@ namespace app\models;
 
 use app\components\ActiveRecord;
 
-class Topic_search extends ActiveRecord {
+class TopicSearch extends ActiveRecord {
 
 	public static function tableName() {
 		return "topic_search";
