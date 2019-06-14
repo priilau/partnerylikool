@@ -16,12 +16,23 @@ Helper::setTitle("Departments");
 		'id',
 		'name',
 		[
-		    "label" => "University",
+		    "attribute" => "university_id",
             "value" => function($model) use ($university) {
+				if($university == null) {
+					return "-";
+				}
                 return $university->name;
             }
         ],
-		'created_by',
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ],
 		'created_at'
 	]
 ]); ?>

@@ -20,7 +20,15 @@ Helper::setTitle("University");
 		'id', 
 		'courses_available', 
 		'recommended', 
-		'created_by'
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ]
 	]
 ]); ?>
 

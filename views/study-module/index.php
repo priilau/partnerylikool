@@ -15,16 +15,24 @@ Helper::setTitle("Study module");
 	"columns" => [
 		'id',
 		[
-				'label' => "Speciality",
-				'value' => function($model) use ($specialityNames){
-					if(isset($specialityNames[$model->speciality_id])) {
-						return $specialityNames[$model->speciality_id];
+			'label' => "Speciality",
+			'value' => function($model) use ($specialityNames){
+				if(isset($specialityNames[$model->speciality_id])) {
+					return $specialityNames[$model->speciality_id];
 				}
 				return "-";
 			}
 		],
 		'name',
-		'created_by',
+		[
+			'attribute' => "created_by",
+			'value' => function($model) use ($userNames){
+				if(isset($userNames[$model->created_by])) {
+					return $userNames[$model->created_by];
+				}
+				return "-";
+			}	
+	],
 		'created_at'
 	]
 ]); ?>

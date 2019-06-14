@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\Department;
 use app\models\University;
+use app\models\User;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -17,8 +18,8 @@ class DepartmentController extends BaseController {
 	public function actionIndex() {
 		$models = Department::find()->all();
 		$universityNames = University::find()->allNames();
-
-		return $this->render("index", ["models" => $models, "universityNames" => $universityNames]);
+		$userNames = User::find()->allNames();
+		return $this->render("index", ["models" => $models, "universityNames" => $universityNames, "userNames" => $userNames]);
 	}
 	
 	public function actionCreate() {
@@ -51,8 +52,8 @@ class DepartmentController extends BaseController {
 	public function actionView($id) {
 		$model = $this->findModel($id);
 		$university = University::find()->addWhere("=", "id", $model->university_id)->one();
-
-		return $this->render("view", ["model" => $model, "university" => $university]);
+		$user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		return $this->render("view", ["model" => $model, "university" => $university, "user" => $user]);
 	}
 	
 	public function findModel($id) {

@@ -14,9 +14,25 @@ Helper::setTitle("Course learning outcome");
 	"model" => $model,
 	"attributes" => [
 		'id',
-		'course_id',
+		[
+		    "attribute" => "course_id",
+            "value" => function($model) use ($course) {
+				if($course == null) {
+					return "-";
+				}
+                return $course->name;
+            }
+        ],
 		'outcome',
-		'created_by',
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ],
 		'created_at'
 	]
 ]); ?>

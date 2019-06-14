@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\Teacher;
+use app\models\User;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -15,7 +16,8 @@ class TeacherController extends BaseController {
 	
 	public function actionIndex() {
 		$models = Teacher::find()->all();
-		return $this->render("index", ["models" => $models]);
+		$userNames = User::find()->allNames();
+		return $this->render("index", ["models" => $models, "userNames" => $userNames]);
 	}
 	
 	public function actionCreate() {
@@ -46,7 +48,8 @@ class TeacherController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+		$user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		return $this->render("view", ["model" => $model, "user" => $user]);
 	}
 	
 	public function findModel($id) {

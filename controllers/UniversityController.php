@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\University;
+use app\models\User;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -49,7 +50,8 @@ class UniversityController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+		$user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		return $this->render("view", ["model" => $model, "user" => $user]);
 	}
 	
 	public function findModel($id) {
