@@ -61,10 +61,10 @@ class GridView {
             $str .= "<tr>";
             foreach($attributes as $atr) {
                 if(is_array($atr)) {
-                    $columnValue = utf8_decode($atr["value"]($m));
+                    $columnValue = $atr["value"]($m);
                     $str .= "<td>{$columnValue}</td>";
                 } else {
-                    $val = utf8_decode($m->$atr);
+                    $val = $m->$atr;
                     $str .= "<td>{$val}</td>";
                 }
             }

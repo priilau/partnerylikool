@@ -5,6 +5,17 @@ use app\components\Helper;
 use app\models\Speciality;
 
 class SiteController extends BaseController {
+
+    public function behaviors() {
+        return [
+            [
+                "actions" => ["admin"],
+                "conditions" => [
+                    "logged-in-required" => true,
+                ]
+            ]
+        ];
+    }
 	
 	public function actionIndex() {
         $semesters = Helper::generateSemesters();
