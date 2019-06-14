@@ -30,9 +30,16 @@ class Course extends ActiveRecord {
         return [
             "optional" => "Valikuline",
             "department_id" => "Instituut",
-            "study_module_id" => "Study Module",
+            "study_module_id" => "Õppemoodul",
             "created_at" => "Lisatud",
             "created_by" => "Lisaja",
+            "name" => "Ülikooli nimi",
+            "goals" => "Õppeaine eesmärgid",
+            "description" => "Õppeaine Kirjeldus",
+            "ects" => "ECTS/EAP",
+            "semester" => "Semester",
+            "contact_hours" => "Kontakttunnid",
+            "exam" => "Eksam",
         ];
     }
 }

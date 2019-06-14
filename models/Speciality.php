@@ -29,7 +29,13 @@ class Speciality extends ActiveRecord {
 
 	public function attributeLabels() {
 		return [
-			"department_id" => "Department",
+			"department_id" => "Instituut",
+			"general_information" => "Üldinformatsioon",
+			"instruction" => "Juhendid",
+			"examinations" => "Hindamismeetod",
+			"name" => "Nimetus",
+			"created_at" => "Lisatud",
+			"created_by" => "Lisaja",
 		];
 	}
 }

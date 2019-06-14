@@ -116,7 +116,7 @@ li {
 	box-shadow: inset 0px -4px #6bcaba;
 }
 
-.link-bottom-aligner ul li a{
+.link-bottom-aligner li a{
 	margin-left: 1.04167vw;
 	padding: 0 0 22px 0;
 	text-transform: uppercase;
@@ -295,17 +295,6 @@ li {
     background: url(https://www.tlu.ee/themes/tlu/images/icon-youtube.svg) no-repeat 50% 50%/16px auto;
 }
 
-@media (min-width: 1281px) {
-.container::before {
-	width: 3.47222vw;
-	background: #6bcaba;
-}
-
-@media (min-width: 1081px) {
-.main--content::before {
-    width: 50px;
-}
-
 .side-menu {
 	font-family: Times New Roman, Verdana;
 	font-size: 22px;
@@ -453,14 +442,12 @@ label {
 
 input {
     padding: 5px;
-
     border: 1px solid #A8A8A8;
     width: 200px;
 }
 
 input[type=button], input[type=submit], .btn {
     padding: 5px;
-
     width: auto;
 	cursor: pointer;
     background: #EFEFEF;
@@ -468,13 +455,23 @@ input[type=button], input[type=submit], .btn {
 	display: inline-block;
 	text-align: center;
 }
-
+/*
 input[type=button]:hover, input[type=submit]:hover, .btn:hover {
     background: #F8F8F8;
-}
+}*/
 
 .btn {
-	color: #FFF;
+	text-decoration: none;
+	background: #b71234;
+	color: #fff;
+	border: none;
+	text-decoration: none;
+	padding: 7px 20px;
+	line-height: normal;
+	font-size: 1em;
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
@@ -487,12 +484,28 @@ input[type=button].btn-success, input[type=submit].btn-success {
 	border: none;
 }
 
+input[type="submit"].btn-success {
+	background: #b71234;
+	color: #fff;
+	text-transform: uppercase;
+    border: none;
+    text-decoration: none;
+    padding: 7px 20px;
+    line-height: normal;
+    font-size: 1em;
+    font-size: 13px;
+    font-weight: bold;
+	cursor: pointer;
+	margin: 4px 0;
+}
+
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
     background: #3CB1FF;
 }
 
 input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn-success:hover {
-    background: #5fc263;
+    background: #491217;
+	color: #fff;
 }
 
 .form-group {
@@ -536,22 +549,12 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	background: #F3F3F3;
 }
 
-/* CONTENT */
-
-@media only screen and (min-width: 961px) {
-
-/* GENERAL */
-
-.content {
-	display: inline-block;
-	vertical-align: top;
-	padding: 80px 4.86111vw 80px 4.86111vw;
-}
+/* ALERTS */
 
 .alert {
 	position: relative;
 	width: max-content;
-	max-width: 800px;
+	max-width: 100%;
 	color: rgb(0, 0, 0);
 	padding: 10px;
 	background-color: #F3F3F3;
@@ -644,6 +647,14 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	background-color: #F3F3F3;
 }
 
+/* CONTENT */
+
+.content {
+	display: inline-block;
+	vertical-align: top;
+	padding: 80px 4.86111vw 80px 4.86111vw;
+}
+
 .content-container, .content{
 	display: inline-block;
 	max-width: 800px;
@@ -729,43 +740,17 @@ select {
 	border: 1px solid #A7A7A7;
 }
 
-/* BUTTONS */
-
-.btn {
-	text-decoration: none;
-	background: #b71234;
-	color: #fff;
-	border: none;
-	text-decoration: none;
-	padding: 7px 20px;
-	line-height: normal;
-	font-size: 1em;
-	font-size: 13px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-input[type="submit"].btn-success {
-	background: #b71234;
-	color: #fff;
-	text-transform: uppercase;
-    border: none;
-    text-decoration: none;
-    padding: 7px 20px;
-    line-height: normal;
-    font-size: 1em;
-    font-size: 13px;
-    font-weight: bold;
-	cursor: pointer;
-}
-
-.btn-success:hover {
-
-}
-
 .control-label {
 	min-width: 100px;
 	display: block;
 }
+
+.admin-link ul li{
+	padding: 10px 10px;
+	position: relative;
+    display: inline-block;
+}
+
+@media only screen and (min-width: 961px) {
 
 }

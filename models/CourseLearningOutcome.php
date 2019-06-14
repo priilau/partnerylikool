@@ -20,7 +20,10 @@ class CourseLearningOutcome extends ActiveRecord {
 	}
 	public function attributeLabels() {
 			return [
-					"course_id" => "Course",
+					"course_id" => "Õppeaine",
+					"created_at" => "Lisatud",
+					"created_by" => "Lisaja",
+					"outcome" => "Õppeaine õpiväljundid"
 			];
 	}
 }
