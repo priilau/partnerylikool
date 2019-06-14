@@ -28,6 +28,8 @@ $files = [
 	__DIR__ . '/../models/Speciality.php',
 	__DIR__ . '/../models/StudyModule.php',
 	__DIR__ . '/../models/Teacher.php',
+	__DIR__ . '/../models/Topic.php',
+	__DIR__ . '/../models/TopicSearch.php',
 	__DIR__ . '/../models/Test.php',
 	__DIR__ . '/../models/SearchIndex.php',
     __DIR__ . '/../controllers/SiteController.php',
@@ -40,7 +42,8 @@ $files = [
 	__DIR__ . '/../controllers/SpecialityController.php',
 	__DIR__ . '/../controllers/StudyModuleController.php',
 	__DIR__ . '/../controllers/TeacherController.php',
-	__DIR__ . '/../controllers/AdminController.php'
+	__DIR__ . '/../controllers/AdminController.php',
+	__DIR__ . '/../controllers/TopicController.php'
 ];
 
 foreach($files as $file) {

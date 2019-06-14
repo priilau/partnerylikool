@@ -22,6 +22,9 @@ class UserController extends BaseController {
 
     public function actionLogin() {
         $model = new LoginForm();
+        if(!Identity::isGuest()) {
+            return $this->redirect("/site/admin");
+        }
         if($model->load($_POST) && $model->login()){
             return $this->redirect("/site/admin");
         }

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\ActiveRecord;
+use app\components\QueryBuilder;
 
 class Topic extends ActiveRecord {
 
@@ -25,6 +26,17 @@ class Topic extends ActiveRecord {
 			"created_by" => "Lisaja",
 		];
 	}
+/*
+	public function afterSave() {
+		$this->resetTopicSearch();
+        parent::afterSave();
+	}
+
+	public function resetTopicSearch(){
+		QueryBuilder::delete(TopicSearch::tableName(), ["=", "topic_id", $this->id])->execute();
+		$searchIndexes = SearchIndex::find()->addWhere("=", "speciality_id", $speciality->id)->all();
+		QueryBuilder::insert(TopicSearch::tableName(), ["topic_id" => $this->id, "search_index_id" => $searchIndex->id])->execute();
+	}*/
 }
 
 ?>

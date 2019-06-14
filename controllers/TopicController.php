@@ -2,6 +2,10 @@
 namespace app\controllers;
 
 use app\models\Topic;
+use app\models\TopicSearch;
+use app\models\SearchIndex;
+use app\components\QueryBuilder;
+use Exception;
 
 class TopicController extends BaseController {
 
@@ -17,7 +21,8 @@ class TopicController extends BaseController {
   	}
 
   	public function actionCreate() {
-  		$model = new Topic();
+		$model = new Topic();
+		
   		if($model->load($_POST) && $model->save()){
   			return $this->redirect("view", ["id" => $model->id]);
   		} else {
@@ -29,10 +34,12 @@ class TopicController extends BaseController {
   	public function actionUpdate($id) {
   		$model = $this->findModel($id);
 
+		$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
+		$searchIndexes = SearchIndex::find()->all();
   		if($model->load($_POST) && $model->save()){
   			return $this->redirect("view", ["id" => $model->id]);
   		} else {
-  			return $this->render("update", ["model" => $model]);
+  			return $this->render("update", ["model" => $model, "topicSearches" => $topicSearches, "searchIndexes" => $searchIndexes]);
   		}
   	}
 

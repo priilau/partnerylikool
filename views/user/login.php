@@ -11,10 +11,10 @@ Helper::setTitle("User");
 <p>Täida väljad, et sisselogida</p>
 
 <?php $form = ActiveForm::begin() ?>
-
-<?= $form->field($model, "username"); ?>
-
-<?= $form->field($model, "password")->password(); ?>
+<div class="login-area">
+    <?= $form->field($model, "username"); ?>
+    <?= $form->field($model, "password")->password(); ?>
+</div>
 
 <?= ActiveForm::submitButton("Logi sisse", ["class" => "btn-success"]); ?><br>
 <a class="btn btn-success" href="/user/forgot-password">Unustasid parooli?</a>
