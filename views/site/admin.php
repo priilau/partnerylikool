@@ -11,11 +11,11 @@ Helper::setTitle("Adminpaneel");
     <ul>
         <li><a href="/admin">Ülikoolid</a></li>
         <li><a href="/study-module">Õppemoodul</a></li>
-        <li><a href="/university">Ülikoolid (eraldi kujul lisamine/muutmine)</a></li>
         <li><a href="/speciality">Erialad</a></li>
         <li><a href="/department">Instituudid</a></li>
         <li><a href="/course">Kursused</a></li>
         <li><a href="/course-learning-outcome">Õpiväljundid</a></li>
         <li> <a href="/course-teacher">Kursuse õpetajad</a></li>
+        <li><a href="/university">Ülikoolid (eraldi kujul lisamine/muutmine)</a></li>
     </ul>
 </div>
