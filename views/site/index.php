@@ -2,6 +2,7 @@
 use app\components\Helper;
 
 Helper::setTitle("Pealeht");
+
 ?>
 
 <h1><?= Helper::getTitle() ?></h1>
@@ -9,9 +10,21 @@ Helper::setTitle("Pealeht");
 <div class="content-container">
 	<div class="filter-container">
 		<div class="filter-sub-container">
-			<select><option>Bakalaureus</option></select>
-			<select><option>K2020</option></select>
-			<select><option>Digitaalne meedia</option></select>
+			<select>
+                <?php foreach($degrees as $key => $degree): ?>
+                    <option value="<?= $key ?>"><?= $degree ?></option>
+                <?php endforeach; ?>
+            </select>
+			<select>
+                <?php foreach($semesters as $semester): ?>
+                    <option value="<?= $semester ?>"><?= $semester ?></option>
+                <?php endforeach; ?>
+            </select>
+			<select>
+                <?php foreach($specialities as $key => $speciality): ?>
+                    <option value="<?= $key ?>"><?= $speciality ?></option>
+                <?php endforeach; ?>
+            </select>
 			<div>
 				<input id="praktika" type="checkbox"> <label for="praktika">Soovin välispraktikat</label>
 			</div>

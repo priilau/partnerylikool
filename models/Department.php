@@ -20,7 +20,7 @@ class Department extends ActiveRecord {
 	}
 
 	public function beforeDelete() {
-		$entities = Speciality::find()->addWhere("=", "university_id", $this->id)->all();
+		$entities = Speciality::find()->addWhere("=", "department_id", $this->id)->all();
 		foreach ($entities as $entity) {
 			$entity->delete();
 		}
@@ -29,8 +29,9 @@ class Department extends ActiveRecord {
 
 	public function attributeLabels() {
 		return [
-			"university_id" => "University",
-		];
+			"university_id" => "Ülikool",
+			"name" => "Ülikooli nimi",
+ 		];
 	}
 }
 

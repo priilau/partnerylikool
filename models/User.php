@@ -3,7 +3,7 @@ namespace app\models;
 
 use app\components\QueryBuilder;
 use app\components\ActiveRecord;
-	
+
 class User extends ActiveRecord {
 
     public $newPassword = "";
@@ -12,7 +12,7 @@ class User extends ActiveRecord {
 	public static function tableName() {
 		return "user";
 	}
-	
+
 	public function rules(){
 		return[
 			[['email', 'password', 'newPassword', 'newPasswordConfirm'], ["string"]],
@@ -24,8 +24,11 @@ class User extends ActiveRecord {
 
 	public function attributeLabels() {
 	    return [
-            "newPassword" => "Uus parool",
-            "newPasswordConfirm" => "Uus parool (kinnita)",
+					"newPassword" => "Uus parool",
+					"newPasswordConfirm" => "Uus parool (kinnita)",
+					"email" => "E-Mail",
+					"password" => "Parool",
+					"created_at" => "Lisatud",
         ];
     }
 
@@ -51,6 +54,7 @@ class User extends ActiveRecord {
         unset($this->attributes["newPasswordConfirm"]);
         parent::beforeSave();
     }
+
 }
 
 ?>

@@ -20,7 +20,7 @@ class StudyModule extends ActiveRecord {
 	}
 
 	public function beforeDelete() {
-		$entities = Course::find()->addWhere("=", "university_id", $this->id)->all();
+		$entities = Course::find()->addWhere("=", "study_module_id", $this->id)->all();
 		foreach ($entities as $entity) {
 			$entity->delete();
 		}
@@ -29,7 +29,10 @@ class StudyModule extends ActiveRecord {
 
 	public function attributeLabels() {
 		return [
-			"speciality_id" => "Speciality",
+			"speciality_id" => "Eriala",
+			"name" => "Nimetus",
+			"created_at" => "Lisatud",
+			"created_by" => "Lisaja",
 		];
 	}
 }
