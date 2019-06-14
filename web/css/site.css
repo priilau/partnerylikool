@@ -327,7 +327,7 @@ li {
 }
 
 .side-menu a.active {
-	color: #000;
+	color: #3c4445;
 	background: #FFF;
 }
 
@@ -444,6 +444,10 @@ input {
     width: 200px;
 }
 
+input[type="checkbox"] {
+	width: 0;
+}
+
 input[type=button], input[type=submit], .btn {
     padding: 5px;
     width: auto;
@@ -467,14 +471,10 @@ input[type=button], input[type=submit], .btn {
 	font-weight: bold;
 	cursor: pointer;
 }
-
+/*
 .btn:hover {
 	background: #e00053;
-}
-
-input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
-	background: #2196F3;
-}
+}*/
 
 input[type="submit"].btn-success {
 	background: #b80007;
@@ -491,23 +491,21 @@ input[type="submit"].btn-success {
 	margin: 4px 0;
 }
 
-.btn-success {
-	background: #3c4445;
-}
-
-
-.btn-success:hover {
-	background: #3c44457a;
+input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
+	background: #2196F3;
 }
 
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
-	background: rgba(33, 149, 243, 0.685);
+	background: #86c5f9;
 	
 }
 
-input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn-success:hover {
-    background: #3c444598;
-	color: #fff;
+.btn-success {
+	background: #778688;
+}
+
+input[type=button].btn-success:hover, .btn-success:hover {
+    background: #bbc3c4;
 }
 
 .form-group {
@@ -782,7 +780,7 @@ select {
 
 .control-label {
 	min-width: 100px;
-	display: block;
+	display: inline-block;
 }
 
 .admin-link ul li{
@@ -803,7 +801,9 @@ select {
 }
 
 .admin-link ul li a:hover{
-	color: #6bcaba;
+	color: #b80007;
+	text-decoration: underline;
+	
 }
 
 .admin-link ul li a:before {
@@ -816,7 +816,7 @@ select {
 	height: 30px;
 	transform-origin: 0 0;
 	transform: rotate(15deg);
-	background: #6bcaba;
+	background: #b80007;
 }
 
 @media only screen and (min-width: 801px {
