@@ -474,6 +474,10 @@ input[type=button]:hover, input[type=submit]:hover, .btn:hover {
 	cursor: pointer;
 }
 
+.btn:hover {
+	background: #491217;;
+}
+
 input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
 	background: #2196F3;
 	border: none;
