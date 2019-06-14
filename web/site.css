@@ -745,6 +745,12 @@ select {
 	display: block;
 }
 
+.admin-link ul li{
+	padding: 10px 10px;
+	position: relative;
+    display: inline-block;
+}
+
 @media only screen and (min-width: 961px) {
 
 }
