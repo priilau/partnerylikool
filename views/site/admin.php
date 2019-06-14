@@ -14,7 +14,7 @@ Helper::setTitle("Adminpaneel");
         <li><a href="/university">Ülikoolid (eraldi kujul lisamine/muutmine)</a></li>
         <li><a href="/speciality">Erialad</a></li>
         <li><a href="/department">Instituudid</a></li>
-        <li><a href="/course">Kursusesd</a></li>
+        <li><a href="/course">Kursused</a></li>
         <li><a href="/course-learning-outcome">Õpiväljundid</a></li>
         <li> <a href="/course-teacher">Kursuse õpetajad</a></li>
     </ul>
