@@ -1,4 +1,4 @@
-# partnerylikool
+# PARTNERÜLIKOOLIDE VALIMISE RAKENDUS
 suurelt projekti või lahenduse (toote/teenuse) nime;
 
 #ekraanipilti või eraldi loodud pilti lahendusest – ekraanipilt peab olema samas repos, et nad üks hetk ära ei kaoks (ära tee väga suuri pilte!)
