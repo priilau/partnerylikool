@@ -1,7 +1,7 @@
 # PARTNERÜLIKOOLIDE VALIMISE RAKENDUS
-suurelt projekti või lahenduse (toote/teenuse) nime;
 
-#ekraanipilti või eraldi loodud pilti lahendusest – ekraanipilt peab olema samas repos, et nad üks hetk ära ei kaoks (ära tee väga suuri pilte!)
+
+# ekraanipilti või eraldi loodud pilti lahendusest – ekraanipilt peab olema samas repos, et nad üks hetk ära ei kaoks (ära tee väga suuri pilte!)
 PILDID TULEVAD SIIA KUNAGI KUI ASJAST ON MIDAGI ÜLES PANNA
 
 #eesmärki ja lühikirjeldust (3-4 lauset, mis probleemi rakendus lahendab);
