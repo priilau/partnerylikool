@@ -520,7 +520,6 @@ input:-internal-autofill-selected {
 
 .grid-view, .detail-view {
 	border: 1px solid #DDD;
-	border-radius: 4px;
 	margin-top: 10px;
 }
 
@@ -665,6 +664,15 @@ input:-internal-autofill-selected {
 	margin-left: 1vw;
 }
 
+.control-label {
+	min-width: 100px;
+	display: inline-block;
+}
+
+.login-area .control-label{
+	display: block;
+}
+
 .university > div, .filter-container > div, .filter-sub-container select, .university-description > div {
 	display: inline-block;
 }
@@ -774,13 +782,7 @@ h5 {
 
 select {
 	margin: 0px 6px 6px 0px;
-	border-radius: 4px;
 	border: 1px solid #A7A7A7;
-}
-
-.control-label {
-	min-width: 100px;
-	display: inline-block;
 }
 
 .admin-link ul li{
