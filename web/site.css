@@ -713,6 +713,10 @@ input[type=button].btn-success:hover, input[type=submit].btn-success:hover, .btn
 	margin-top: 15px;
 }
 
+h1 {
+	padding: 20px 0;
+}
+
 h3 {
 	font-weight: bold;
 	font-family: Arial;
@@ -746,9 +750,36 @@ select {
 }
 
 .admin-link ul li{
-	padding: 10px 10px;
+	padding: 10px 20px 10px 0;
 	position: relative;
-    display: inline-block;
+	display: inline-block;
+	font-size: 22px;
+	text-transform: uppercase;
+	font-family: "Times New Roman",serif;
+	font-style: italic;
+	letter-spacing: -1px;
+}
+
+.admin-link ul li a{
+	padding: 0 20px;
+	letter-spacing: -1px;
+}
+
+.admin-link ul li a:hover{
+	color: #6bcaba;
+}
+
+.admin-link ul li a:before {
+	content: "";
+	position: absolute;
+	display: block;
+	top: 5px;
+	left: 0px;
+	width: 3px;
+	height: 30px;
+	transform-origin: 0 0;
+	transform: rotate(15deg);
+	background: #6bcaba;
 }
 
 @media only screen and (min-width: 961px) {
