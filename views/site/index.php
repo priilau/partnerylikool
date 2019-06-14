@@ -28,7 +28,6 @@ Helper::setTitle("Pealeht");
 			<div>
 				<input id="praktika" type="checkbox"> <label for="praktika">Soovin välispraktikat</label>
 			</div>
-			<a href="#">Link juhendavale PDF-ile</a>
 		</div>
 		<div class="filter-sub-container">
 			<h3>Teemad millest olen huvitatud</h3>

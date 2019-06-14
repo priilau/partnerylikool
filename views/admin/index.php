@@ -8,7 +8,7 @@ Helper::setTitle("University");
 
 <h1><?= Helper::getTitle() ?></h1>
 
-<a class="btn btn-primary" href="/university/create">Create</a>
+<a class="btn btn-primary" href="/admin/create-university">Create</a>
 
 <?= GridView::widget([
 	"models" => $models,

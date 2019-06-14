@@ -15,7 +15,7 @@ use app\components\Helper;
     <meta charset="UTF-8">
     <title><?= $title; ?></title>
 	<link href="https://fonts.googleapis.com/css?family=Cousine&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" type="text/css" href="/site.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/css/site.css?v=1">
 </head>
 <body>
 	<div class="top-menu base-align">
