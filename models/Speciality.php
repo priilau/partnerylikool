@@ -13,7 +13,7 @@ class Speciality extends ActiveRecord {
 	public function rules(){
 		return[
 			[['name', 'general_information', 'instruction', 'examinations'], ["string"]],
-			[['id', 'department_id'], ["integer"]],
+			[['id', 'department_id', 'degree'], ["integer"]],
 			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
