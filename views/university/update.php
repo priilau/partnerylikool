@@ -393,6 +393,7 @@ Helper::setTitle("Ülikooli muutmine");
         padding: 10px;
         padding-left: 40px;
         border-left: 1px solid #DDD;
+        border-top: 1px solid #DDD;
     }
 
     textarea {
