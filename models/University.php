@@ -13,7 +13,7 @@ class University extends ActiveRecord {
 
 	public function rules() {
 		return[
-			[['name', 'country'], ["string"]],
+			[['name', 'country', 'homepage_url'], ["string"]],
 			[['contact_email'], ['email']],
 			[['id', 'courses_available', 'recommended'], ["integer"]],
 			[['created_at'], ["created-datetime"]],
