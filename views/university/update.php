@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use app\components\ActiveForm;
 use app\components\Helper;
@@ -8,13 +8,14 @@ Helper::setTitle("Ülikooli muutmine");
 
 <h1><?= Helper::getTitle() ?></h1>
 
-<a class="btn btn-primary" href="/university/index">Back</a>
+<a class="btn btn-primary" href="/university/index">Tagasi</a>
 
 <?php $form = ActiveForm::begin();?>
 
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'country')->dropDownList(Helper::getCountries(), true) ?>
 <?= $form->field($model, 'contact_email') ?>
+<?= $form->field($model, 'homepage_url') ?>
 <?= $form->field($model, 'recommended')->checkBox() ?>
 
 <div class="content-header-block">
@@ -24,12 +25,12 @@ Helper::setTitle("Ülikooli muutmine");
 
 <div class="departments section-block"></div>
 
+
 <div class="form-group">
-<?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>
+    <?= ActiveForm::submitButton("Salvesta", ['class' => 'btn btn-success']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>
-
 
 <script>
     let idCount = 0;
@@ -277,7 +278,7 @@ Helper::setTitle("Ülikooli muutmine");
             courses.appendChild(course);
 
             CreateTeacher(courseCount, course);
-            CreateOutcome("Õpiväljundid", "Lisa õpiväljund", "outcomes", "outcome", courseCount, course);
+            CreateOutcome(courseCount, course);
         });
         courseHeaderBlock.appendChild(courseHeader);
         courseHeaderBlock.appendChild(courseAddBtn);
@@ -318,24 +319,24 @@ Helper::setTitle("Ülikooli muutmine");
         parentDOMElement.appendChild(teachersContainer);
     }
 
-    function CreateOutcome(headerStr, btnStr, entitiesClassName, entityClassName, parentId, parentDOMElement) {
+    function CreateOutcome(parentId, parentDOMElement) {
         let outcomesContainer = document.createElement("div");
         outcomesContainer.className = "section-block";
         let outcomesHeaderBlock = document.createElement("div");
         outcomesHeaderBlock.className = "content-header-block";
         let outcomesHeader = document.createElement("h3");
-        outcomesHeader.innerText = headerStr;
+        outcomesHeader.innerText = "Õpiväljundid";
         let outcomes = document.createElement("div");
-        outcomes.className = entitiesClassName;
+        outcomes.className = "outcomes";
         let outcomeAddBtn = document.createElement("input");
         outcomeAddBtn.className = "btn btn-primary";
         outcomeAddBtn.type = "button";
-        outcomeAddBtn.value = btnStr;
+        outcomeAddBtn.value = "Lisa õpiväljund";
         outcomeAddBtn.dataset.value = parentId;
         outcomeAddBtn.addEventListener("click", function() {
             let nestedId = GetNestedId(event);
             let outcome = document.createElement("div");
-            outcome.className = entityClassName;
+            outcome.className = "outcome";
             let outcomeDescription = document.createElement("textarea");
             outcomeDescription.type = "text";
             outcomeDescription.name = "OutcomeDescription["+nestedId+"][]";
