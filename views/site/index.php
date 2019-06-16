@@ -46,42 +46,6 @@ Helper::setTitle("Pealeht");
 	<div id="search-results">
 		<h2>Ülikoolid</h2>
 		<div class="universities">
-			<div class="university">
-				<h3>Ülikool 1</h3>
-				<div class="university-description">
-					<div class="university-icon"><img src="https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png"></div>
-					<div class="description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
-					<div class="percent-with-link">
-						<div>80%</div>
-						<div><a href="#">wwwcom</a></div>
-					</div>
-					<div class="university-map"><img src="https://custom-map-source.appspot.com/galileo-google-maps.png"></div>
-				</div>
-			</div>
-			<div class="university">
-				<h3>Ülikool 1</h3>
-				<div class="university-description">
-					<div class="university-icon"><img src="https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png"></div>
-					<div class="description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
-					<div class="percent-with-link">
-						<div>80%</div>
-						<div><a href="#">wwwcom</a></div>
-					</div>
-					<div class="university-map"><img src="https://custom-map-source.appspot.com/galileo-google-maps.png"></div>
-				</div>
-			</div>
-			<div class="university">
-				<h3>Ülikool 1</h3>
-				<div class="university-description">
-					<div class="university-icon"><img src="https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png"></div>
-					<div class="description-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
-					<div class="percent-with-link">
-						<div>80%</div>
-						<div><a href="#">wwwcom</a></div>
-					</div>
-					<div class="university-map"><img src="https://custom-map-source.appspot.com/galileo-google-maps.png"></div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -134,7 +98,6 @@ Helper::setTitle("Pealeht");
 			let xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					console.log(this.responseText);
 					RenderUniversities(JSON.parse(this.responseText));
 				}
 			};
@@ -145,7 +108,7 @@ Helper::setTitle("Pealeht");
 		}
 	});
 
-function CreateUniversity(name, icon, description, percent, link, map) {
+function CreateUniversity(name, description, percent, link) {
     let uniBlock = document.createElement("div");
     uniBlock.className = "university";
     
@@ -154,13 +117,13 @@ function CreateUniversity(name, icon, description, percent, link, map) {
     
     let uniContainer = document.createElement("div");
     uniContainer.className = "university-description";
-    
+    /*
     let uniIconContainer = document.createElement("div");
     uniIconContainer.className = "university-icon";
     let uniIcon = document.createElement("img");
     uniIcon.src = icon;
     uniIconContainer.appendChild(uniIcon);
-    
+    */
     let uniText = document.createElement("div");
     uniText.className = "description-text";
     uniText.innerHTML = description;
@@ -177,27 +140,40 @@ function CreateUniversity(name, icon, description, percent, link, map) {
     uniLink.innerHTML = "wwwcom";
     uniLinkContainer.appendChild(uniLink);
     uniPerContainer.appendChild(uniLinkContainer);
-    
+    /*
     let uniMapContainer = document.createElement("div");
     uniMapContainer.className = "university-map";
     let uniMap = document.createElement("img");
     uniMap.src = map;
     uniMapContainer.appendChild(uniMap);
-
+	*/
     uniBlock.appendChild(uniHeader);
-    uniContainer.appendChild(uniIconContainer);
+    //uniContainer.appendChild(uniIconContainer);
     uniContainer.appendChild(uniText);
     uniContainer.appendChild(uniPerContainer);
-    uniContainer.appendChild(uniMapContainer);
+    //uniContainer.appendChild(uniMapContainer);
     uniBlock.appendChild(uniContainer);
     universities.appendChild(uniBlock);
 }
 
 function RenderUniversities(resultArr){
-	console.log(resultArr);
+	clearInner(universities);
     for(let i = 0; i < resultArr.length; i++){
-		console.log(resultArr[i]);
-        //CreateUniversity(resultArr["name"], resultArr["icon"], resultArr["description"], resultArr["percent"], resultArr["link"], resultArr["map"])
+        //CreateUniversity(resultArr["name"], resultArr["icon"], resultArr["description"], resultArr["match"], resultArr["link"], resultArr["map"]);
+        CreateUniversity(resultArr[i]["name"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"]);
     }
-} 
+}
+
+function clearInner(node) {
+  while (node.hasChildNodes()) {
+    clear(node.firstChild);
+  }
+}
+
+function clear(node) {
+  while (node.hasChildNodes()) {
+    clear(node.firstChild);
+  }
+  node.parentNode.removeChild(node);
+}
 </script>
