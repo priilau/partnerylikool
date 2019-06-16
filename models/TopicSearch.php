@@ -12,7 +12,6 @@ class TopicSearch extends ActiveRecord {
 
 	public function rules(){
 		return[
-
 			[['id', 'topic_id', 'search_index_id'], ["integer"]],
 		];
 	}

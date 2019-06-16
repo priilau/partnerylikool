@@ -60,31 +60,6 @@ class UniversityController extends BaseController {
 		}
 		throw new Exception("Page not found");
 	}
-
-	public function actionGetResults(){
-		//  TODO p2ring v2lja m6elda, oodata searchIndexi valmimist
-		foreach($_POST["filtersArr"] as $key => $value){
-			switch($key){
-				case("degree"):{
-					break;
-				}
-				case("semester"):{
-					break;
-				}
-				case("speciality"):{
-					break;
-				}
-				case("practice"):{
-					break;
-				}
-				case("topicsArr"):{
-					break;
-				}	
-			}
-		}
-		return json_encode();
-	}
-
 }
 
 ?>

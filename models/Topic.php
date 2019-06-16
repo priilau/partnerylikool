@@ -11,7 +11,7 @@ class Topic extends ActiveRecord {
 		return "topic";
 	}
 
-	public function rules(){
+	public function rules() {
 		return[
 			[['name'], ["string"]],
 			[['id'], ["integer"]],
@@ -26,17 +26,25 @@ class Topic extends ActiveRecord {
 			"created_by" => "Lisaja",
 		];
 	}
-/*
+
 	public function afterSave() {
 		$this->resetTopicSearch();
         parent::afterSave();
 	}
 
-	public function resetTopicSearch(){
+	public function resetTopicSearch() {
 		QueryBuilder::delete(TopicSearch::tableName(), ["=", "topic_id", $this->id])->execute();
-		$searchIndexes = SearchIndex::find()->addWhere("=", "speciality_id", $speciality->id)->all();
-		QueryBuilder::insert(TopicSearch::tableName(), ["topic_id" => $this->id, "search_index_id" => $searchIndex->id])->execute();
-	}*/
+		
+		if(isset($_POST["selectedKeywords"])){
+			$selectedKeywords = json_decode($_POST["selectedKeywords"]);
+			foreach ($selectedKeywords as $indexId) {
+				$topicSearch = new TopicSearch;
+				$topicSearch->topic_id = $this->id;
+				$topicSearch->search_index_id = $indexId;
+				$topicSearch->save();
+			}
+		}
+	}
 }
 
 ?>
