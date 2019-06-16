@@ -8,6 +8,7 @@ class ActiveForm {
     public $fieldName = "";
     public $modelName = "";
     public $inputValue = "";
+    public $optionValAsDataVal = false;
     public $labelStatus = true;
     public $options = [];
     public $model = null;
@@ -77,7 +78,11 @@ class ActiveForm {
                 $optionName = ucfirst($optionName);
                 $selected = ($this->model->$fName == $optionValue) ? 'selected="selected"' : '';
 
-                $str .= "<option value='{$optionValue}' {$selected}>{$optionName}</option>";
+                if($this->optionValAsDataVal) {
+                    $str .= "<option value='{$optionName}' {$selected}>{$optionName}</option>";
+                } else {
+                    $str .= "<option value='{$optionValue}' {$selected}>{$optionName}</option>";
+                }
             }
             $str .= "</select>";
         }
@@ -106,9 +111,10 @@ class ActiveForm {
         return $this;
     }
 
-    public function dropDownList($options){
+    public function dropDownList($options, $optionValAsDataVal = false){
         $this->elementType = "select";
         $this->options = $options;
+        $this->optionValAsDataVal = $optionValAsDataVal;
         return $this;
     }
     
