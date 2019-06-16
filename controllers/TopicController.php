@@ -22,27 +22,37 @@ class TopicController extends BaseController {
 
   	public function actionCreate() {
 		$model = new Topic();
+		$modelPost = [];
 		
-  		if($model->load($_POST) && $model->save()){
-  			return $this->redirect("view", ["id" => $model->id]);
+		if(isset($_POST["name"])) {
+			$modelPost["name"] = $_POST["name"];
+		}
+  		if($model->load($modelPost) && $model->save()){
+  			return $this->json($model->id);
   		} else {
-  			return $this->render("create", ["model" => $model]);
+			$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
+			$searchIndexes = SearchIndex::find()->all();
+  			return $this->render("create", ["model" => $model, "topicSearches" => $topicSearches, "searchIndexes" => $searchIndexes]);
   		}
-
   	}
 
   	public function actionUpdate($id) {
   		$model = $this->findModel($id);
 		$modelPost = [];
+
 		if(isset($_POST["name"])){
 			$modelPost["name"] = $_POST["name"];
 		}
 		if($model->load($modelPost) && $model->save()){
-  			return $this->redirect("view", ["id" => $model->id]);
+  			return $this->json($model->id);
   		} else {
 			$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
+			$searches = [];
+			foreach ($topicSearches as $topicSearch) {
+				$searches[] = $topicSearch->search_index_id;
+			}
 			$searchIndexes = SearchIndex::find()->all();
-  			return $this->render("update", ["model" => $model, "topicSearches" => $topicSearches, "searchIndexes" => $searchIndexes]);
+  			return $this->render("update", ["model" => $model, "topicSearches" => $searches, "searchIndexes" => $searchIndexes]);
   		}
   	}
 
