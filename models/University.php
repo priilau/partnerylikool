@@ -9,6 +9,7 @@ use app\components\ActiveRecord;
 class University extends ActiveRecord {
 	public $courses = [];
 	public $specialities = [];
+	public $departments = [];
 	public $searchIndexes = [];
 
 	public static function tableName() {
@@ -17,7 +18,7 @@ class University extends ActiveRecord {
 
 	public function rules() {
 		return[
-			[['name', 'country'], ["string"]],
+			[['name', 'country', 'homepage_url'], ["string"]],
 			[['contact_email'], ['email']],
 			[['id', 'courses_available', 'recommended'], ["integer"]],
 			[['created_at'], ["created-datetime"]],
@@ -167,6 +168,13 @@ class University extends ActiveRecord {
 		$stmt->close();
 		$mysqli->close();
 		return $this->specialities;
+	}
+
+	public function getDepartments() {
+		if(count($this->departments) <= 0) {
+            $this->departments = Department::find()->addWhere("=", "university_id", $this->id)->all();
+		}
+		return $this->departments;
 	}
 }
 
