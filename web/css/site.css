@@ -219,7 +219,7 @@ li {
 
 .banner-section > div {
 	display: block;
-	min-height: 408px;
+	min-height: auto;
 }
 
 .banner-image {
@@ -471,10 +471,6 @@ input[type=button], input[type=submit], .btn {
 	cursor: pointer;
 }
 
-.btn:hover {
-	background: #b80006cb;
-}
-
 input[type="submit"].btn-success {
 	background: #b80007;
 	color: #fff;
@@ -490,6 +486,10 @@ input[type="submit"].btn-success {
 	margin: 4px 0;
 }
 
+.btn:hover, input[type="submit"].btn-success:hover{
+	background: #b80006cb;
+}
+
 input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
 	background: #6bcaba;
 }
@@ -503,11 +503,11 @@ input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary [va
 }
 
 .btn-success {
-	background: #778688;
+	background: #6bcaba;
 }
 
 input[type=button].btn-success:hover, .btn-success:hover {
-    background: #bbc3c4;
+    background: #6bcabac9;
 }
 
 .form-group {
@@ -847,5 +847,5 @@ select {
 /* MOBILE */
 
 @media only screen and (min-width: 940px {
-
+	
 }
