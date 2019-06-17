@@ -13,6 +13,7 @@ Helper::setTitle("Ülikooli lisamine");
 
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'country')->dropDownList(Helper::getCountries(), true) ?>
+<?= $form->field($model, 'description')->textarea(); ?>
 <?= $form->field($model, 'contact_email') ?>
 <?= $form->field($model, 'homepage_url') ?>
 <?= $form->field($model, 'recommended')->checkBox() ?>

@@ -9,6 +9,7 @@ Helper::setTitle("University");
 <h1><?= Helper::getTitle() ?></h1>
 
 <a class="btn btn-primary" href="/university/index">Back</a>
+<a class="btn btn-primary" href="/university/update?id=<?= $model->id ?>">Update</a>
 
 <?= DetailView::widget([
 	"model" => $model,

@@ -16,9 +16,15 @@ Helper::setTitle("Topic");
 
 <h2>Vali teemale seotud märksõnad</h2>
 <div id="all-keywords">
-    <?php foreach ($searchIndexes as $indexId => $keyword): ?>
-        <label for="keyword-id-<?= $keyword->id ?>"><?= $keyword->keyword ?></label>
-        <input class="keywords" id="keyword-id-<?= $keyword->id ?>" type="checkbox" name="searchIndex[]" value="<?= $keyword->id ?>">
+    <?php foreach ($searchIndexes as $keyword): ?>
+        <div class="keyword-block">
+            <?php if(in_array($keyword, $topicSearches)):?>
+                <input class="keywords" id="keyword-id-<?= $keyword ?>" type="checkbox" name="searchIndex[]" checked value="<?= $keyword ?>">
+            <?php else: ?>
+                <input class="keywords" id="keyword-id-<?= $keyword ?>" type="checkbox" name="searchIndex[]" value="<?= $keyword ?>">
+            <?php endif; ?>
+            <label for="keyword-id-<?= $keyword ?>"><?= $keyword ?></label>
+        </div>
     <?php endforeach; ?>
 </div>
 
@@ -45,7 +51,7 @@ Helper::setTitle("Topic");
                 selectedKeywords.push(keywords[i].value);
             }
         }
-
+        
         let formData = new FormData();
         formData.append("name", topicName.value);
         formData.append("selectedKeywords", JSON.stringify(selectedKeywords));
@@ -62,3 +68,13 @@ Helper::setTitle("Topic");
 
     
 </script>
+
+<style>
+    .keyword-block {
+        display: inline-block;
+    }
+    #all-keywords .keyword-block label{
+        width: 100px;
+        min-width: 100px;
+    }
+</style>

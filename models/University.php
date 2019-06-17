@@ -127,7 +127,7 @@ class University extends ActiveRecord {
 	}
 
 	public function getSearchIndexes(){
-		$sql = "SELECT DISTINCT search_index.keyword FROM `university` AS u LEFT JOIN `search_index` ON search_index.university_id = u.id WHERE u.id = {$this->id};";
+		$sql = "SELECT DISTINCT search_index.keyword, search_index.university_id FROM `university` AS u LEFT JOIN `search_index` ON search_index.university_id = u.id WHERE u.id = {$this->id};";
 
 		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
 		$stmt = $mysqli->prepare($sql); 
