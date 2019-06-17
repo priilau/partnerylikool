@@ -496,7 +496,10 @@ input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
 
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
 	background: #6bcabac9
-	
+}
+
+input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary [value=Otsi] {
+	padding: 5px 10px;
 }
 
 .btn-success {

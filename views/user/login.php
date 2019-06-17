@@ -8,7 +8,7 @@ Helper::setTitle("User");
 <h1><?= Helper::getTitle() ?></h1>
 
 <h3>Login</h3>
-<p>Täida väljad, et sisselogida</p>
+<p>Täida väljad, et sisse logida</p>
 
 <?php $form = ActiveForm::begin() ?>
 <div class="login-area">
