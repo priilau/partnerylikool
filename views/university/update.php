@@ -332,7 +332,24 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function RemoveSpeciality(id) {
+        let formData = new FormData();
+        formData.append("id", id);
 
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                console.log(response.attributes.id, (response.attributes.id > 0));
+                if(response.attributes.id > 0) {
+                    let removeElement = document.querySelector("#speciality-id-"+response.attributes.id);
+                    console.log("REMOVE ELEMENT", removeElement);
+                    RemoveElement(removeElement);
+                }
+            }
+        };
+        xhttp.open("POST", "/speciality/remove", true);
+        xhttp.send(formData);
     }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
