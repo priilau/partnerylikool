@@ -7,6 +7,7 @@ use app\models\Speciality;
 use app\models\StudyModule;
 use app\models\Course;
 use app\models\CourseTeacher;
+use app\models\User;
 use app\models\Teacher;
 use app\models\CourseLearningOutcome;
 use app\components\QueryBuilder;
@@ -22,7 +23,8 @@ class UniversityController extends BaseController {
 
     public function actionIndex() {
         $models = University::find()->all();
-        return $this->render("index", ["models" => $models]);
+        $userNames = User::find()->allNames();
+        return $this->render("index", ["models" => $models, "userNames" => $userNames]);
     }
     public function actionIndexPartial() {
         $models = University::find()->all();
@@ -195,7 +197,9 @@ class UniversityController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+        $user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		return $this->render("view", ["model" => $model, "user" => $user]);
+        
 	}
 	
 	public function findModel($id) {
