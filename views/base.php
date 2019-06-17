@@ -103,29 +103,29 @@ use app\components\Helper;
 			<div class="upper-footer">
 				<div class="footer-section">
 					<h3>Tule ülikooli</h3>
-					<a href="#">Õpilasakadeemia</a>
-					<a href="#">Avatud tasemeõpe</a>
-					<a href="#">Aasta ülikoolis</a>
-					<a href="#">Konverentsiteenused</a>
-					<a href="#">Sisseastumine</a>
+					<a href="https://www.tlu.ee/opilasakadeemia">Õpilasakadeemia</a>
+					<a href="https://www.tlu.ee/avatudope">Avatud tasemeõpe</a>
+					<a href="https://www.tlu.ee/aastaylikoolis">Aasta ülikoolis</a>
+					<a href="https://www.tlu.ee/konverentsikeskus/konverentsiteenused">Konverentsiteenused</a>
+					<a href="https://www.tlu.ee/sisseastujale">Sisseastumine</a>
 				</div>
 				<div class="footer-section">
 					<h3>Õpingud</h3>
-					<a href="#">Akadeemiline kalender</a>
-					<a href="#">Õppimine välismaal</a>
-					<a href="#">Raamatukogu</a>
-					<a href="#">Karjäärinõustamine</a>
-					<a href="#">Üliõpilaselu</a>
-					<a href="#">Üliõpilaselamud</a>
+					<a href="https://www.tlu.ee/akadeemiline-kalender">Akadeemiline kalender</a>
+					<a href="https://www.tlu.ee/op/oppimine-valismaal">Õppimine välismaal</a>
+					<a href="http://www.tlulib.ee/index.php/">Raamatukogu</a>
+					<a href="https://www.tlu.ee/karj%C3%A4%C3%A4ri-n%C3%B5ustamiskeskus/karjaarinoustamine">Karjäärinõustamine</a>
+					<a href="https://www.esindus.ee/">Üliõpilaselu</a>
+					<a href="http://www.dormitorium.ee/">Üliõpilaselamud</a>
 				</div>
 				<div class="footer-section">
 					<h3>Ülikoolist</h3>
-					<a href="#">Pressikeskus</a>
-					<a href="#">Linnak</a>
-					<a href="#">Vabad ametikohad</a>
-					<a href="#">E-pood</a>
-					<a href="#">Liitu uudiskirjaga</a>
-					<a href="#">Üldkontaktid</a>
+					<a href="https://www.tlu.ee/taxonomy/term/93/pressikeskus">Pressikeskus</a>
+					<a href="https://www.tlu.ee/ulikooli-linnak">Linnak</a>
+					<a href="https://www.tlu.ee/vabad-ametikohad">Vabad ametikohad</a>
+					<a href="http://www.tlu.ee/pood">E-pood</a>
+					<a href="https://www.tlu.ee/uudiskiri">Liitu uudiskirjaga</a>
+					<a href="https://www.tlu.ee/uldkontaktid">Üldkontaktid</a>
 				</div>
 			</div>
 			<div class="lower-footer">
