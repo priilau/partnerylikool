@@ -15,11 +15,27 @@ Helper::setTitle("Speciality");
 	"attributes" => [
 		'id',
 		'name',
-		'department_id',
+		[
+		    "attribute" => "department_id",
+            "value" => function($model) use ($department) {
+				if($department == null) {
+					return "-";
+				}
+                return $department->name;
+            }
+        ],
 		'general_information',
 		'instruction',
 		'examinations',
-		'created_by',
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ],
 		'created_at'
 	]
 ]); ?>

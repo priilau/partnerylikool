@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use app\models\StudyModule;
 use app\models\Speciality;
+use app\models\User;
 use app\components\QueryBuilder;
 use Exception;
 	
@@ -17,8 +18,8 @@ class StudyModuleController extends BaseController {
 	public function actionIndex() {
 		$models = StudyModule::find()->all();
 		$specialityNames = Speciality::find()->allNames();
-
-		return $this->render("index", ["models" => $models, "specialityNames" => $specialityNames]);
+		$userNames = User::find()->allNames();
+		return $this->render("index", ["models" => $models, "specialityNames" => $specialityNames, "userNames" => $userNames]);
 	}
 	
 	public function actionCreate() {
@@ -50,7 +51,9 @@ class StudyModuleController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+		$user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		$speciality = Speciality::find()->addWhere("=", "id", $model->speciality_id)->one();
+		return $this->render("view", ["model" => $model, "user" => $user, "speciality" => $speciality]);
 	}
 	
 	public function findModel($id) {

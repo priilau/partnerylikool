@@ -15,22 +15,22 @@ Helper::setTitle("Courses");
 	"columns" => [
 		'id',
 		[
-		        'attribute' => "department_id",
-		        'value' => function($model) use ($departmentNames){
-                    if(isset($departmentNames[$model->department_id])) {
-                        return $departmentNames[$model->department_id];
-                    }
-                    return "-";
-                }
+			'attribute' => "department_id",
+			'value' => function($model) use ($departmentNames){
+				if(isset($departmentNames[$model->department_id])) {
+					return $departmentNames[$model->department_id];
+				}
+				return "-";
+			}
         ],
 		[
-				'attribute' => "study_module_id",
-				'value' => function($model) use ($studyModuleNames){
-					if(isset($studyModuleNames[$model->study_module_id])) {
-						return $studyModuleNames[$model->study_module_id];
-					}
-					return "-";
+			'attribute' => "study_module_id",
+			'value' => function($model) use ($studyModuleNames){
+				if(isset($studyModuleNames[$model->study_module_id])) {
+					return $studyModuleNames[$model->study_module_id];
 				}
+				return "-";
+			}
 		],
 		'code',
 		'name',
@@ -43,10 +43,24 @@ Helper::setTitle("Courses");
         ],
 		'semester',
 		'contact_hours',
-		'exam',
+
+        [
+			"attribute" => "exam",
+			"value" => function($model) {
+				return $model->exam ? "Jah" : "Ei";
+			}
+		],
 		'goals',
 		'description',
-		'created_by',
+		[
+			'attribute' => "created_by",
+			'value' => function($model) use ($userNames){
+				if(isset($userNames[$model->created_by])) {
+					return $userNames[$model->created_by];
+				}
+				return "-";
+			}	
+		],
 		'created_at'
 	]
 ]); ?>

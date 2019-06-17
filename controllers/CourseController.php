@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\Course;
+use app\models\User;
 use app\models\StudyModule;
 use app\models\Department;
 use app\components\QueryBuilder;
@@ -19,7 +20,8 @@ class CourseController extends BaseController {
 		$models = Course::find()->all();
 		$departmentNames = Department::find()->allNames();
 		$studyModuleNames = StudyModule::find()->allNames();
-		return $this->render("index", ["models" => $models, "departmentNames" => $departmentNames, "studyModuleNames" => $studyModuleNames]);
+		$userNames = User::find()->allNames();
+		return $this->render("index", ["models" => $models, "departmentNames" => $departmentNames, "studyModuleNames" => $studyModuleNames, "userNames" => $userNames]);
 	}
 	
 	public function actionCreate() {
@@ -54,7 +56,10 @@ class CourseController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+		$department = Department::find()->addWhere("=", "id", $model->department_id)->one();
+		$studyModule = StudyModule::find()->addWhere("=", "id", $model->study_module_id)->one();
+		$user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		return $this->render("view", ["model" => $model, "department" => $department, "studyModule" => $studyModule, "user" => $user]);
 	}
 	
 	public function findModel($id) {

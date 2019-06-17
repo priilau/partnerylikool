@@ -15,16 +15,24 @@ Helper::setTitle("Course learning outcome");
 	"columns" => [
 		'id',
 		[
-				'label' => "Course",
-				'value' => function($model) use ($courseNames){
-					if(isset($courseNames[$model->course_id])) {
-						return $courseNames[$model->course_id];
-				}
-				return "-";
-				}
+			'label' => "Course",
+			'value' => function($model) use ($courseNames){
+				if(isset($courseNames[$model->course_id])) {
+					return $courseNames[$model->course_id];
+			}
+			return "-";
+			}
 		],
 		'outcome',
-		'created_by',
+		[
+			'attribute' => "created_by",
+			'value' => function($model) use ($userNames){
+				if(isset($userNames[$model->created_by])) {
+					return $userNames[$model->created_by];
+				}
+				return "-";
+			}	
+		],
 		'created_at'
 	]
 ]); ?>

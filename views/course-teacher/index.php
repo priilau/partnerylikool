@@ -24,14 +24,14 @@ Helper::setTitle("Course teacher");
 			}
 		],
 		[
-		'label' => "Teacher",
-		'value' => function($model) use ($teacherNames){
-			if(isset($teacherNames[$model->teacher_id])) {
-				return $teacherNames[$model->teacher_id];
+				'label' => "Teacher",
+				'value' => function($model) use ($teacherNames){
+					if(isset($teacherNames[$model->teacher_id])) {
+						return $teacherNames[$model->teacher_id];
+				}
+				return "-";
 			}
-			return "-";
-		}
-	],
+		],
 		'created_at'
 	]
 ]); ?>

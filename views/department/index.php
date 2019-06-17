@@ -24,7 +24,15 @@ Helper::setTitle("Departments");
                     return "-";
                 }
         ],
-		'created_by',
+		[
+				'attribute' => "created_by",
+				'value' => function($model) use ($userNames){
+					if(isset($userNames[$model->created_by])) {
+						return $userNames[$model->created_by];
+					}
+					return "-";
+				}	
+		],
 		'created_at'
 	]
 ]); ?>

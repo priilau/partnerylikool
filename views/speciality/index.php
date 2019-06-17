@@ -16,18 +16,26 @@ Helper::setTitle("Speciality");
 		'id',
 		'name',
 		[
-				'label' => "Department",
-				'value' => function($model) use ($departmentNames){
-					if(isset($departmentNames[$model->department_id])) {
-						return $departmentNames[$model->department_id];
+			'label' => "Department",
+			'value' => function($model) use ($departmentNames){
+				if(isset($departmentNames[$model->department_id])) {
+					return $departmentNames[$model->department_id];
 				}
-				return "-";
+			return "-";
 			}
 		],
 		'general_information',
 		'instruction',
 		'examinations',
-		'created_by',
+		[
+			'attribute' => "created_by",
+			'value' => function($model) use ($userNames){
+				if(isset($userNames[$model->created_by])) {
+					return $userNames[$model->created_by];
+				}
+				return "-";
+			}	
+	],
 		'created_at'
 	]
 ]); ?>
