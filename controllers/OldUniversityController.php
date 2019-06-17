@@ -129,19 +129,24 @@ class UniversityController extends BaseController {
 	
 	public function actionCreate() {
 		$model = new University();
-        $modelPost = [
-            "name" => "",
-            "country" => "",
-            "contact_email" => "info@unknown.com",
-            "recommended" => 0,
-            "description" => "",
-            "homepage_url" => "",
-        ];
+        $modelPost = [];
+		if(count($_POST) > 0) {
+            $modelPost = [
+                "name" => $_POST["name"],
+                "country" => $_POST["country"],
+                "contact_email" => $_POST["contact_email"],
+                "recommended" => isset($_POST["recommended"]) ? 1 : 0,
+                "description" => $_POST["description"],
+                "homepage_url" => $_POST["homepage_url"],
+            ];
+        }
 
 		if($model->load($modelPost) && $model->save()){
-			return $this->redirect("update", ["id" => $model->id]);
+            $this->saveUniversitySubModels($model);
+            var_dump($_POST);die;
+			return $this->redirect("view", ["id" => $model->id]);
 		} else {
-            return $this->redirect("update", ["id" => $model->id]);
+			return $this->render("create", ["model" => $model]);
 		}
 	}
 
