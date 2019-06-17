@@ -41,7 +41,7 @@ Helper::setTitle("Pealeht");
 			</div>
 		</div>
 	</div>
-<div class=button>
+<div>
 	<input type="button" class="btn btn-primary" id="search" value="Otsi">
 </div>
 	
