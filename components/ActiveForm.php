@@ -8,6 +8,7 @@ class ActiveForm {
     public $fieldName = "";
     public $modelName = "";
     public $inputValue = "";
+    public $optionValAsDataVal = false;
     public $labelStatus = true;
     public $options = [];
     public $model = null;
@@ -61,7 +62,7 @@ class ActiveForm {
         $str .= "<label class='control-label' for='{$this->modelName}-{$lowerFieldName}'>{$labelName}</label>";
         $fName = $this->fieldName;
 
-        if($this->elementType == "input"){
+        if($this->elementType == "input" || $this->elementType == "textarea"){
             $value = "";
             $checked = "";
             if($this->inputType == "checkbox") {
@@ -70,6 +71,9 @@ class ActiveForm {
                 $value = "value='{$this->inputValue}'";
             }
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' {$value} {$checked}>";
+            if($this->elementType == "textarea") {
+                $str .= "</{$this->elementType}>";
+            }
         }
         else if($this->elementType == "select"){
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
@@ -77,7 +81,11 @@ class ActiveForm {
                 $optionName = ucfirst($optionName);
                 $selected = ($this->model->$fName == $optionValue) ? 'selected="selected"' : '';
 
-                $str .= "<option value='{$optionValue}' {$selected}>{$optionName}</option>";
+                if($this->optionValAsDataVal) {
+                    $str .= "<option value='{$optionName}' {$selected}>{$optionName}</option>";
+                } else {
+                    $str .= "<option value='{$optionValue}' {$selected}>{$optionName}</option>";
+                }
             }
             $str .= "</select>";
         }
@@ -106,14 +114,20 @@ class ActiveForm {
         return $this;
     }
 
-    public function dropDownList($options){
+    public function dropDownList($options, $optionValAsDataVal = false){
         $this->elementType = "select";
         $this->options = $options;
+        $this->optionValAsDataVal = $optionValAsDataVal;
         return $this;
     }
-    
+
     public function checkBox(){
         $this->inputType = "checkbox";
+        return $this;
+    }
+
+    public function textarea(){
+        $this->elementType = "textarea";
         return $this;
     }
 }

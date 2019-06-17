@@ -5,6 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 class StudyModule extends ActiveRecord {
+	public $courses;
 
 	public static function tableName() {
 		return "study_module";
@@ -35,6 +36,13 @@ class StudyModule extends ActiveRecord {
 			"created_by" => "Lisaja",
 		];
 	}
+
+    public function getCourses() {
+        if(count($this->courses) <= 0) {
+            $this->courses = Course::find()->addWhere("=", "study_module_id", $this->id)->all();
+        }
+        return $this->courses;
+    }
 }
 
 ?>

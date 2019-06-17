@@ -6,6 +6,9 @@ use app\components\ActiveRecord;
 use app\components\QueryBuilder;
 
 class Course extends ActiveRecord {
+    public $teachers;
+    public $courseTeahcers;
+    public $outcomes;
 	
 	public static function tableName() {
 		return "course";
@@ -13,8 +16,8 @@ class Course extends ActiveRecord {
 	
 	public function rules(){
 		return[
-			[['code', 'name', 'goals', 'description'], ["string"]],
-			[['id', 'department_id', 'study_module_id', 'ects', 'optional', 'semester', 'contact_hours', 'exam'], ["integer"]],
+			[['code', 'name', 'goals', 'description', 'semester'], ["string"]],
+			[['id', 'department_id', 'study_module_id', 'ects', 'optional', 'contact_hours', 'exam', 'degree'], ["integer"]],
 			[['created_at'], ["created-datetime"]],
 			[['created_by'], ["auto-user-id"]]
 		];
@@ -41,6 +44,34 @@ class Course extends ActiveRecord {
             "contact_hours" => "Kontakttunnid",
             "exam" => "Eksam",
         ];
+    }
+
+    public function getOutcomes() {
+        if(count($this->outcomes) <= 0) {
+            $this->outcomes = CourseLearningOutcome::find()->addWhere("=", "course_id", $this->id)->all();
+        }
+        return $this->outcomes;
+    }
+
+    public function getTeachers() {
+	    $this->getCourseTeachers();
+	    $this->teachers = [];
+
+	    foreach($this->courseTeahcers as $courseTeahcer) {
+	        $teacher = Teacher::find()->addWhere("=", "id", $courseTeahcer->teacher_id)->one();
+	        if($teacher != null) {
+	            $this->teachers[] = $teacher;
+            }
+        }
+
+        return $this->teachers;
+    }
+
+    public function getCourseTeachers() {
+        if(count($this->courseTeahcers) <= 0) {
+            $this->courseTeahcers = CourseTeacher::find()->addWhere("=", "course_id", $this->id)->all();
+        }
+        return $this->courseTeahcers;
     }
 }
 

@@ -2,10 +2,15 @@
 
 namespace app\models;
 
+use app\config\DB;
 use app\components\QueryBuilder;
 use app\components\ActiveRecord;
 
 class University extends ActiveRecord {
+	public $courses = [];
+	public $specialities = [];
+	public $departments = [];
+	public $searchIndexes = [];
 
 	public static function tableName() {
 		return "university";
@@ -13,7 +18,7 @@ class University extends ActiveRecord {
 
 	public function rules() {
 		return[
-			[['name', 'country'], ["string"]],
+			[['name', 'country', 'description', 'homepage_url'], ["string"]],
 			[['contact_email'], ['email']],
 			[['id', 'courses_available', 'recommended'], ["integer"]],
 			[['created_at'], ["created-datetime"]],
@@ -86,16 +91,90 @@ class University extends ActiveRecord {
 		}
 		parent::beforeDelete();
 	}
+	
 	public function attributeLabels() {
-			return [
-					"name" => "Nimi",
-					"country" => "Riik",
-					"contact_email" => "Kontakt email",
-					"created_at" => "Lisatud",
-					"created_by" => "Lisaja",
-					"courses_available" => "Vabad Õppeained",
-					"recommended" => "Soovitatud",
-			];
+		return [
+				"name" => "Nimi",
+				"country" => "Riik",
+				"contact_email" => "Kontakt email",
+				"created_at" => "Lisatud",
+				"created_by" => "Lisaja",
+				"courses_available" => "Vabad Õppeained",
+				"recommended" => "Soovitatud",
+		];
+	}
+
+	public function getCourses(){
+		$sql = "SELECT DISTINCT course.semester, course.degree FROM `university` AS u LEFT JOIN `department` ON department.university_id = u.id LEFT JOIN course ON course.department_id = department.id WHERE u.id = {$this->id};";
+
+		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
+		$stmt = $mysqli->prepare($sql); 
+		if(!$stmt){
+			echo $mysqli->error;
+			exit("Unable to create stmt!");
+		}
+		$stmt->execute();
+		$result = $stmt->get_result();
+
+		while($row = $result->fetch_assoc()){
+			$model = new University();
+			$model->load($row);
+			$this->courses[] = $model;
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $this->courses;
+	}
+
+	public function getSearchIndexes(){
+		$sql = "SELECT DISTINCT search_index.keyword FROM `university` AS u LEFT JOIN `search_index` ON search_index.university_id = u.id WHERE u.id = {$this->id};";
+
+		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
+		$stmt = $mysqli->prepare($sql); 
+		if(!$stmt){
+			echo $mysqli->error;
+			exit("Unable to create stmt!");
+		}
+		$stmt->execute();
+		$result = $stmt->get_result();
+
+		while($row = $result->fetch_assoc()){
+			$model = new University();
+			$model->load($row);
+			$this->searchIndexes[] = $model;
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $this->searchIndexes;
+	}
+
+	public function getSpecialities(){
+		$sql = "SELECT DISTINCT speciality.degree, speciality.name FROM `university` AS u LEFT JOIN `department` ON department.university_id = u.id LEFT JOIN speciality ON speciality.department_id = department.id WHERE u.id = {$this->id};";
+
+		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
+		$stmt = $mysqli->prepare($sql); 
+		if(!$stmt){
+			echo $mysqli->error;
+			exit("Unable to create stmt!");
+		}
+		$stmt->execute();
+		$result = $stmt->get_result();
+
+		while($row = $result->fetch_assoc()){
+			$model = new University();
+			$model->load($row);
+			$this->specialities[] = $model;
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $this->specialities;
+	}
+
+	public function getDepartments() {
+		if(count($this->departments) <= 0) {
+            $this->departments = Department::find()->addWhere("=", "university_id", $this->id)->all();
+		}
+		return $this->departments;
 	}
 }
 
