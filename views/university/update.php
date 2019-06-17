@@ -43,6 +43,8 @@ Helper::setTitle("Ülikooli muutmine");
     let specialitiesContainer = document.querySelector(".specialities");
     let studyModulesContainer = document.querySelector(".study-modules");
     let coursesContainer = document.querySelector(".courses");
+    let semesterArr = JSON.parse('<?= json_encode(Helper::generateSemesters()) ?>');
+    let degrees = JSON.parse('<?= json_encode(Helper::getDegrees()) ?>');
 
     let addDepartmentBtn = document.querySelector("#add-department-button");
     let addSpecialityBtn = null;
@@ -90,14 +92,53 @@ Helper::setTitle("Ülikooli muutmine");
         }
     }
 
-    function CreateElement(elementType, className, name, placeholder, value, datasetValue) {
+    function CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId = "", inputType = "text") {
         let el = document.createElement(elementType);
+        if(elementId.length > 0) {
+            el.id = elementId;
+        }
+        el.type = inputType;
         el.className = className;
-        el.name = name;
-        el.placeholder = placeholder;
+        if(name.length > 0) {
+            el.name = name;
+        }
+        if(placeholder.length > 0) {
+            el.placeholder = placeholder;
+        }
         el.value = value;
         el.dataset.value = datasetValue;
         return el;
+    }
+
+    function CreateSelect(label, className, name, selectedValue, options) {
+        if(selectedValue == undefined) {
+            selectedValue = 1;
+        }
+        // 1 degree - Must be an integer!<br> NaN Degreest saab. PostSpeciality-t vaadata.
+
+        let selectBlock = document.createElement("div");
+
+        let labelElement = document.createElement("label");
+        labelElement.innerText = label;
+        let select = document.createElement("select");
+        select.name = name;
+        select.className = className;
+
+        for (let key in options) {
+            if (options.hasOwnProperty(key)) {
+                let option = document.createElement("option");
+                option.value = key;
+                option.innerText = options[key];
+                if(key == selectedValue) {
+                    option.selected = "selected";
+                }
+                select.appendChild(option);
+            }
+        }
+
+        selectBlock.appendChild(labelElement);
+        selectBlock.appendChild(select);
+        return selectBlock;
     }
 
     function PostDepartment(id, name, universityId, nameInput) {
@@ -144,24 +185,15 @@ Helper::setTitle("Ülikooli muutmine");
         xhttp.send(formData);
     }
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateDepartmentButtons(deptId, container) {
-        let departmentRemoveBtn = document.createElement("input");
-        departmentRemoveBtn.id = "department-remove-id-"+deptId;
-        departmentRemoveBtn.type = "button";
-        departmentRemoveBtn.className = "btn btn-primary";
-        departmentRemoveBtn.value = "X";
-        departmentRemoveBtn.dataset.value = deptId;
+        let departmentRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", deptId, "department-remove-id-"+deptId, "button");
         departmentRemoveBtn.addEventListener("click", function() {
             RemoveDepartment(deptId);
         });
         container.appendChild(departmentRemoveBtn);
 
-        let departmentViewBtn = document.createElement("input");
-        departmentViewBtn.id = "department-view-id-"+deptId;
-        departmentViewBtn.type = "button";
-        departmentViewBtn.className = "btn btn-primary";
-        departmentViewBtn.value = "Vaata instituudi erialasid";
-        departmentViewBtn.dataset.value = deptId;
+        let departmentViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata instituudi erialasid", deptId, "department-view-id-"+deptId, "button");
         departmentViewBtn.addEventListener("click", function() {
             let departmentName = container.querySelector(".department-name");
             if(departmentName !== undefined && departmentName !== null) {
@@ -171,6 +203,7 @@ Helper::setTitle("Ülikooli muutmine");
         container.appendChild(departmentViewBtn);
     }
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateDepartment(departmentId = 0, dName = "") {
         let containerId = departmentId;
         if(containerId == 0) {
@@ -179,13 +212,7 @@ Helper::setTitle("Ülikooli muutmine");
 
         let departmentContainer = document.createElement("div");
         departmentContainer.id = "department-id-"+containerId;
-
-        let departmentNameInput = document.createElement("input");
-        departmentNameInput.className = "department-name";
-        departmentNameInput.name = "departmentNames[]";
-        departmentNameInput.placeholder = "Instituudi nimi";
-        departmentNameInput.value = dName;
-        departmentNameInput.dataset.value = departmentId;
+        let departmentNameInput = CreateElement("input", "department-name", "departmentNames[]", "Instituudi nimi", dName, departmentId);
         departmentContainer.appendChild(departmentNameInput);
 
         if(departmentId > 0) {
@@ -210,7 +237,8 @@ Helper::setTitle("Ülikooli muutmine");
     /* SPECIALITY */
     /* SPECIALITY */
 
-    function CreateSpeciality(parentId, inputValueName) {
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue)
+    function CreateSpeciality(parentId = 0, inputValueName = "", inputValueDescription = "", inputValueInstruction = "", inputValueExaminations = "", inputValueDegree = "") {
         let containerId = parentId;
         if(containerId == 0) {
             containerId = specialityCount;
@@ -221,6 +249,14 @@ Helper::setTitle("Ülikooli muutmine");
 
         let specialityNameInput = CreateElement("input", "speciality-name", "specialityNames[]", "Eriala nimi", inputValueName, parentId);
         specialityContainer.appendChild(specialityNameInput);
+        let specialityDescriptionInput = CreateElement("textarea", "speciality-description", "specialityDescription[]", "Üldinfo", inputValueDescription, parentId, "", "");
+        specialityContainer.appendChild(specialityDescriptionInput);
+        let specialityInstructionInput = CreateElement("textarea", "speciality-instruction", "specialityInstruction[]", "Juhised", inputValueInstruction, parentId, "", "");
+        specialityContainer.appendChild(specialityInstructionInput);
+        let specialityExaminationsInput = CreateElement("textarea", "speciality-examinations", "specialityExaminations[]", "Eksami materjal", inputValueExaminations, parentId, "", "");
+        specialityContainer.appendChild(specialityExaminationsInput);
+        let specialityDegreeInput = CreateSelect("Kraad", "speciality-degree", "specialityDegree[]", inputValueDegree, degrees);
+        specialityContainer.appendChild(specialityDegreeInput);
 
         if(parentId > 0) {
             CreateSpecialityButtons(parentId, specialityContainer);
@@ -232,20 +268,64 @@ Helper::setTitle("Ülikooli muutmine");
             if(specialityTimer !== null) {
                 clearTimeout(specialityTimer);
             }
-            specialityTimer = setTimeout(PostSpeciality, 500, this.dataset.value, specialityNameInput.value, parentId, specialityNameInput);
+            specialityTimer = setTimeout(PostSpeciality, 500, this.dataset.value, parentId,
+                specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput);
         });
 
         specialityCount++;
     }
 
-    function PostSpeciality(id, parentId, inputField, inputValue) {
+    function PostSpeciality(id, parentId, iName, iDesc, iInstr, iExamin, iDegree) {
+        console.log("PostSpeciality: ", id, parentId, iName, iDesc, iInstr, iExamin, iDegree);
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("name", iName.value);
+        formData.append("department_id", parseInt(parentId));
+        formData.append("general_information", iDesc.value);
+        formData.append("instruction", iInstr.value);
+        formData.append("examinations", iExamin.value);
+        formData.append("degree", parseInt(iDegree.value));
 
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                iName.dataset.value = response.attributes.id;
+
+                if(id != iName.dataset.value) {
+                    CreateSpecialityButtons(iName.dataset.value, iName.parentElement);
+                }
+                console.log(iName.parentElement, "speciality-id-"+iName.dataset.value);
+                iName.parentElement.id = "speciality-id-"+iName.dataset.value;
+            }
+        };
+        xhttp.open("POST", "/speciality/save", true);
+        xhttp.send(formData);
+    }
+
+    function CreateSpecialityButtons(entityId, container) {
+        let specialityRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "speciality-remove-id-"+entityId, "button");
+        specialityRemoveBtn.addEventListener("click", function() {
+            RemoveSpeciality(entityId);
+        });
+        container.appendChild(specialityRemoveBtn);
+
+        let specialityViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata eriala õpimooduleid", entityId, "speciality-view-id-"+entityId, "button");
+        specialityViewBtn.addEventListener("click", function() {
+            let specialityName = container.querySelector(".speciality-name");
+            if(specialityName !== undefined && specialityName !== null) {
+                GetStudyModules(entityId, specialityName.value);
+            }
+        });
+        container.appendChild(specialityViewBtn);
     }
 
     function RemoveSpeciality(id) {
 
     }
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function GetSpeciality(parentId, label) {
         clearInner(specialitiesContainer);
         let specialityHeader = document.createElement("h2");
@@ -255,7 +335,7 @@ Helper::setTitle("Ülikooli muutmine");
         addSpecialityBtn.className = "btn btn-primary";
         addSpecialityBtn.value = "Lisa eriala";
         addSpecialityBtn.addEventListener("click", function() {
-            CreateSpeciality(parentId, "");
+            CreateSpeciality(0, "");
         });
 
         FetchSpecialities(parentId);
@@ -279,16 +359,13 @@ Helper::setTitle("Ülikooli muutmine");
         xhttp.send(formData);
     }
 
-    function CreateSpecialityButtons(parentId, container) {
-
-    }
-
     /* STUDY MODULE */
     /* STUDY MODULE */
     /* STUDY MODULE */
     /* STUDY MODULE */
     /* STUDY MODULE */
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateStudyModule(parentId, inputValue) {
 
     }
@@ -315,6 +392,7 @@ Helper::setTitle("Ülikooli muutmine");
     /* COURSE */
     /* COURSE */
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateCourse(parentId, inputValue) {
 
     }
@@ -341,6 +419,7 @@ Helper::setTitle("Ülikooli muutmine");
     /* TEACHER */
     /* TEACHER */
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateTeacher(parentId, inputValue) {
 
     }
@@ -367,6 +446,7 @@ Helper::setTitle("Ülikooli muutmine");
     /* OUTCOME */
     /* OUTCOME */
 
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateOutcome(parentId, inputValue) {
 
     }
@@ -397,5 +477,8 @@ Helper::setTitle("Ülikooli muutmine");
     /* TODO Kristjan tõsta see pärast site.css faili. */
     .section-block {
         padding-left: 20px;
+    }
+    textarea {
+        display: block;
     }
 </style>
