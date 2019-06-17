@@ -46,6 +46,8 @@ Helper::setTitle("Ülikooli muutmine");
     let semesterArr = JSON.parse('<?= json_encode(Helper::generateSemesters()) ?>');
     let degrees = JSON.parse('<?= json_encode(Helper::getDegrees()) ?>');
 
+    let selectedDepartment = 0;
+
     let addDepartmentBtn = document.querySelector("#add-department-button");
     let addSpecialityBtn = null;
     let addStudyModuleBtn = null;
@@ -198,6 +200,7 @@ Helper::setTitle("Ülikooli muutmine");
             let departmentName = container.querySelector(".department-name");
             if(departmentName !== undefined && departmentName !== null) {
                 GetSpeciality(deptId, departmentName.value);
+                selectedDepartment = deptId;
             }
         });
         container.appendChild(departmentViewBtn);
@@ -264,23 +267,30 @@ Helper::setTitle("Ülikooli muutmine");
 
         specialitiesContainer.appendChild(specialityContainer);
 
-        specialityNameInput.addEventListener("input", function() {
+        let updateSpeciality = function() {
             if(specialityTimer !== null) {
                 clearTimeout(specialityTimer);
             }
-            specialityTimer = setTimeout(PostSpeciality, 500, this.dataset.value, parentId,
-                specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput);
-        });
+            specialityTimer = setTimeout(PostSpeciality, 500, this.dataset.value,
+                specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput.querySelector("select"));
+        };
+        specialityNameInput.addEventListener("input", updateSpeciality);
+        specialityDescriptionInput.addEventListener("input", updateSpeciality);
+        specialityInstructionInput.addEventListener("input", updateSpeciality);
+        specialityExaminationsInput.addEventListener("input", updateSpeciality);
+        specialityDegreeInput.addEventListener("input", updateSpeciality);
+        specialityDegreeInput.addEventListener("change", updateSpeciality);
 
         specialityCount++;
     }
 
-    function PostSpeciality(id, parentId, iName, iDesc, iInstr, iExamin, iDegree) {
-        console.log("PostSpeciality: ", id, parentId, iName, iDesc, iInstr, iExamin, iDegree);
+    function PostSpeciality(id, iName, iDesc, iInstr, iExamin, iDegree) {
+        console.log("PostSpeciality: ", id, iName, iDesc, iInstr, iExamin, iDegree);
+
         let formData = new FormData();
         formData.append("id", id);
         formData.append("name", iName.value);
-        formData.append("department_id", parseInt(parentId));
+        formData.append("department_id", parseInt(selectedDepartment));
         formData.append("general_information", iDesc.value);
         formData.append("instruction", iInstr.value);
         formData.append("examinations", iExamin.value);
@@ -351,8 +361,14 @@ Helper::setTitle("Ülikooli muutmine");
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let response = JSON.parse(this.responseText);
-                console.log(response);
+                 console.log(response);
+                 console.log(response.specialities[0]);
                 // TODO luua createElement ja append specialitiesContainer
+                for(let i = 0; i < response.specialities.length; i++) {
+                    let spData = response.specialities[i];
+                    console.log(spData);
+                    CreateSpeciality(spData.attributes.id, spData.attributes.name, spData.attributes.general_information, spData.attributes.instruction, spData.attributes.examinations, spData.attributes.degree)
+                }
             }
         };
         xhttp.open("POST", "/department/get-specialities", true);
