@@ -320,15 +320,19 @@ Helper::setTitle("Ülikooli muutmine");
             RemoveSpeciality(entityId);
         });
         container.appendChild(specialityRemoveBtn);
+        let studyModulesContainer = document.createElement("div");
+        studyModulesContainer.id = "speciality-id-"+entityId+"-study-modules-container";
 
         let specialityViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata eriala õpimooduleid", entityId, "speciality-view-id-"+entityId, "button");
         specialityViewBtn.addEventListener("click", function() {
             let specialityName = container.querySelector(".speciality-name");
             if(specialityName !== undefined && specialityName !== null) {
-                GetStudyModules(entityId, specialityName.value);
+                GetStudyModules(entityId, studyModulesContainer);
             }
         });
         container.appendChild(specialityViewBtn);
+        container.appendChild(studyModulesContainer);
+
     }
 
     function RemoveSpeciality(id) {
@@ -380,7 +384,7 @@ Helper::setTitle("Ülikooli muutmine");
                 let response = JSON.parse(this.responseText);
                  console.log(response);
                  console.log(response.specialities[0]);
-                // TODO luua createElement ja append specialitiesContainer
+
                 for(let i = 0; i < response.specialities.length; i++) {
                     let spData = response.specialities[i];
                     console.log(spData);
@@ -399,8 +403,8 @@ Helper::setTitle("Ülikooli muutmine");
     /* STUDY MODULE */
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
-    function CreateStudyModule(parentId, inputValue) {
-
+    function CreateStudyModule(parentId, inputValue, studyModulesContainer) {
+        // TODO siit jätka 1 (inputValue tuleb välja.)
     }
 
     function PostStudyModule(id, parentId, inputField, inputValue) {
@@ -411,12 +415,44 @@ Helper::setTitle("Ülikooli muutmine");
 
     }
 
-    function GetStudyModules(parentId) {
+    function GetStudyModules(specialityId, studyModulesContainer) {
+        clearInner(studyModulesContainer);
+        let addSMBtn = document.createElement("input");
+        addSMBtn.type = "button";
+        addSMBtn.className = "btn btn-primary";
+        addSMBtn.value = "Lisa õppemoodul";
+        addSMBtn.addEventListener("click", function() {
+            CreateStudyModule(0, "", studyModulesContainer);
+        });
 
+        FetchStudyModules(specialityId, studyModulesContainer);
+        studyModulesContainer.appendChild(addSMBtn);
+    }
+
+    function FetchStudyModules(specialityId, studyModulesContainer) {
+        let formData = new FormData();
+        formData.append("id", specialityId);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                console.log(response.studyModules);
+
+                for(let i = 0; i < response.studyModules.length; i++) {
+                    let sm = response.studyModules[i];
+                    console.log("sm", sm);
+                    CreateStudyModule(sm.attributes.id, sm.attributes.name, studyModulesContainer);
+                }
+            }
+        };
+        xhttp.open("POST", "/speciality/get-study-modules", true);
+        xhttp.send(formData);
     }
 
     function CreateStudyModuleButtons(parentId, container) {
-
+        // TODO siit jätka 2
     }
 
     /* COURSE */
