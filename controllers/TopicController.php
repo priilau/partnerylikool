@@ -47,12 +47,25 @@ class TopicController extends BaseController {
   			return $this->json($model->id);
   		} else {
 			$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
-			$searches = [];
+			$searchIdStr = "";
+			
 			foreach ($topicSearches as $topicSearch) {
-				$searches[] = $topicSearch->search_index_id;
+				$searchIdStr .= "{$topicSearch->search_index_id}, ";
 			}
+			$searchIdStr = rtrim($searchIdStr, ", ");
+			if(strlen($searchIdStr) > 0){
+				$searches = SearchIndex::getAllWithIds($searchIdStr);
+			} else {
+				$searches = [];
+			}
+
 			$searchIndexes = SearchIndex::find()->all();
-  			return $this->render("update", ["model" => $model, "topicSearches" => $searches, "searchIndexes" => $searchIndexes]);
+			$keywords = [];
+			foreach ($searchIndexes as $index => $name) {
+				$keywords[] = $name->keyword;
+			}
+			$keywords = array_flip(array_flip($keywords));
+  			return $this->render("update", ["model" => $model, "topicSearches" => $searches, "searchIndexes" => $keywords]);
   		}
   	}
 

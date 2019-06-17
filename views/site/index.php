@@ -108,7 +108,7 @@ Helper::setTitle("Pealeht");
 		}
 	});
 
-function CreateUniversity(name, description, percent, link) {
+function CreateUniversity(name, icon, description, percent, link, map) {
     let uniBlock = document.createElement("div");
     uniBlock.className = "university";
     
@@ -117,13 +117,13 @@ function CreateUniversity(name, description, percent, link) {
     
     let uniContainer = document.createElement("div");
     uniContainer.className = "university-description";
-    /*
+    
     let uniIconContainer = document.createElement("div");
     uniIconContainer.className = "university-icon";
     let uniIcon = document.createElement("img");
     uniIcon.src = icon;
     uniIconContainer.appendChild(uniIcon);
-    */
+    
     let uniText = document.createElement("div");
     uniText.className = "description-text";
     uniText.innerHTML = description;
@@ -140,18 +140,18 @@ function CreateUniversity(name, description, percent, link) {
     uniLink.innerHTML = "wwwcom";
     uniLinkContainer.appendChild(uniLink);
     uniPerContainer.appendChild(uniLinkContainer);
-    /*
+    
     let uniMapContainer = document.createElement("div");
     uniMapContainer.className = "university-map";
     let uniMap = document.createElement("img");
     uniMap.src = map;
     uniMapContainer.appendChild(uniMap);
-	*/
+	
     uniBlock.appendChild(uniHeader);
-    //uniContainer.appendChild(uniIconContainer);
+    uniContainer.appendChild(uniIconContainer);
     uniContainer.appendChild(uniText);
     uniContainer.appendChild(uniPerContainer);
-    //uniContainer.appendChild(uniMapContainer);
+    uniContainer.appendChild(uniMapContainer);
     uniBlock.appendChild(uniContainer);
     universities.appendChild(uniBlock);
 }
@@ -159,8 +159,10 @@ function CreateUniversity(name, description, percent, link) {
 function RenderUniversities(resultArr){
 	clearInner(universities);
     for(let i = 0; i < resultArr.length; i++){
-        //CreateUniversity(resultArr["name"], resultArr["icon"], resultArr["description"], resultArr["match"], resultArr["link"], resultArr["map"]);
-        CreateUniversity(resultArr[i]["name"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"]);
+		let icon = "https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png";
+		let map = "https://custom-map-source.appspot.com/galileo-google-maps.png";
+        CreateUniversity(resultArr[i]["name"], icon, resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"], map);
+        //CreateUniversity(resultArr[i]["name"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"]);
     }
 }
 

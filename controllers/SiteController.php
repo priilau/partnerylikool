@@ -30,10 +30,11 @@ class SiteController extends BaseController {
     }
     
     public function actionSearch(){
+        $matchCount = 0;
+        $keywordCount = 0;
+        $topicIdsStr = "";
         $models = [];
         $data = [];
-        $topicIdsStr = "";
-        $matchCount = 0;
         $modelMatches = [];
  
         $selectedTopics = json_decode($_POST["selectedTopics"]); 
@@ -62,7 +63,7 @@ class SiteController extends BaseController {
             $stmt->close();
             $mysqli->close();
         }
-        
+
         foreach ($models as $model) {
             $modelMatches[$model->id] = [
                 "name" => $model->name, 
@@ -70,7 +71,7 @@ class SiteController extends BaseController {
                 "description" => $model->description, 
                 "link" => $model->homepage_url, 
                 //"map" => $model->map, 
-                "match" => 50
+                "match" => 0
             ];
             
             $courses = $model->getCourses();
@@ -90,7 +91,7 @@ class SiteController extends BaseController {
             foreach($specialities as $speciality) {
                 if($_POST["degree"] == $speciality->degree && !$match) {
                     $matchCount++;
-                    $match = false;
+                    $match = true;
                 }
                 if(strtolower($_POST["speciality"]) == strtolower($speciality->name) && !$matchName) {
                     $modelMatches[$model->id]["match"] += 10;
@@ -99,10 +100,17 @@ class SiteController extends BaseController {
             }  
 
             foreach ($searchIndexes as $searchIndex) {
+                if($searchIndex->university_id == $model->id){
+                    $keywordCount++;
+                }
                 if(strpos($searchIndex->keyword, "-o_p-")){
                     $modelMatches[$model->id]["match"] += 10;
                     break;
                 }
+            }
+            if($keywordCount != 0){
+                $match = ($matchCount / $keywordCount) * 100;
+                $modelMatches[$model->id]["match"] += $match;
             }
             $data[] = $modelMatches[$model->id];
         }

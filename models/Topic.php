@@ -37,11 +37,15 @@ class Topic extends ActiveRecord {
 		
 		if(isset($_POST["selectedKeywords"])){
 			$selectedKeywords = json_decode($_POST["selectedKeywords"]);
-			foreach ($selectedKeywords as $indexId) {
-				$topicSearch = new TopicSearch;
-				$topicSearch->topic_id = $this->id;
-				$topicSearch->search_index_id = $indexId;
-				$topicSearch->save();
+
+			foreach ($selectedKeywords as $selectedKeyword) {
+				$keywordIndexes = SearchIndex::find()->addWhere("=", "keyword", $selectedKeyword)->all();
+				foreach ($keywordIndexes as $keywordIndex) {
+					$topicSearch = new TopicSearch;
+					$topicSearch->topic_id = $this->id;
+					$topicSearch->search_index_id = $keywordIndex->id;
+					$topicSearch->save();
+				}
 			}
 		}
 	}
