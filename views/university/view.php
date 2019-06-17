@@ -9,6 +9,7 @@ Helper::setTitle("University");
 <h1><?= Helper::getTitle() ?></h1>
 
 <a class="btn btn-primary" href="/university/index">Back</a>
+<a class="btn btn-primary" href="/university/update?id=<?= $model->id ?>">Update</a>
 
 <?= DetailView::widget([
 	"model" => $model,
@@ -19,8 +20,21 @@ Helper::setTitle("University");
 		'created_at', 
 		'id', 
 		'courses_available', 
-		'recommended', 
-		'created_by'
+        [
+			"attribute" => "recommended",
+			"value" => function($model) {
+				return $model->recommended ? "Jah" : "Ei";
+			}
+		],
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ]
 	]
 ]); ?>
 

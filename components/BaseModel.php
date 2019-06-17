@@ -264,13 +264,17 @@ class BaseModel {
 
 	public function validateEmail($email){
 		$splitEmail = explode("@", $email);
-		$splitDomain = explode(".", $splitEmail[1]);
 
-		if(!Helper::isStringClean($splitEmail[0]) || !Helper::isStringClean($splitDomain[0]) || !Helper::isStringClean($splitDomain[1])){
-			return false;
-		} else {
-			return true;
-		}
+		if(count($splitEmail) >= 2) {
+            $splitDomain = explode(".", $splitEmail[1]);
+
+            if(!Helper::isStringClean($splitEmail[0]) || !Helper::isStringClean($splitDomain[0]) || !Helper::isStringClean($splitDomain[1])){
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
 	}
 }
 

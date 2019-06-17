@@ -53,7 +53,9 @@ class CourseTeacherController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+		$course = Course::find()->addWhere("=", "id", $model->course_id)->one();
+		$teacher = Teacher::find()->addWhere("=", "id", $model->teacher_id)->one();
+		return $this->render("view", ["model" => $model, "course" => $course, "teacher" => $teacher]);
 	}
 	
 	public function findModel($id) {

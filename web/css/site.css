@@ -219,7 +219,7 @@ li {
 
 .banner-section > div {
 	display: block;
-	min-height: 408px;
+	min-height: auto;
 }
 
 .banner-image {
@@ -471,10 +471,6 @@ input[type=button], input[type=submit], .btn {
 	cursor: pointer;
 }
 
-.btn:hover {
-	background: #b80006cb;
-}
-
 input[type="submit"].btn-success {
 	background: #b80007;
 	color: #fff;
@@ -490,21 +486,28 @@ input[type="submit"].btn-success {
 	margin: 4px 0;
 }
 
+.btn:hover, input[type="submit"].btn-success:hover{
+	background: #b80006cb;
+}
+
 input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary {
 	background: #6bcaba;
 }
 
 input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn-primary:hover {
 	background: #6bcabac9
-	
+}
+
+input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary [value=Otsi] {
+	padding: 5px 10px;
 }
 
 .btn-success {
-	background: #778688;
+	background: #6bcaba;
 }
 
 input[type=button].btn-success:hover, .btn-success:hover {
-    background: #bbc3c4;
+    background: #6bcabac9;
 }
 
 .form-group {
@@ -651,8 +654,12 @@ input:-internal-autofill-selected {
 
 /* CONTENT */
 
+.container {
+	display: block;
+}
+
 .content {
-	display: inline-block;
+	display: block;
 	vertical-align: top;
 	padding: 80px 4.86111vw;
 }
@@ -660,7 +667,6 @@ input:-internal-autofill-selected {
 .content-container, .content{
 	display: inline-block;
 	max-width: 800px;
-	margin-left: 1vw;
 }
 
 .content-admin-button {
@@ -692,12 +698,17 @@ input:-internal-autofill-selected {
 	vertical-align: top;
 }
 
-.filter-options {
-	display: inline-block;
+.filter-options{
+	display: block;
 	max-height: 102px;
 	overflow: auto;
 	background: #F5F5F5;
-	padding: 8px 14px;
+	padding: 8px 0px 0px 15px;
+}
+
+.filter-options label{
+	min-width: auto;
+	display: inline-block;
 }
 
 .description-text {
@@ -736,6 +747,7 @@ h1 {
 }
 
 h2 {
+	border-bottom: 2px solid #F3F3F3; 
 	margin: 20px 0;
 	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	color: #3c4445;
@@ -769,6 +781,14 @@ h5 {
 
 .university h3 {
 	margin-left: 80px;
+}
+
+.filter-container {
+	display: inline-block;
+}
+
+#left-sub {
+	padding-top: 10px;
 }
 
 .university-icon img {
@@ -824,6 +844,8 @@ select {
 	background: #b80007;
 }
 
-@media only screen and (min-width: 801px {
+/* MOBILE */
 
+@media only screen and (min-width: 940px {
+	
 }

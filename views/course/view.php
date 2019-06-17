@@ -15,23 +15,52 @@ Helper::setTitle("Courses");
 	"model" => $model,
 	"attributes" => [
 		'id',
-		'department_id',
-		'study_module_id',
+		[
+		    "attribute" => "department_id",
+            "value" => function($model) use ($department) {
+				if($department == null) {
+					return "-";
+				}
+                return $department->name;
+            }
+        ],
+		[
+		    "attribute" => "study_module_id",
+            "value" => function($model) use ($studyModule) {
+				if($studyModule == null) {
+					return "-";
+				}
+                return $studyModule->name;
+            }
+        ],
 		'code',
 		'name',
 		'ects',
         [
-            "attribute" => "optional",
-            "value" => function($model) {
-                return $model->optional ? "Jah" : "Ei";
-            }
+				"attribute" => "optional",
+				"value" => function($model) {
+					return $model->optional ? "Jah" : "Ei";
+				}
         ],
 		'semester',
 		'contact_hours',
-		'exam',
+        [
+				"attribute" => "exam",
+				"value" => function($model) {
+					return $model->exam ? "Jah" : "Ei";
+				}
+		],
 		'goals',
 		'description',
 		'created_at',
-		'created_by'
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ]
 	]
 ]); ?>

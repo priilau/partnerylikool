@@ -14,8 +14,24 @@ Helper::setTitle("Course teacher");
 	"model" => $model,
 	"attributes" => [
 		'id',
-		'course_id',
-		'teacher_id',
+		[
+		    "attribute" => "course_id",
+            "value" => function($model) use ($course) {
+				if($course == null) {
+					return "-";
+				}
+                return $course->name;
+            }
+        ],
+		[
+		    "attribute" => "teacher_id",
+            "value" => function($model) use ($teacher) {
+				if($teacher == null) {
+					return "-";
+				}
+                return $teacher;
+            }
+        ],
 		'created_at'
 	]
 ]); ?>

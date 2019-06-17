@@ -7,6 +7,7 @@ use app\models\Speciality;
 use app\models\StudyModule;
 use app\models\Course;
 use app\models\CourseTeacher;
+use app\models\User;
 use app\models\Teacher;
 use app\models\CourseLearningOutcome;
 use app\components\QueryBuilder;
@@ -22,7 +23,8 @@ class UniversityController extends BaseController {
 
     public function actionIndex() {
         $models = University::find()->all();
-        return $this->render("index", ["models" => $models]);
+        $userNames = User::find()->allNames();
+        return $this->render("index", ["models" => $models, "userNames" => $userNames]);
     }
     public function actionIndexPartial() {
         $models = University::find()->all();
@@ -174,9 +176,11 @@ class UniversityController extends BaseController {
 		
 		if($model->load($modelPost) && $model->save()){
 		    $departments = $model->getDepartments();
+
 		    foreach($departments as $department) { // NOTE(Caupo 16.06.2019): See omakorda kustutab ka alamelementide alamelemendid ära kuni jada lõpuni välja
 		        $department->delete();
 		    }
+
             $this->saveUniversitySubModels($model); // NOTE(Caupo 16.06.2019): ja peale delete laeme uued elemendid külge. Nii on lihtsam handlida kõikide kannete updatemist.
             //var_dump($_POST);die;
 			return $this->redirect("view", ["id" => $model->id]);
@@ -193,7 +197,9 @@ class UniversityController extends BaseController {
 	
 	public function actionView($id) {
 		$model = $this->findModel($id);
-		return $this->render("view", ["model" => $model]);
+        $user = User::find()->addWhere("=", "id", $model->created_by)->one();
+		return $this->render("view", ["model" => $model, "user" => $user]);
+        
 	}
 	
 	public function findModel($id) {

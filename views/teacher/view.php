@@ -17,7 +17,15 @@ Helper::setTitle("Teacher");
 		'firstname',
 		'lastname',
 		'email',
-		'created_by',
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ],
 		'created_at'
 	]
 ]); ?>

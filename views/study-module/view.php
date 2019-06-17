@@ -14,9 +14,25 @@ Helper::setTitle("Study module");
 	"model" => $model,
 	"attributes" => [
 		'id',
-		'speciality_id',
+		[
+		    "attribute" => "speciality_id",
+            "value" => function($model) use ($speciality) {
+				if($speciality == null) {
+					return "-";
+				}
+                return $speciality->name;
+            }
+        ],
 		'name',
-		'created_by',
+		[
+		    "attribute" => "created_by",
+            "value" => function($model) use ($user) {
+				if($user == null) {
+					return "-";
+				}
+                return $user->email;
+            }
+        ],
 		'created_at'
 	]
 ]); ?>

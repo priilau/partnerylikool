@@ -9,7 +9,7 @@ Helper::setTitle("Pealeht");
 
 <div class="content-container">
 	<div class="filter-container">
-		<div class="filter-sub-container">
+		<div class="filter-sub-container" id="left-sub">
 			<select id="degree">
                 <?php foreach($degrees as $key => $degree): ?>
                     <option value="<?= $key ?>"><?= $degree ?></option>
@@ -29,7 +29,7 @@ Helper::setTitle("Pealeht");
 				<input id="practice" type="checkbox"> <label for="practice">Soovin välispraktikat</label>
 			</div>
 		</div>
-		<div class="filter-sub-container">
+		<div class="filter-sub-container" id="right-sub">
 			<h3>Teemad millest olen huvitatud</h3>
 			<div class="filter-options">
 				<?php foreach($topics as $topic): ?>
@@ -41,7 +41,9 @@ Helper::setTitle("Pealeht");
 			</div>
 		</div>
 	</div>
-<input type="button" class="btn btn-primary" id="search" value="Otsi">
+<div>
+	<input type="button" class="btn btn-primary" id="search" value="Otsi">
+</div>
 	
 	<div id="search-results">
 		<h2>Ülikoolid</h2>

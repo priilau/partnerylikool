@@ -20,7 +20,7 @@ Helper::setTitle("Courses");
 <?= $form->field($model, 'optional')->checkBox() ?>
 <?= $form->field($model, 'semester')->dropDownList(Helper::generateSemesters()) ?>
 <?= $form->field($model, 'contact_hours') ?>
-<?= $form->field($model, 'exam') ?>
+<?= $form->field($model, 'exam')->checkBox() ?>
 <?= $form->field($model, 'goals') ?>
 <?= $form->field($model, 'description') ?>
 

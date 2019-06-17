@@ -62,7 +62,7 @@ class ActiveForm {
         $str .= "<label class='control-label' for='{$this->modelName}-{$lowerFieldName}'>{$labelName}</label>";
         $fName = $this->fieldName;
 
-        if($this->elementType == "input"){
+        if($this->elementType == "input" || $this->elementType == "textarea"){
             $value = "";
             $checked = "";
             if($this->inputType == "checkbox") {
@@ -71,6 +71,9 @@ class ActiveForm {
                 $value = "value='{$this->inputValue}'";
             }
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' {$value} {$checked}>";
+            if($this->elementType == "textarea") {
+                $str .= "</{$this->elementType}>";
+            }
         }
         else if($this->elementType == "select"){
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
@@ -117,9 +120,14 @@ class ActiveForm {
         $this->optionValAsDataVal = $optionValAsDataVal;
         return $this;
     }
-    
+
     public function checkBox(){
         $this->inputType = "checkbox";
+        return $this;
+    }
+
+    public function textarea(){
+        $this->elementType = "textarea";
         return $this;
     }
 }
