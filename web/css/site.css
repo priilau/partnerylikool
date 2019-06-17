@@ -651,8 +651,12 @@ input:-internal-autofill-selected {
 
 /* CONTENT */
 
+.container {
+	display: block;
+}
+
 .content {
-	display: inline-block;
+	display: block;
 	vertical-align: top;
 	padding: 80px 4.86111vw;
 }
@@ -692,16 +696,16 @@ input:-internal-autofill-selected {
 }
 
 .filter-options{
-	display: inline-block;
+	display: block;
 	max-height: 102px;
 	overflow: auto;
 	background: #F5F5F5;
-	padding: 8px 14px;
+	padding: 8px 0px 0px 15px;
 }
 
 .filter-options label{
 	min-width: auto;
-	max-width: 1000px
+	display: inline-block;
 }
 
 .description-text {
@@ -837,6 +841,8 @@ select {
 	background: #b80007;
 }
 
-@media only screen and (min-width: 801px {
+/* MOBILE */
+
+@media only screen and (min-width: 940px {
 
 }
