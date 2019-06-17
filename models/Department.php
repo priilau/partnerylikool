@@ -5,6 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 class Department extends ActiveRecord {
+	public $specialities;
 
 	public static function tableName() {
 		return "department";
@@ -33,6 +34,13 @@ class Department extends ActiveRecord {
 			"name" => "Ülikooli nimi",
  		];
 	}
+
+    public function getSpecialities() {
+        if(count($this->specialities) <= 0) {
+            $this->specialities = Speciality::find()->addWhere("=", "department_id", $this->id)->all();
+        }
+        return $this->specialities;
+    }
 }
 
 ?>

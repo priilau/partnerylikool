@@ -173,9 +173,11 @@ class UniversityController extends BaseController {
 		
 		if($model->load($modelPost) && $model->save()){
 		    $departments = $model->getDepartments();
+
 		    foreach($departments as $department) { // NOTE(Caupo 16.06.2019): See omakorda kustutab ka alamelementide alamelemendid ära kuni jada lõpuni välja
 		        $department->delete();
 		    }
+
             $this->saveUniversitySubModels($model); // NOTE(Caupo 16.06.2019): ja peale delete laeme uued elemendid külge. Nii on lihtsam handlida kõikide kannete updatemist.
             //var_dump($_POST);die;
 			return $this->redirect("view", ["id" => $model->id]);

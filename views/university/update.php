@@ -14,6 +14,7 @@ Helper::setTitle("Ülikooli muutmine");
 
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'country')->dropDownList(Helper::getCountries(), true) ?>
+<?= $form->field($model, 'description')->textarea(); ?>
 <?= $form->field($model, 'contact_email') ?>
 <?= $form->field($model, 'homepage_url') ?>
 <?= $form->field($model, 'recommended')->checkBox() ?>
@@ -44,7 +45,7 @@ Helper::setTitle("Ülikooli muutmine");
     let studyModuleCount = 0;
     let courseCount = 0;
 
-    function CreateDepartment(parentId) {
+    function CreateDepartment(parentId, dName = "") {
         departmentCount++;
         let departmentContainer = document.createElement("div");
         let departmentElementHeader = document.createElement("h3");
@@ -54,6 +55,7 @@ Helper::setTitle("Ülikooli muutmine");
         departmentNameInput.className = "department-name";
         departmentNameInput.name = "departmentNames["+parentId+"]";
         departmentNameInput.placeholder = "Instituudi nimi";
+        departmentNameInput.value = dName;
         departmentContainer.appendChild(departmentElementHeader);
         departmentContainer.appendChild(departmentNameInput);
 
@@ -61,7 +63,7 @@ Helper::setTitle("Ülikooli muutmine");
         departmentsContainer.appendChild(departmentContainer);
     }
 
-    function CreateSpeciality(parentId, parentDOMElement) {
+    function CreateSpeciality(parentId, parentDOMElement, sName = "", sGeneralInfo = "", sInstructions = "", sExaminations = "", sDegree = 1) {
         specialityCount++;
         let specialitiesContainer = document.createElement("div");
         specialitiesContainer.className = "speciality-container";
@@ -86,15 +88,19 @@ Helper::setTitle("Ülikooli muutmine");
             let specialityName = document.createElement("input");
             specialityName.name = "SpecialityName["+nestedId+"]["+specialityCount+"]";
             specialityName.placeholder = "Eriala nimetus";
+            specialityName.value = sName;
             let specialityDescription = document.createElement("textarea");
             specialityDescription.name = "SpecialityDescription["+nestedId+"]["+specialityCount+"]";
             specialityDescription.placeholder = "Üldinfo";
+            specialityDescription.value = sGeneralInfo;
             let specialityInstructions = document.createElement("textarea");
             specialityInstructions.name = "SpecialityInstructions["+nestedId+"]["+specialityCount+"]";
             specialityInstructions.placeholder = "Juhised";
+            specialityInstructions.value = sInstructions;
             let specialityExamMaterial = document.createElement("textarea");
             specialityExamMaterial.name = "SpecialityExamMaterial["+nestedId+"]["+specialityCount+"]";
             specialityExamMaterial.placeholder = "Eksami materjal";
+            specialityExamMaterial.value = sExaminations;
 
             let specialityDegreeLabel = document.createElement("label");
             specialityDegreeLabel.innerText = "Kraad";
@@ -106,6 +112,11 @@ Helper::setTitle("Ülikooli muutmine");
                     let option = document.createElement("option");
                     option.value = key;
                     option.innerText = degrees[key];
+
+                    if(key == sDegree) {
+                        option.selected = "selected";
+                    }
+
                     specialityDegree.appendChild(option);
                 }
             }
@@ -128,7 +139,7 @@ Helper::setTitle("Ülikooli muutmine");
         parentDOMElement.appendChild(specialitiesContainer);
     }
 
-    function CreateStudyModule(parentId, parentDOMElement) {
+    function CreateStudyModule(parentId, parentDOMElement, sMName = "") {
         studyModuleCount++;
         let studyModulesContainer = document.createElement("div");
         studyModulesContainer.className = "section-block";
@@ -153,6 +164,7 @@ Helper::setTitle("Ülikooli muutmine");
             studyModuleName.type = "text";
             studyModuleName.name = "StudyModuleName["+nestedId+"]["+studyModuleCount+"]";
             studyModuleName.placeholder = "Õppemooduli nimi";
+            studyModuleName.value = sMName;
             studyModule.appendChild(studyModuleElementHeader);
             studyModule.appendChild(studyModuleName);
             studyModules.appendChild(studyModule);
@@ -167,7 +179,7 @@ Helper::setTitle("Ülikooli muutmine");
         parentDOMElement.appendChild(studyModulesContainer);
     }
 
-    function CreateCourse(parentId, parentDOMElement) {
+    function CreateCourse(parentId, parentDOMElement, cCode = "", cName = "", cSemesterSelected = 0, cDegree = 1, cEap = 0, cOptional = 0, cExam = 0, cGoals = "", cDescription = "", cContactHours = 0) {
         courseCount++;
         let courseContainer = document.createElement("div");
         courseContainer.className = "section-block";
@@ -192,10 +204,12 @@ Helper::setTitle("Ülikooli muutmine");
             courseCode.type = "text";
             courseCode.name = "CourseCode["+nestedId+"]["+courseCount+"]";
             courseCode.placeholder = "Ainekood";
+            courseCode.value = cCode;
             let courseName = document.createElement("input");
             courseName.type = "text";
             courseName.name = "CourseName["+nestedId+"]["+courseCount+"]";
             courseName.placeholder = "Aine nimi";
+            courseName.value = cName;
 
             let courseSemesterLabel = document.createElement("label");
             courseSemesterLabel.innerText = "Semester";
@@ -205,6 +219,9 @@ Helper::setTitle("Ülikooli muutmine");
                 let option = document.createElement("option");
                 option.value = semesterArr[i];
                 option.innerText = semesterArr[i];
+                if(cSemesterSelected == semesterArr[i]) {
+                    option.selected = "selected";
+                }
                 courseSemester.appendChild(option);
             }
             let courseDegreeLabel = document.createElement("label");
@@ -217,6 +234,9 @@ Helper::setTitle("Ülikooli muutmine");
                     let option = document.createElement("option");
                     option.value = key;
                     option.innerText = degrees[key];
+                    if(key == cDegree) {
+                        option.selected = "selected";
+                    }
                     courseDegree.appendChild(option);
                 }
             }
@@ -225,11 +245,17 @@ Helper::setTitle("Ülikooli muutmine");
             courseEap.type = "text";
             courseEap.name = "CourseEap["+nestedId+"]["+courseCount+"]";
             courseEap.placeholder = "EAP / ETCS";
+            courseEap.value = cEap;
 
             let courseOptional = document.createElement("input");
             courseOptional.id = "course-optional-"+idCount;
             courseOptional.type = "checkbox";
             courseOptional.name = "CourseOptional["+nestedId+"]["+courseCount+"]";
+
+            if(cOptional) {
+                courseOptional.checked = "checked";
+            }
+
             let courseOptionalLabel = document.createElement("label");
             courseOptionalLabel.for = "course-optional-"+idCount;
             courseOptionalLabel.innerText = "Valikaine";
@@ -239,6 +265,11 @@ Helper::setTitle("Ülikooli muutmine");
             courseExam.id = "course-exam-"+idCount;
             courseExam.type = "checkbox";
             courseExam.name = "CourseExam["+nestedId+"]["+courseCount+"]";
+
+            if(cExam) {
+                courseExam.checked = "checked";
+            }
+
             let courseExamLabel = document.createElement("label");
             courseExamLabel.for = "course-exam-"+idCount;
             courseExamLabel.innerText = "Eksam";
@@ -247,15 +278,18 @@ Helper::setTitle("Ülikooli muutmine");
             let courseGoals = document.createElement("textarea");
             courseGoals.name = "CourseGoal["+nestedId+"]["+courseCount+"]";
             courseGoals.placeholder = "Õppeaine eesmärgid";
+            courseGoals.value = cGoals;
 
             let courseDescription = document.createElement("textarea");
             courseDescription.name = "CourseDescription["+nestedId+"]["+courseCount+"]";
             courseDescription.placeholder = "Õppeaine kirjeldus";
+            courseDescription.value = cDescription;
 
             let courseContactHours = document.createElement("input");
             courseContactHours.type = "text";
             courseContactHours.name = "CourseContactHours["+nestedId+"]["+courseCount+"]";
             courseContactHours.placeholder = "Kontakttundide arv";
+            courseContactHours.value = cContactHours;
 
             course.appendChild(courseElementHeader);
             course.appendChild(courseCode);
@@ -287,7 +321,7 @@ Helper::setTitle("Ülikooli muutmine");
         parentDOMElement.appendChild(courseContainer);
     }
 
-    function CreateTeacher(parentId, parentDOMElement) {
+    function CreateTeacher(parentId, parentDOMElement, teachName = "") {
         let teachersContainer = document.createElement("div");
         teachersContainer.className = "section-block";
         let teachersHeaderBlock = document.createElement("div");
@@ -304,11 +338,12 @@ Helper::setTitle("Ülikooli muutmine");
         teacherAddBtn.addEventListener("click", function() {
             let nestedId = GetNestedId(event);
             let teacher = document.createElement("div");
-            teacher.className = "teacher"
+            teacher.className = "teacher";
             let teacherName = document.createElement("input");
             teacherName.type = "text";
             teacherName.name = "TeacherName["+nestedId+"][]";
             teacherName.placeholder = "Õppejõu nimi";
+            teacherName.value = teachName;
             teacher.appendChild(teacherName);
             teachers.appendChild(teacher);
         });
@@ -319,7 +354,7 @@ Helper::setTitle("Ülikooli muutmine");
         parentDOMElement.appendChild(teachersContainer);
     }
 
-    function CreateOutcome(parentId, parentDOMElement) {
+    function CreateOutcome(parentId, parentDOMElement, outcomeDesc = "") {
         let outcomesContainer = document.createElement("div");
         outcomesContainer.className = "section-block";
         let outcomesHeaderBlock = document.createElement("div");
@@ -341,6 +376,7 @@ Helper::setTitle("Ülikooli muutmine");
             outcomeDescription.type = "text";
             outcomeDescription.name = "OutcomeDescription["+nestedId+"][]";
             outcomeDescription.placeholder = "Õpiväljundi kirjeldus";
+            outcomeDescription.value = outcomeDesc;
             outcome.appendChild(outcomeDescription);
             outcomes.appendChild(outcome);
         });
@@ -365,6 +401,11 @@ Helper::setTitle("Ülikooli muutmine");
             CreateDepartment(departmentCount);
         });
     }
+
+    <?php $departments = $model->getDepartments(); ?>
+    <?php foreach($departments as $department): ?>
+
+    <?php endforeach; ?>
 </script>
 
 <style>
