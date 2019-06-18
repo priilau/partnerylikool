@@ -66,6 +66,8 @@ class SiteController extends BaseController {
             $matchCount = 0;
             $keywordCount = 0;
             $uniKeywords = [];
+            $modelCheck = false;
+
             $modelMatches[$model->id] = [
                 "name" => $model->name, 
                 //"icon" => $model->icon, 
@@ -85,6 +87,8 @@ class SiteController extends BaseController {
                 if($_POST["semester"] == $course->semester) {
                     $modelMatches[$model->id]["match"] += 10;
                     break;
+                } else {
+                    $modelCheck = true;
                 }
             }
             
@@ -95,10 +99,15 @@ class SiteController extends BaseController {
                 if($_POST["degree"] == $speciality->degree && !$match) {
                     $modelMatches[$model->id]["match"] += 10;
                     $match = true;
+                } else {
+                    $modelCheck = true;
                 }
+
                 if(strtolower($_POST["speciality"]) == strtolower($speciality->name) && !$matchName) {
                     $modelMatches[$model->id]["match"] += 10;
                     $matchName = true;
+                } else {
+                    $modelCheck = true;
                 }
             }  
 
@@ -111,6 +120,8 @@ class SiteController extends BaseController {
                 if(strpos($searchIndex->keyword, "-o_p-")) {
                     $modelMatches[$model->id]["match"] += 10;
                     break;
+                } else {
+                    $modelCheck = true;
                 }
                 
                 foreach ($selectedTopics as $selectedTopic) {
@@ -124,9 +135,15 @@ class SiteController extends BaseController {
                     }
                 }
             }
+
             if($keywordCount != 0) {
                 $match = ($matchCount / $keywordCount) * 60;
                 $modelMatches[$model->id]["match"] += $match;
+            }
+
+            if($modelCheck){
+                unset($modelMatches[$model->id]);
+                break;
             }
             $data[] = $modelMatches[$model->id];
         }
