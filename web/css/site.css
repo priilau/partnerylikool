@@ -703,6 +703,10 @@ input:-internal-autofill-selected {
 	margin-top: 20px;
 }
 
+#left-sub {
+	padding-top: 14px;
+}
+
 .filter-sub-container, .university-description > div {
 	vertical-align: top;
 }
@@ -722,9 +726,10 @@ input:-internal-autofill-selected {
 }
 
 .description-text {
-	max-width: 550px;
+	max-width: 535px;
 	overflow-y: auto;
 	max-height: 130px;
+	padding-left: 10px;
 }
 
 .filter-container {
@@ -733,16 +738,6 @@ input:-internal-autofill-selected {
 
 .filter-container > div {
 	flex: 1;
-}
-
-.percent-with-link {
-	position: relative;
-	min-height: 128px;
-	min-width: 60px;
-}
-
-.percent-with-link div:last-child {
-	margin-top: 15px;
 }
 
 h1 {
@@ -797,8 +792,18 @@ h5 {
 	display: inline-block;
 }
 
-#left-sub {
-	padding-top: 10px;
+.percent-with-link {
+	position: relative;
+	font-size: 20px;
+	min-height: 128px;
+	min-width: 60px;
+	max-width: 74px;
+	padding-left: 2px;
+}
+
+.percent-with-link div:last-child {
+	margin-top: 15px;
+	font-size: 12px;
 }
 
 .university-icon img {
@@ -810,7 +815,7 @@ h5 {
 }
 
 .university-description {
-	border-bottom: 3px solid #F3F3F3 
+	border-bottom: 2px solid #F3F3F3 
 }
 
 select {
@@ -838,7 +843,6 @@ select {
 .admin-link ul li a:hover{
 	color: #b80007;
 	text-decoration: underline;
-	
 }
 
 .admin-link ul li a:before {
