@@ -14,9 +14,9 @@ Helper::setTitle("Speciality");
 
 <?= $form->field($model, 'name') ?>
 <?= $form->field($model, 'department_id')->dropDownList($options) ?>
-<?= $form->field($model, 'general_information') ?>
-<?= $form->field($model, 'instruction') ?>
-<?= $form->field($model, 'examinations') ?>
+<?= $form->field($model, 'general_information')->textarea() ?>
+<?= $form->field($model, 'instruction')->textarea() ?>
+<?= $form->field($model, 'examinations')->textarea() ?>
 
 <div class="form-group">
 <?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>
