@@ -116,7 +116,6 @@ Helper::setTitle("Ülikooli muutmine");
         if(selectedValue == undefined) {
             selectedValue = 1;
         }
-        // 1 degree - Must be an integer!<br> NaN Degreest saab. PostSpeciality-t vaadata.
 
         let selectBlock = document.createElement("div");
 
@@ -243,12 +242,9 @@ Helper::setTitle("Ülikooli muutmine");
     // CreateElement(elementType, className, name, placeholder, value, datasetValue)
     function CreateSpeciality(parentId = 0, inputValueName = "", inputValueDescription = "", inputValueInstruction = "", inputValueExaminations = "", inputValueDegree = "") {
         let containerId = parentId;
-        if(containerId == 0) {
-            containerId = specialityCount;
-        }
-
         let specialityContainer = document.createElement("div");
         specialityContainer.id = "speciality-id-"+containerId;
+        specialityContainer.dataset.value = containerId;
 
         let specialityNameInput = CreateElement("input", "speciality-name", "specialityNames[]", "Eriala nimi", inputValueName, parentId);
         specialityContainer.appendChild(specialityNameInput);
@@ -271,7 +267,8 @@ Helper::setTitle("Ülikooli muutmine");
             if(specialityTimer !== null) {
                 clearTimeout(specialityTimer);
             }
-            specialityTimer = setTimeout(PostSpeciality, 500, this.dataset.value,
+            console.log("PARENT VAL ", this.parentElement.dataset.value);
+            specialityTimer = setTimeout(PostSpeciality, 500, this.parentElement.dataset.value,
                 specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput.querySelector("select"));
         };
         specialityNameInput.addEventListener("input", updateSpeciality);
@@ -300,10 +297,11 @@ Helper::setTitle("Ülikooli muutmine");
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let response = JSON.parse(this.responseText);
-                console.log(response);
+                console.log(response.attributes.id);
                 iName.dataset.value = response.attributes.id;
+                iName.parentElement.dataset.value = response.attributes.id;
 
-                if(id != iName.dataset.value) {
+                if(id != iName.parentElement.dataset.value) {
                     CreateSpecialityButtons(iName.dataset.value, iName.parentElement);
                 }
                 console.log(iName.parentElement, "speciality-id-"+iName.dataset.value);
