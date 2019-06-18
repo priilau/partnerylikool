@@ -31,7 +31,7 @@ class Department extends ActiveRecord {
 	public function attributeLabels() {
 		return [
 			"university_id" => "Ülikool",
-			"name" => "Ülikooli nimi",
+			"name" => "Instituudi nimi",
  		];
 	}
 

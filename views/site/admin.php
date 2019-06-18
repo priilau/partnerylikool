@@ -16,5 +16,6 @@ Helper::setTitle("Adminpaneel");
         <li><a href="/course">Kursused</a></li>
         <li><a href="/course-learning-outcome">Õpiväljundid</a></li>
         <li> <a href="/course-teacher">Kursuste õppejõud</a></li>
+        <li> <a href="/topic">Teemad</a></li>
     </ul>
 </div>

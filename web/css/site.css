@@ -11,6 +11,10 @@ body {
 	font-size: 12px;
 }
 
+html, body {
+	height: 100%;
+}
+
 a {
 	color: #282627;
 	text-decoration: none;
@@ -201,10 +205,10 @@ li {
 	position: fixed;
 	z-index: 7;
 	background: #fff;
-	width: calc(100% - 150px);
+	width: 91%;
 	top: 0;
+	left: 0;
 	padding: 20px 4.86111vw;
-	padding-right: 100px;
 	box-shadow: 0 0 30px rgba(0,0,0,.1);
 }
 
@@ -317,8 +321,12 @@ li {
 .side-menu a {
 	display: block;
 	color: #FFF;
-	padding: 4px;
+	padding: 0 20px;
 	border-radius: 3px 0 0 3px;
+	letter-spacing: -1.1px;
+	font-size: 22px;
+	line-height: 30px;
+	margin-bottom: 10px;
 }
 
 .side-menu a:hover {
@@ -328,6 +336,11 @@ li {
 .side-menu a.active {
 	color: #3c4445;
 	background: #FFF;
+}
+
+.side-menu a.active:hover {
+	color: #b71234;
+	text-decoration: none;
 }
 
 /*FOOTER */
@@ -451,7 +464,6 @@ input[type=button], input[type=submit], .btn {
     padding: 5px;
     width: auto;
 	cursor: pointer;
-    background: #EFEFEF;
 	transition: 0.2s ease;
 	display: inline-block;
 	text-align: center;
@@ -469,6 +481,11 @@ input[type=button], input[type=submit], .btn {
 	font-size: 13px;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+input[type="button"].btn-success {
+	background: #b80007;
+	color: #fff;
 }
 
 input[type="submit"].btn-success {
@@ -654,18 +671,10 @@ input:-internal-autofill-selected {
 
 /* CONTENT */
 
-.container {
-	display: block;
-}
-
 .content {
-	display: block;
+	display: inline-block;
 	vertical-align: top;
 	padding: 80px 4.86111vw;
-}
-
-.content-container, .content{
-	display: inline-block;
 	max-width: 800px;
 }
 
@@ -686,12 +695,21 @@ input:-internal-autofill-selected {
 	display: inline-block;
 }
 
+#right-sub {
+	width: auto;
+	max-width: 395px;
+}
+
 .university {
 	margin-top: 20px;
 }
 
 .universities {
 	margin-top: 20px;
+}
+
+#left-sub {
+	padding-top: 14px;
 }
 
 .filter-sub-container, .university-description > div {
@@ -704,6 +722,7 @@ input:-internal-autofill-selected {
 	overflow: auto;
 	background: #F5F5F5;
 	padding: 8px 0px 0px 15px;
+	margin-bottom: 10px;
 }
 
 .filter-options label{
@@ -712,9 +731,10 @@ input:-internal-autofill-selected {
 }
 
 .description-text {
-	max-width: 550px;
+	max-width: 535px;
 	overflow-y: auto;
 	max-height: 130px;
+	padding-left: 10px;
 }
 
 .filter-container {
@@ -723,16 +743,6 @@ input:-internal-autofill-selected {
 
 .filter-container > div {
 	flex: 1;
-}
-
-.percent-with-link {
-	position: relative;
-	min-height: 128px;
-	min-width: 60px;
-}
-
-.percent-with-link div:last-child {
-	margin-top: 15px;
 }
 
 h1 {
@@ -787,8 +797,18 @@ h5 {
 	display: inline-block;
 }
 
-#left-sub {
-	padding-top: 10px;
+.percent-with-link {
+	position: relative;
+	font-size: 20px;
+	min-height: 128px;
+	min-width: 60px;
+	max-width: 74px;
+	padding-left: 2px;
+}
+
+.percent-with-link div:last-child {
+	margin-top: 15px;
+	font-size: 12px;
 }
 
 .university-icon img {
@@ -800,7 +820,7 @@ h5 {
 }
 
 .university-description {
-	border-bottom: 3px solid #F3F3F3 
+	border-bottom: 2px solid #F3F3F3 
 }
 
 select {
@@ -828,7 +848,6 @@ select {
 .admin-link ul li a:hover{
 	color: #b80007;
 	text-decoration: underline;
-	
 }
 
 .admin-link ul li a:before {
@@ -846,6 +865,19 @@ select {
 
 /* MOBILE */
 
-@media only screen and (min-width: 940px {
-	
+@media only screen and (max-width: 1441px) {
+	/* header menu font size*/
 }
+
+@media only screen and (max-width: 1440px) {
+	/* header menu font size*/
+}
+
+@media only screen and (max-width: 1300px) {
+	/* header menu to dropdown list*/
+}
+
+@media only screen and (max-width: 940px {
+	/* side menu to header */
+}
+

@@ -13,7 +13,7 @@ Helper::setTitle("Course learning outcome");
 <?php $form = ActiveForm::begin();?>
 
 <?= $form->field($model, 'course_id')->dropDownList($options) ?>
-<?= $form->field($model, 'outcome') ?>
+<?= $form->field($model, 'outcome')->textarea() ?>
 
 <div class="form-group">
 <?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>

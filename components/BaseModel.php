@@ -262,6 +262,10 @@ class BaseModel {
 		QueryBuilder::delete(static::tableName(), ["=", "id", $this->id])->execute();
 	}
 
+	public function hasErrors() {
+        return (count($this->errors) > 0);
+    }
+
 	public function validateEmail($email){
 		$splitEmail = explode("@", $email);
 
