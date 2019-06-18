@@ -442,6 +442,19 @@ li {
 	float: none;
 }
 
+.footer-section:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 63px;
+    width: 3px;
+    height: 160px;
+    background: #efefef;
+	transform: rotate(15deg);
+	z-index: 999;
+}
+
 /* FORMS, INPUTS, BUTTONS, ETC */
 
 label {
@@ -676,6 +689,8 @@ input:-internal-autofill-selected {
 	vertical-align: top;
 	padding: 80px 4.86111vw;
 	max-width: 800px;
+	min-width: 320px;
+	width: auto;
 }
 
 .content-admin-button {
@@ -877,18 +892,18 @@ select {
 /* MOBILE */
 
 @media only screen and (max-width: 1441px) {
-	/* header menu font size*/
+	/* header menu size*/
 }
 
 @media only screen and (max-width: 1440px) {
-	/* header menu font size*/
+	/* header menu size*/
 }
 
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1420px) {
 	/* header menu to dropdown list*/
 }
 
-@media only screen and (max-width: 940px {
+@media only screen and (max-width: 940px) {
 	/* side menu to header */
 }
 
