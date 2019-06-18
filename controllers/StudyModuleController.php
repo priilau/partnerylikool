@@ -55,6 +55,29 @@ class StudyModuleController extends BaseController {
 		$speciality = Speciality::find()->addWhere("=", "id", $model->speciality_id)->one();
 		return $this->render("view", ["model" => $model, "user" => $user, "speciality" => $speciality]);
 	}
+
+    public function actionSave() {
+        $model = new StudyModule();
+        $model->load($_POST);
+        $model->save();
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "attributes" => $model->attributes, "messages" => $model->showErrorsAsHtml()]));
+    }
+
+    public function actionRemove() {
+        $model = new StudyModule();
+        $model->load($_POST);
+        $model->delete();
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "attributes" => $model->attributes, "messages" => $model->showErrorsAsHtml()]));
+    }
+
+    public function actionGetCourses() {
+        $model = new StudyModule();
+        $model->load($_POST);
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "courses" => $model->getCourses(), "messages" => $model->showErrorsAsHtml()]));
+    }
 	
 	public function findModel($id) {
 		$model = new StudyModule();

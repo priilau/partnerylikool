@@ -25,6 +25,7 @@ Helper::setTitle("Ülikooli muutmine");
 </div>
 
 <div class="departments section-block"></div>
+<div class="specialities section-block"></div>
 
 
 <div class="form-group">
@@ -34,486 +35,733 @@ Helper::setTitle("Ülikooli muutmine");
 <?php ActiveForm::end(); ?>
 
 <script>
-    let idCount = 0;
+    let modelId = <?= $model->id ?>;
     let departmentsContainer = document.querySelector(".departments");
-    let addDepartmentBtn = document.querySelector("#add-department-button");
+    let specialitiesContainer = document.querySelector(".specialities");
     let semesterArr = JSON.parse('<?= json_encode(Helper::generateSemesters()) ?>');
     let degrees = JSON.parse('<?= json_encode(Helper::getDegrees()) ?>');
 
-    let lastSpecialityCont = null;
-    let lastStudyModuleCont = null;
-    let lastCourseCont = null;
-    let lastTeachersCont = null;
-    let lastOutcomesCont = null;
+    let selectedDepartment = 0;
 
-    let departmentCount = 1;
+    let addDepartmentBtn = document.querySelector("#add-department-button");
+    let addSpecialityBtn = null;
+    let addStudyModuleBtn = null;
+    let addCourseBtn = null;
+    let addTeacherBtn = null;
+    let addOutcomeBtn = null;
+
+    let departmentTimer = null;
+    let specialityTimer = null;
+    let studyModuleTimer = null;
+    let courseTimer = null;
+    let teacherTimer = null;
+    let outcomeTimer = null;
+
+    let departmentCount = 0;
     let specialityCount = 0;
     let studyModuleCount = 0;
     let courseCount = 0;
-
-    function CreateDepartment(parentId, dName = "") {
-        departmentCount++;
-        let departmentContainer = document.createElement("div");
-        let departmentElementHeader = document.createElement("h3");
-        departmentElementHeader.innerText = "Instituut";
-
-        let departmentNameInput = document.createElement("input");
-        departmentNameInput.className = "department-name";
-        departmentNameInput.name = "departmentNames["+parentId+"]";
-        departmentNameInput.placeholder = "Instituudi nimi";
-        departmentNameInput.value = dName;
-        departmentContainer.appendChild(departmentElementHeader);
-        departmentContainer.appendChild(departmentNameInput);
-
-        CreateSpecialityBlock(departmentCount, departmentContainer);
-        departmentsContainer.appendChild(departmentContainer);
-        return departmentContainer;
-    }
-
-    function CreateSpecialityBlock(parentId, parentDOMElement) {
-        specialityCount++;
-        let specialitiesContainer = document.createElement("div");
-        specialitiesContainer.className = "speciality-container";
-
-        let specialityHeaderBlock = document.createElement("div");
-        specialityHeaderBlock.className = "content-header-block";
-        let specialities = document.createElement("div");
-        specialities.className = "specialities section-block";
-        lastSpecialityCont = specialities;
-
-        let specialityHeader = document.createElement("h3");
-        specialityHeader.innerText = "Erialad";
-        let specialityAddBtn = document.createElement("input");
-        specialityAddBtn.type = "button";
-        specialityAddBtn.value = "Lisa eriala";
-        specialityAddBtn.className = "btn btn-primary";
-        specialityAddBtn.dataset.value = parentId;
-        specialityAddBtn.addEventListener("click", function(specialities) {
-            CreateSpeciality(event, specialities);
-        });
-        specialityHeaderBlock.appendChild(specialityHeader);
-        specialityHeaderBlock.appendChild(specialityAddBtn);
-        specialitiesContainer.appendChild(specialityHeaderBlock);
-        specialitiesContainer.appendChild(specialities);
-        parentDOMElement.appendChild(specialitiesContainer);
-        return specialities;
-    }
-
-    function CreateSpeciality(event, specialities, sName = "", sGeneralInfo = "", sInstructions = "", sExaminations = "", sDegree = 1) {
-        let nestedId = GetNestedId(event);
-        if(nestedId == 0) {
-            nestedId = departmentCount;
-        }
-        //console.log(nestedId, sName);
-        let specialityContainer = document.createElement("div");
-        let specialityHead = document.createElement("h4");
-        specialityHead.innerText = "Eriala";
-        let specialityName = document.createElement("input");
-        specialityName.name = "SpecialityName["+nestedId+"]["+specialityCount+"]";
-        specialityName.placeholder = "Eriala nimetus";
-        specialityName.value = sName;
-        let specialityDescription = document.createElement("textarea");
-        specialityDescription.name = "SpecialityDescription["+nestedId+"]["+specialityCount+"]";
-        specialityDescription.placeholder = "Üldinfo";
-        specialityDescription.value = sGeneralInfo;
-        let specialityInstructions = document.createElement("textarea");
-        specialityInstructions.name = "SpecialityInstructions["+nestedId+"]["+specialityCount+"]";
-        specialityInstructions.placeholder = "Juhised";
-        specialityInstructions.value = sInstructions;
-        let specialityExamMaterial = document.createElement("textarea");
-        specialityExamMaterial.name = "SpecialityExamMaterial["+nestedId+"]["+specialityCount+"]";
-        specialityExamMaterial.placeholder = "Eksami materjal";
-        specialityExamMaterial.value = sExaminations;
-
-        let specialityDegreeLabel = document.createElement("label");
-        specialityDegreeLabel.innerText = "Kraad";
-        let specialityDegree = document.createElement("select");
-        specialityDegree.name = "SpecialityDegree["+nestedId+"]["+specialityCount+"]";
-
-        for (let key in degrees) {
-            if (degrees.hasOwnProperty(key)) {
-                let option = document.createElement("option");
-                option.value = key;
-                option.innerText = degrees[key];
-
-                if(key == sDegree) {
-                    option.selected = "selected";
-                }
-
-                specialityDegree.appendChild(option);
-            }
-        }
-
-        specialityContainer.appendChild(specialityHead);
-        specialityContainer.appendChild(specialityName);
-        specialityContainer.appendChild(specialityDescription);
-        specialityContainer.appendChild(specialityInstructions);
-        specialityContainer.appendChild(specialityExamMaterial);
-        specialityContainer.appendChild(specialityDegreeLabel);
-        specialityContainer.appendChild(specialityDegree);
-
-        CreateStudyModuleBlock(specialityCount, specialityContainer);
-        specialities.appendChild(specialityContainer);
-    }
-
-    function CreateStudyModuleBlock(parentId, parentDOMElement) {
-        studyModuleCount++;
-        let studyModulesContainer = document.createElement("div");
-        studyModulesContainer.className = "section-block";
-        let studyModuleHeaderBlock = document.createElement("div");
-        studyModuleHeaderBlock.className = "content-header-block";
-        let studyModulesHeader = document.createElement("h3");
-        studyModulesHeader.innerText = "Õppemoodulid"
-        let studyModules = document.createElement("div");
-        studyModules.className = "study-modules";
-        lastStudyModuleCont = studyModules;
-        let studyModuleAddBtn = document.createElement("input");
-        studyModuleAddBtn.className = "btn btn-primary";
-        studyModuleAddBtn.type = "button";
-        studyModuleAddBtn.value = "Lisa õppemoodul";
-        studyModuleAddBtn.dataset.value = parentId;
-        studyModuleAddBtn.addEventListener("click", function() {
-            CreateStudyModule(event, studyModules);
-        });
-
-        studyModuleHeaderBlock.appendChild(studyModulesHeader);
-        studyModuleHeaderBlock.appendChild(studyModuleAddBtn);
-        studyModulesContainer.appendChild(studyModuleHeaderBlock);
-        studyModulesContainer.appendChild(studyModules);
-        parentDOMElement.appendChild(studyModulesContainer);
-        return studyModules;
-    }
-
-    function CreateStudyModule(event, studyModules, sMName = "") {
-        let nestedId = GetNestedId(event);
-        let studyModule = document.createElement("div");
-        studyModule.className = "study-module";
-        let studyModuleElementHeader = document.createElement("h3");
-        studyModuleElementHeader.innerText = "Õppemoodul";
-        let studyModuleName = document.createElement("input");
-        studyModuleName.type = "text";
-        studyModuleName.name = "StudyModuleName["+nestedId+"]["+studyModuleCount+"]";
-        studyModuleName.placeholder = "Õppemooduli nimi";
-        studyModuleName.value = sMName;
-        studyModule.appendChild(studyModuleElementHeader);
-        studyModule.appendChild(studyModuleName);
-        studyModules.appendChild(studyModule);
-
-        CreateCourseBlock(studyModuleCount, studyModules);
-    }
-
-    function CreateCourseBlock(parentId, parentDOMElement) {
-        courseCount++;
-        let courseContainer = document.createElement("div");
-        courseContainer.className = "section-block";
-        let courseHeaderBlock = document.createElement("div");
-        courseHeaderBlock.className = "content-header-block";
-        let courseHeader = document.createElement("h3");
-        courseHeader.innerText = "Õppeained"
-        let courses = document.createElement("div");
-        courses.className = "study-modules";
-        lastCourseCont = courses;
-        let courseAddBtn = document.createElement("input");
-        courseAddBtn.className = "btn btn-primary";
-        courseAddBtn.type = "button";
-        courseAddBtn.value = "Lisa õppeaine";
-        courseAddBtn.dataset.value = parentId;
-        courseAddBtn.addEventListener("click", function() {
-            CreateCourse();
-        });
-        courseHeaderBlock.appendChild(courseHeader);
-        courseHeaderBlock.appendChild(courseAddBtn);
-        courseContainer.appendChild(courseHeaderBlock);
-        courseContainer.appendChild(courses);
-        parentDOMElement.appendChild(courseContainer);
-        return courses;
-    }
-
-    function CreateCourse(event, courses, cCode = "", cName = "", cSemesterSelected = 0, cDegree = 1, cEap = 0, cOptional = 0, cExam = 0, cGoals = "", cDescription = "", cContactHours = 0) {
-        let nestedId = GetNestedId(event);
-        let course = document.createElement("div");
-        course.className = "course";
-        let courseElementHeader = document.createElement("h3");
-        courseElementHeader.innerText = "Õppeaine";
-        let courseCode = document.createElement("input");
-        courseCode.type = "text";
-        courseCode.name = "CourseCode["+nestedId+"]["+courseCount+"]";
-        courseCode.placeholder = "Ainekood";
-        courseCode.value = cCode;
-        let courseName = document.createElement("input");
-        courseName.type = "text";
-        courseName.name = "CourseName["+nestedId+"]["+courseCount+"]";
-        courseName.placeholder = "Aine nimi";
-        courseName.value = cName;
-
-        let courseSemesterLabel = document.createElement("label");
-        courseSemesterLabel.innerText = "Semester";
-        let courseSemester = document.createElement("select");
-        courseSemester.name = "CourseSemester["+nestedId+"]["+courseCount+"]";
-        for(let i = 0; i < semesterArr.length; i++) {
-            let option = document.createElement("option");
-            option.value = semesterArr[i];
-            option.innerText = semesterArr[i];
-            if(cSemesterSelected == semesterArr[i]) {
-                option.selected = "selected";
-            }
-            courseSemester.appendChild(option);
-        }
-        let courseDegreeLabel = document.createElement("label");
-        courseDegreeLabel.innerText = "Kraad";
-        let courseDegree = document.createElement("select");
-        courseDegree.name = "CourseDegree["+nestedId+"]["+courseCount+"]";
-
-        for (let key in degrees) {
-            if (degrees.hasOwnProperty(key)) {
-                let option = document.createElement("option");
-                option.value = key;
-                option.innerText = degrees[key];
-                if(key == cDegree) {
-                    option.selected = "selected";
-                }
-                courseDegree.appendChild(option);
-            }
-        }
-
-        let courseEap = document.createElement("input");
-        courseEap.type = "text";
-        courseEap.name = "CourseEap["+nestedId+"]["+courseCount+"]";
-        courseEap.placeholder = "EAP / ETCS";
-        courseEap.value = cEap;
-
-        let courseOptional = document.createElement("input");
-        courseOptional.id = "course-optional-"+idCount;
-        courseOptional.type = "checkbox";
-        courseOptional.name = "CourseOptional["+nestedId+"]["+courseCount+"]";
-
-        if(cOptional) {
-            courseOptional.checked = "checked";
-        }
-
-        let courseOptionalLabel = document.createElement("label");
-        courseOptionalLabel.for = "course-optional-"+idCount;
-        courseOptionalLabel.innerText = "Valikaine";
-        idCount++;
-
-        let courseExam = document.createElement("input");
-        courseExam.id = "course-exam-"+idCount;
-        courseExam.type = "checkbox";
-        courseExam.name = "CourseExam["+nestedId+"]["+courseCount+"]";
-
-        if(cExam) {
-            courseExam.checked = "checked";
-        }
-
-        let courseExamLabel = document.createElement("label");
-        courseExamLabel.for = "course-exam-"+idCount;
-        courseExamLabel.innerText = "Eksam";
-        idCount++;
-
-        let courseGoals = document.createElement("textarea");
-        courseGoals.name = "CourseGoal["+nestedId+"]["+courseCount+"]";
-        courseGoals.placeholder = "Õppeaine eesmärgid";
-        courseGoals.value = cGoals;
-
-        let courseDescription = document.createElement("textarea");
-        courseDescription.name = "CourseDescription["+nestedId+"]["+courseCount+"]";
-        courseDescription.placeholder = "Õppeaine kirjeldus";
-        courseDescription.value = cDescription;
-
-        let courseContactHours = document.createElement("input");
-        courseContactHours.type = "text";
-        courseContactHours.name = "CourseContactHours["+nestedId+"]["+courseCount+"]";
-        courseContactHours.placeholder = "Kontakttundide arv";
-        courseContactHours.value = cContactHours;
-
-        course.appendChild(courseElementHeader);
-        course.appendChild(courseCode);
-        course.appendChild(courseName);
-        course.appendChild(courseSemesterLabel);
-        course.appendChild(courseSemester);
-        course.appendChild(document.createElement("br"));
-        course.appendChild(courseDegreeLabel);
-        course.appendChild(courseDegree);
-        course.appendChild(courseEap);
-        course.appendChild(courseOptional);
-        course.appendChild(courseOptionalLabel);
-        course.appendChild(document.createElement("br"));
-        course.appendChild(courseExam);
-        course.appendChild(courseExamLabel);
-        course.appendChild(document.createElement("br"));
-        course.appendChild(courseGoals);
-        course.appendChild(courseDescription);
-        course.appendChild(courseContactHours);
-        courses.appendChild(course);
-
-        CreateTeacherBlock(courseCount, course);
-        CreateOutcomeBlock(courseCount, course);
-    }
-
-    function CreateTeacherBlock(parentId, parentDOMElement) {
-        let teachersContainer = document.createElement("div");
-        teachersContainer.className = "section-block";
-        let teachersHeaderBlock = document.createElement("div");
-        teachersHeaderBlock.className = "content-header-block";
-        let teachersHeader = document.createElement("h3");
-        teachersHeader.innerText = "Õppejõud"
-        let teachers = document.createElement("div");
-        teachers.className = "teachers";
-        lastTeachersCont = teachers;
-        let teacherAddBtn = document.createElement("input");
-        teacherAddBtn.className = "btn btn-primary";
-        teacherAddBtn.type = "button";
-        teacherAddBtn.value = "Lisa õppejõud";
-        teacherAddBtn.dataset.value = parentId;
-        teacherAddBtn.addEventListener("click", function() {
-            CreateTeacher(event, teachers);
-        });
-        teachersHeaderBlock.appendChild(teachersHeader);
-        teachersHeaderBlock.appendChild(teacherAddBtn);
-        teachersContainer.appendChild(teachersHeaderBlock);
-        teachersContainer.appendChild(teachers);
-        parentDOMElement.appendChild(teachersContainer);
-    }
-
-    function CreateTeacher(event, teachers, tName = "") {
-        let nestedId = GetNestedId(event);
-        let teacher = document.createElement("div");
-        teacher.className = "teacher";
-        let teacherName = document.createElement("input");
-        teacherName.type = "text";
-        teacherName.name = "TeacherName["+nestedId+"][]";
-        teacherName.placeholder = "Õppejõu nimi";
-        teacherName.value = tName;
-        teacher.appendChild(teacherName);
-        teachers.appendChild(teacher);
-    }
-
-    function CreateOutcomeBlock(parentId, parentDOMElement) {
-        let outcomesContainer = document.createElement("div");
-        outcomesContainer.className = "section-block";
-        let outcomesHeaderBlock = document.createElement("div");
-        outcomesHeaderBlock.className = "content-header-block";
-        let outcomesHeader = document.createElement("h3");
-        outcomesHeader.innerText = "Õpiväljundid";
-        let outcomes = document.createElement("div");
-        outcomes.className = "outcomes";
-        lastOutcomesCont = outcomes;
-        let outcomeAddBtn = document.createElement("input");
-        outcomeAddBtn.className = "btn btn-primary";
-        outcomeAddBtn.type = "button";
-        outcomeAddBtn.value = "Lisa õpiväljund";
-        outcomeAddBtn.dataset.value = parentId;
-        outcomeAddBtn.addEventListener("click", function() {
-            CreateOutcome(event, outcomes);
-        });
-        outcomesHeaderBlock.appendChild(outcomesHeader);
-        outcomesHeaderBlock.appendChild(outcomeAddBtn);
-        outcomesContainer.appendChild(outcomesHeaderBlock);
-        outcomesContainer.appendChild(outcomes);
-        parentDOMElement.appendChild(outcomesContainer);
-    }
-
-    function CreateOutcome(event, outcomes, outcomeDesc = "") {
-        let nestedId = GetNestedId(event);
-        let outcome = document.createElement("div");
-        outcome.className = "outcome";
-        let outcomeDescription = document.createElement("textarea");
-        outcomeDescription.type = "text";
-        outcomeDescription.name = "OutcomeDescription["+nestedId+"][]";
-        outcomeDescription.placeholder = "Õpiväljundi kirjeldus";
-        outcomeDescription.value = outcomeDesc;
-        outcome.appendChild(outcomeDescription);
-        outcomes.appendChild(outcome);
-    }
-
-    function GetNestedId(event) {
-        if(event == null) {
-            return 0;
-        }
-        let targetElement = event.target || event.srcElement;
-        let nestedId = 0;
-        if(targetElement !== null && targetElement !== undefined) {
-            nestedId = targetElement.dataset.value;
-        }
-        return nestedId;
-    }
+    let teacherCount = 0;
+    let outcomeCount = 0;
 
     if(addDepartmentBtn !== null && addDepartmentBtn !== undefined) {
         addDepartmentBtn.addEventListener("click", function() {
-            CreateDepartment(departmentCount);
+            CreateDepartment();
         });
     }
 
-    let deptCont = null;
-    let specCont = null;
-    let studCont = null;
-    let coursCont = null;
+    function clearInner(node) {
+        if(node === null) return;
+        while (node.hasChildNodes()) {
+            clear(node.firstChild);
+        }
+    }
+
+    function clear(node) {
+        while (node.hasChildNodes()) {
+            clear(node.firstChild);
+        }
+        node.parentNode.removeChild(node);
+    }
+
+    function RemoveElement(removeElement) {
+        if(removeElement !== undefined && removeElement !== null) {
+            clearInner(removeElement);
+        }
+    }
+
+    function RemoveEntity(id, entityName, removeUrl) {
+        let formData = new FormData();
+        formData.append("id", id);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                console.log(response.attributes.id, (response.attributes.id > 0));
+                if(response.attributes.id > 0) {
+                    let removeElement = document.querySelector("#"+entityName+"-id-"+response.attributes.id);
+                    console.log("REMOVE ELEMENT", removeElement);
+                    RemoveElement(removeElement);
+                }
+            }
+        };
+        xhttp.open("POST", removeUrl, true);
+        xhttp.send(formData);
+    }
+
+    function CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId = "", inputType = "text") {
+        let el = document.createElement(elementType);
+        if(elementId.length > 0) {
+            el.id = elementId;
+        }
+        el.type = inputType;
+        el.className = className;
+        if(name.length > 0) {
+            el.name = name;
+        }
+        if(placeholder.length > 0) {
+            el.placeholder = placeholder;
+        }
+        el.value = value;
+        el.dataset.value = datasetValue;
+        return el;
+    }
+
+    function CreateSelect(label, className, name, selectedValue, options) {
+        if(selectedValue == undefined) {
+            selectedValue = 1;
+        }
+
+        let selectBlock = document.createElement("div");
+
+        let labelElement = document.createElement("label");
+        labelElement.innerText = label;
+        let select = document.createElement("select");
+        select.name = name;
+        select.className = className;
+
+        for (let key in options) {
+            if (options.hasOwnProperty(key)) {
+                let option = document.createElement("option");
+                option.value = key;
+                option.innerText = options[key];
+                if(key == selectedValue) {
+                    option.selected = "selected";
+                }
+                select.appendChild(option);
+            }
+        }
+
+        selectBlock.appendChild(labelElement);
+        selectBlock.appendChild(select);
+        return selectBlock;
+    }
+
+    function PostDepartment(id, name, universityId, nameInput) {
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("name", name);
+        formData.append("university_id", universityId);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                nameInput.dataset.value = response.attributes.id;
+
+                if(id != nameInput.dataset.value) {
+                    CreateDepartmentButtons(nameInput.dataset.value, nameInput.parentElement);
+                }
+                console.log(nameInput.parentElement, "department-id-"+nameInput.dataset.value);
+                nameInput.parentElement.id = "department-id-"+nameInput.dataset.value;
+            }
+        };
+        xhttp.open("POST", "/department/save", true);
+        xhttp.send(formData);
+    }
+
+    function RemoveDepartment(id) {
+        RemoveEntity(id, "department", "/department/remove");
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateDepartmentButtons(deptId, container) {
+        let departmentRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", deptId, "department-remove-id-"+deptId, "button");
+        departmentRemoveBtn.addEventListener("click", function() {
+            RemoveDepartment(deptId);
+        });
+        container.appendChild(departmentRemoveBtn);
+
+        let departmentViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata instituudi erialasid", deptId, "department-view-id-"+deptId, "button");
+        departmentViewBtn.addEventListener("click", function() {
+            let departmentName = container.querySelector(".department-name");
+            if(departmentName !== undefined && departmentName !== null) {
+                GetSpeciality(deptId, departmentName.value);
+                selectedDepartment = deptId;
+            }
+        });
+        container.appendChild(departmentViewBtn);
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateDepartment(departmentId = 0, dName = "") {
+        let containerId = departmentId;
+        if(containerId == 0) {
+            containerId = departmentCount;
+        }
+
+        let departmentContainer = document.createElement("div");
+        departmentContainer.id = "department-id-"+containerId;
+        let departmentNameInput = CreateElement("input", "department-name", "departmentNames[]", "Instituudi nimi", dName, departmentId);
+        departmentContainer.appendChild(departmentNameInput);
+
+        if(departmentId > 0) {
+            CreateDepartmentButtons(departmentId, departmentContainer);
+        }
+
+        departmentsContainer.appendChild(departmentContainer);
+
+        departmentNameInput.addEventListener("input", function() {
+            if(departmentTimer !== null) {
+                clearTimeout(departmentTimer);
+            }
+            departmentTimer = setTimeout(PostDepartment, 500, this.dataset.value, departmentNameInput.value, modelId, departmentNameInput);
+        });
+
+        departmentCount++;
+    }
+
+    /* SPECIALITY */
+    /* SPECIALITY */
+    /* SPECIALITY */
+    /* SPECIALITY */
+    /* SPECIALITY */
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue)
+    function CreateSpeciality(parentId = 0, inputValueName = "", inputValueDescription = "", inputValueInstruction = "", inputValueExaminations = "", inputValueDegree = "") {
+        let containerId = parentId;
+        let specialityContainer = document.createElement("div");
+        specialityContainer.id = "speciality-id-"+containerId;
+        specialityContainer.className = "section-block";
+        specialityContainer.dataset.value = containerId;
+
+        let headerEl = document.createElement("h3");
+        headerEl.innerText = "Eriala:";
+        specialityContainer.appendChild(headerEl);
+        let specialityNameInput = CreateElement("input", "speciality-name", "specialityNames[]", "Eriala nimi", inputValueName, parentId);
+        specialityContainer.appendChild(specialityNameInput);
+        let specialityDescriptionInput = CreateElement("textarea", "speciality-description", "specialityDescription[]", "Üldinfo", inputValueDescription, parentId, "", "");
+        specialityContainer.appendChild(specialityDescriptionInput);
+        let specialityInstructionInput = CreateElement("textarea", "speciality-instruction", "specialityInstruction[]", "Juhised", inputValueInstruction, parentId, "", "");
+        specialityContainer.appendChild(specialityInstructionInput);
+        let specialityExaminationsInput = CreateElement("textarea", "speciality-examinations", "specialityExaminations[]", "Eksami materjal", inputValueExaminations, parentId, "", "");
+        specialityContainer.appendChild(specialityExaminationsInput);
+        let specialityDegreeInput = CreateSelect("Kraad", "speciality-degree", "specialityDegree[]", inputValueDegree, degrees);
+        specialityContainer.appendChild(specialityDegreeInput);
+
+        let specialityStudyModulesContainer = document.createElement("div");
+        specialityStudyModulesContainer.id = "speciality-id-"+parentId+"-study-modules";
+        specialityStudyModulesContainer.className = "speciality-study-modules";
+
+        console.log("SPECIALITY CONTINER");
+        console.log(specialityContainer);
+        specialityContainer.appendChild(specialityStudyModulesContainer);
+
+        if(parentId > 0) {
+            CreateSpecialityButtons(parentId, specialityContainer);
+        }
+
+        specialitiesContainer.appendChild(specialityContainer);
+
+        let updateSpeciality = function() {
+            if(specialityTimer !== null) {
+                clearTimeout(specialityTimer);
+            }
+            console.log("PARENT VAL ", this.parentElement.dataset.value);
+            specialityTimer = setTimeout(PostSpeciality, 500, this.parentElement.dataset.value,
+                specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput.querySelector("select"));
+        };
+        specialityNameInput.addEventListener("input", updateSpeciality);
+        specialityDescriptionInput.addEventListener("input", updateSpeciality);
+        specialityInstructionInput.addEventListener("input", updateSpeciality);
+        specialityExaminationsInput.addEventListener("input", updateSpeciality);
+        specialityDegreeInput.addEventListener("input", updateSpeciality);
+        specialityDegreeInput.addEventListener("change", updateSpeciality);
+
+        specialityCount++;
+    }
+
+    function PostSpeciality(id, iName, iDesc, iInstr, iExamin, iDegree) {
+        console.log("PostSpeciality: ", id, iName, iDesc, iInstr, iExamin, iDegree);
+
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("name", iName.value);
+        formData.append("department_id", parseInt(selectedDepartment));
+        formData.append("general_information", iDesc.value);
+        formData.append("instruction", iInstr.value);
+        formData.append("examinations", iExamin.value);
+        formData.append("degree", parseInt(iDegree.value));
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response.attributes.id);
+                iName.dataset.value = response.attributes.id;
+                iName.parentElement.dataset.value = response.attributes.id;
+
+                if(id != iName.parentElement.dataset.value) {
+                    CreateSpecialityButtons(iName.dataset.value, iName.parentElement);
+                }
+                console.log(iName.parentElement, "speciality-id-"+iName.dataset.value);
+                iName.parentElement.id = "speciality-id-"+iName.dataset.value;
+            }
+        };
+        xhttp.open("POST", "/speciality/save", true);
+        xhttp.send(formData);
+    }
+
+    function CreateSpecialityButtons(entityId, container) {
+        let specialityRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "speciality-remove-id-"+entityId, "button");
+        specialityRemoveBtn.addEventListener("click", function() {
+            RemoveSpeciality(entityId);
+        });
+        container.appendChild(specialityRemoveBtn);
+
+        let specialityViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata eriala õpimooduleid", entityId, "speciality-view-id-"+entityId, "button");
+        specialityViewBtn.addEventListener("click", function() {
+            let specialityName = container.querySelector(".speciality-name");
+            if(specialityName !== undefined && specialityName !== null) {
+                let studyModulesContainer = document.querySelector("#speciality-id-"+entityId+" .speciality-study-modules");
+                console.log("SM CONT", "#speciality-id-"+entityId+" .speciality-study-modules", studyModulesContainer);
+                GetStudyModules(entityId, studyModulesContainer);
+                container.appendChild(studyModulesContainer);
+            }
+        });
+        container.appendChild(specialityViewBtn);
+    }
+
+    function RemoveSpeciality(id) {
+        RemoveEntity(id, "speciality", "/speciality/remove");
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function GetSpeciality(parentId, label) {
+        clearInner(specialitiesContainer);
+        let specialityHeader = document.createElement("h2");
+        specialityHeader.innerText = "Instituut: "+label;
+        let addSpecialityBtn = document.createElement("input");
+        addSpecialityBtn.type = "button";
+        addSpecialityBtn.className = "btn btn-primary";
+        addSpecialityBtn.value = "Lisa eriala";
+        addSpecialityBtn.addEventListener("click", function() {
+            CreateSpeciality(0, "");
+        });
+
+        FetchSpecialities(parentId);
+        specialitiesContainer.appendChild(specialityHeader);
+        specialitiesContainer.appendChild(addSpecialityBtn);
+    }
+
+    function FetchSpecialities(departmentId) {
+        let formData = new FormData();
+        formData.append("id", departmentId);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                 console.log(response);
+                 console.log(response.specialities[0]);
+
+                for(let i = 0; i < response.specialities.length; i++) {
+                    let spData = response.specialities[i];
+                    console.log(spData);
+                    CreateSpeciality(spData.attributes.id, spData.attributes.name, spData.attributes.general_information, spData.attributes.instruction, spData.attributes.examinations, spData.attributes.degree)
+                }
+            }
+        };
+        xhttp.open("POST", "/department/get-specialities", true);
+        xhttp.send(formData);
+    }
+
+    /* STUDY MODULE */
+    /* STUDY MODULE */
+    /* STUDY MODULE */
+    /* STUDY MODULE */
+    /* STUDY MODULE */
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateStudyModule(parentId, inputValue, studyModulesContainer, specialityId) {
+        let containerId = parentId;
+        let smContainer = document.createElement("div");
+        smContainer.id = "study-module-id-"+containerId;
+        smContainer.dataset.value = containerId;
+        smContainer.dataset.specialityId = specialityId;
+
+        let headerEl = document.createElement("h3");
+        headerEl.innerText = "Õppemoodul:";
+        smContainer.appendChild(headerEl);
+        let smNameInput = CreateElement("input", "sm-name", "smNames[]", "Õppemooduli nimi", inputValue, parentId);
+        smContainer.appendChild(smNameInput);
+
+        if(parentId > 0) {
+            CreateStudyModuleButtons(parentId, smContainer);
+        }
+
+        studyModulesContainer.appendChild(smContainer);
+
+        let updateStudyModule = function() {
+            if(studyModuleTimer !== null) {
+                clearTimeout(studyModuleTimer);
+            }
+            console.log("SM PARENT VAL ", this.parentElement.dataset.value);
+            studyModuleTimer = setTimeout(PostStudyModule, 500, this.parentElement.dataset.value, smNameInput, specialityId);
+        };
+        smNameInput.addEventListener("input", updateStudyModule);
+
+        studyModuleCount++;
+    }
+
+    function PostStudyModule(id, inputField, specialityId) {
+        console.log("PostStudyModule: ", id, inputField);
+
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("name", inputField.value);
+        formData.append("speciality_id", specialityId);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response.attributes.id);
+                inputField.dataset.value = response.attributes.id;
+                inputField.parentElement.dataset.value = response.attributes.id;
+
+                if(id != inputField.parentElement.dataset.value) {
+                    CreateStudyModuleButtons(inputField.dataset.value, inputField.parentElement, specialityId);
+                }
+                console.log(inputField.parentElement, "study-module-id-"+inputField.dataset.value);
+                inputField.parentElement.id = "study-module-id-"+inputField.dataset.value;
+            }
+        };
+        xhttp.open("POST", "/study-module/save", true);
+        xhttp.send(formData);
+    }
+
+    function GetStudyModules(specialityId, studyModulesContainer) {
+        studyModuleCount = 0;
+        clearInner(studyModulesContainer);
+        let addSMBtn = document.createElement("input");
+        addSMBtn.type = "button";
+        addSMBtn.className = "btn btn-primary";
+        addSMBtn.value = "Lisa õppemoodul";
+        addSMBtn.addEventListener("click", function() {
+            CreateStudyModule(0, "", studyModulesContainer, specialityId);
+        });
+
+        FetchStudyModules(specialityId, studyModulesContainer);
+        studyModulesContainer.appendChild(addSMBtn);
+        specialitiesContainer.appendChild(studyModulesContainer);
+    }
+
+    function FetchStudyModules(specialityId, studyModulesContainer) {
+        let formData = new FormData();
+        formData.append("id", specialityId);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                console.log(response.studyModules);
+
+                for(let i = 0; i < response.studyModules.length; i++) {
+                    let sm = response.studyModules[i];
+                    console.log("sm", sm);
+                    CreateStudyModule(sm.attributes.id, sm.attributes.name, studyModulesContainer, specialityId);
+                }
+            }
+        };
+        xhttp.open("POST", "/speciality/get-study-modules", true);
+        xhttp.send(formData);
+    }
+
+    function CreateStudyModuleButtons(entityId, container) {
+        let smRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "study-module-remove-id-"+entityId, "button");
+        smRemoveBtn.addEventListener("click", function() {
+            RemoveStudyModule(entityId);
+        });
+        container.appendChild(smRemoveBtn);
+        let courseContainer = document.createElement("div");
+        courseContainer.id = "study-module-id-"+entityId+"-courses-container";
+        courseContainer.className = "section-block";
+
+        let smViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata kursuseid", entityId, "study-module-view-id-"+entityId, "button");
+        smViewBtn.addEventListener("click", function() {
+            let smName = container.querySelector(".sm-name");
+            if(smName !== undefined && smName !== null) {
+                GetCourses(entityId, courseContainer);
+            }
+        });
+        container.appendChild(smViewBtn);
+        container.appendChild(courseContainer);
+    }
+
+    function RemoveStudyModule(id) {
+        RemoveEntity(id, "study-module", "/study-module/remove");
+    }
+
+    /* COURSE */
+    /* COURSE */
+    /* COURSE */
+    /* COURSE */
+    /* COURSE */
+
+    function GetCourses(studyModulesId, coursesContainer) {
+        console.log("GetCourses", 1);
+        courseCount = 0;
+        clearInner(coursesContainer);
+        let addCourseBtn = document.createElement("input");
+        addCourseBtn.type = "button";
+        addCourseBtn.className = "btn btn-primary";
+        addCourseBtn.value = "Lisa õppeaine";
+        addCourseBtn.addEventListener("click", function() {
+            CreateCourse(0, coursesContainer, studyModulesId, "");
+        });
+        console.log("GetCourses", 2);
+
+        FetchCourses(studyModulesId, coursesContainer);
+        console.log("GetCourses", 3);
+        coursesContainer.appendChild(addCourseBtn);
+        console.log("GetCourses", 4, coursesContainer);
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateCourse(parentId, coursesContainer, studyModuleId, iCodeVal = "", iNameVal = "", iEctsVal = 0, iGoalsVal = "", iDescriptionVal = "", iContactHours = 0, iDegreeVal = 1, iSemesterVal = 0, iOptional = 0, iExam = 0) {
+        let containerId = parentId;
+        let courseContainer = document.createElement("div");
+        courseContainer.id = "course-id-"+containerId;
+        courseContainer.dataset.value = containerId;
+        courseContainer.dataset.studyModuleId = studyModuleId;
+
+        let headerEl = document.createElement("h3");
+        headerEl.innerText = "Õppeaine:";
+        courseContainer.appendChild(headerEl);
+        let courseCodeInput = CreateElement("input", "course-code", "courseCodes[]", "Õppeaine kood", iCodeVal, parentId);
+        courseContainer.appendChild(courseCodeInput);
+        let courseNameInput = CreateElement("input", "course-name", "courseNames[]", "Õppeaine nimi", iNameVal, parentId);
+        courseContainer.appendChild(courseNameInput);
+        let courseEctsInput = CreateElement("input", "course-ects", "courseEcts[]", "EAP", iEctsVal, parentId);
+        courseContainer.appendChild(courseEctsInput);
+        let courseGoalsInput = CreateElement("input", "course-goals", "courseGoals[]", "Eesmärgid", iGoalsVal, parentId);
+        courseContainer.appendChild(courseGoalsInput);
+        let courseDescriptionInput = CreateElement("input", "course-description", "courseDescription[]", "Kirjeldus", iDescriptionVal, parentId);
+        courseContainer.appendChild(courseDescriptionInput);
+        let courseContactHoursInput = CreateElement("input", "course-contact_hours", "courseContactHours[]", "Kontakttunnid", iContactHours, parentId);
+        courseContainer.appendChild(courseContactHoursInput);
+
+        let courseDegreeInput = CreateSelect("Kraad", "course-degree", "courseDegree[]", iDegreeVal, degrees);
+        courseContainer.appendChild(courseDegreeInput);
+
+        let courseSemesterInput = CreateSelect("Semester", "course-semester", "courseSemester[]", iSemesterVal, semesterArr);
+        courseContainer.appendChild(courseSemesterInput);
+
+        let courseOptionalInput = CreateElement("input", "course-optional", "courseOptional[]", "Valikaine", iOptional, parentId, "", "checkbox");
+        let courseOptionalLabel = document.createElement("label");
+        courseOptionalLabel.innerText = "Valikaine";
+        courseContainer.appendChild(courseOptionalInput);
+        courseContainer.appendChild(courseOptionalLabel);
+
+        let courseExamInput = CreateElement("input", "course-exam", "courseExam[]", "Eksam", iExam, parentId, "", "checkbox");
+        let courseExamLabel = document.createElement("label");
+        courseExamLabel.innerText = "Eksam";
+        courseContainer.appendChild(courseExamInput);
+        courseContainer.appendChild(courseExamLabel);
+
+        if(parentId > 0) {
+            CreateCourseButtons(parentId, courseContainer, coursesContainer);
+        }
+        console.log("COURSES JA COURSE CONTROLLER");
+        console.log(coursesContainer);
+        console.log(courseContainer);
+        coursesContainer.appendChild(courseContainer);
+
+        let updateCallback = function() { if(courseTimer !== null) { clearTimeout(courseTimer); }
+            courseTimer = setTimeout(PostCourse, 500, this.parentElement.dataset.value, studyModuleId,
+                courseCodeInput, courseNameInput, courseEctsInput, courseGoalsInput, courseDescriptionInput, courseContactHoursInput, courseDegreeInput, courseSemesterInput, courseOptionalInput, courseExamInput);
+        };
+        courseCodeInput.addEventListener("input", updateCallback);
+        courseNameInput.addEventListener("input", updateCallback);
+        courseEctsInput.addEventListener("input", updateCallback);
+        courseGoalsInput.addEventListener("input", updateCallback);
+        courseDescriptionInput.addEventListener("input", updateCallback);
+        courseContactHoursInput.addEventListener("input", updateCallback);
+        courseDegreeInput.addEventListener("input", updateCallback);
+        courseSemesterInput.addEventListener("input", updateCallback);
+
+        courseCount++;
+    }
+
+    function CreateCourseButtons(entityId, container, coursesContainer) {
+        let RemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "course-remove-id-"+entityId, "button");
+        RemoveBtn.addEventListener("click", function() { RemoveCourse(entityId); });
+        container.appendChild(RemoveBtn);
+        let subEntityContainer = document.createElement("div");
+        subEntityContainer.id = "course-id-"+entityId+"-course-teacher-container";
+
+        let viewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata õpetajaid", entityId, "teacher-view-id-"+entityId, "button");
+        viewBtn.addEventListener("click", function() {
+            let NameInput = container.querySelector(".course-name");
+            if(NameInput !== undefined && NameInput !== null) {
+                GetTeachers(entityId, coursesContainer); // TODO välja selgitada container mis siia peab tegelt minema.
+            }
+        });
+        container.appendChild(viewBtn);
+
+        let outcomesViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata väljundeid", entityId, "outcomes-view-id-"+entityId, "button");
+        outcomesViewBtn.addEventListener("click", function() {
+            let NameInput = container.querySelector(".course-name");
+            if(NameInput !== undefined && NameInput !== null) {
+                GetOutcomes(entityId, coursesContainer); // TODO välja selgitada container mis siia peab tegelt minema.
+            }
+        });
+        container.appendChild(outcomesViewBtn);
+    }
+
+    function PostCourse(id, studyModuleId, iCode, iName, iEcts, iGoals, iDescription, iContactHours, iDegree, iSemester, iOptional, iExam) {
+        console.log("PostCourse: ", id, studyModuleId, iDegree, iSemester);
+
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("study_module_id", studyModuleId);
+        formData.append("department_id", parseInt(selectedDepartment));
+        formData.append("code", iCode.value);
+        formData.append("name", iName.value);
+        formData.append("ects", iEcts.value);
+        formData.append("goals", iGoals.value);
+        formData.append("description", iDescription.value);
+        formData.append("contact_hours", iContactHours.value);
+        formData.append("degree", iDegree.querySelector("select").value);
+        formData.append("semester", iSemester.querySelector("select").value);
+        formData.append("optional", iOptional.value);
+        formData.append("exam", iExam.value);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response.attributes.id);
+                iName.dataset.value = response.attributes.id;
+                iName.parentElement.dataset.value = response.attributes.id;
+
+                if(id != iName.parentElement.dataset.value) {
+                    CreateCourseButtons(iName.dataset.value, iName.parentElement, specialityId);
+                }
+                console.log(iName.parentElement, "course-id-"+iName.dataset.value);
+                iName.parentElement.id = "course-id-"+iName.dataset.value;
+            }
+        };
+        xhttp.open("POST", "/course/save", true);
+        xhttp.send(formData);
+    }
+
+    function FetchCourses(studyModulesId, coursesContainer) {
+        let formData = new FormData();
+        formData.append("id", studyModulesId);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(coursesContainer);
+
+                for(let i = 0; i < response.courses.length; i++) {
+                    let course = response.courses[i];
+                    console.log("course", course);
+                    CreateCourse(course.attributes.id, coursesContainer, studyModulesId, course.attributes.code, course.attributes.name, course.attributes.etcs,
+                        course.attributes.goals, course.attributes.description, course.attributes.contact_hours, course.attributes.degree, course.attributes.semester, course.attributes.optional, course.attributes.exam);
+                }
+            }
+        };
+        xhttp.open("POST", "/study-module/get-courses", true);
+        xhttp.send(formData);
+    }
+
+    function RemoveCourse(id) {
+        RemoveEntity(id, "course", "/course/remove");
+    }
+
+    /* TEACHER */
+    /* TEACHER */
+    /* TEACHER */
+    /* TEACHER */
+    /* TEACHER */
+
+    function GetTeachers(parentId) {
+
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateTeacher(parentId, inputValue, teachersContainer, courseId) {
+
+    }
+
+    function CreateTeacherButtons(parentId, container) {
+
+    }
+
+    function PostTeacher(id, parentId, inputField, inputValue) {
+
+    }
+
+    function RemoveTeacher(id) {
+        RemoveEntity(id, "course-teacher", "/course-teacher/remove");
+    }
+
+    /* OUTCOME */
+    /* OUTCOME */
+    /* OUTCOME */
+    /* OUTCOME */
+    /* OUTCOME */
+
+    function GetOutcomes(parentId) {
+
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateOutcome(parentId, inputValue, outcomesContainer, courseId) {
+
+    }
+
+    function CreateOutcomeButtons(parentId, container) {
+
+    }
+
+    function PostOutcome(id, parentId, inputField, inputValue) {
+
+    }
+
+    function RemoveOutcome(id) {
+        RemoveEntity(id, "course-learning-outcome", "/course-learning-outcome/remove");
+    }
 
     <?php $departments = $model->getDepartments(); ?>
     <?php foreach($departments as $department): ?>
-        deptCont = CreateDepartment(departmentCount, '<?= $department->name?>');
-        //specCont = CreateSpecialityBlock(departmentCount, deptCont);
-
-        <?php $specialities = $department->getSpecialities(); ?>
-        <?php foreach($specialities as $speciality): ?>
-            //console.log('<?= json_encode($speciality->name) ?>');
-            CreateSpeciality(null, lastSpecialityCont, '<?= $speciality->name ?>', '<?= $speciality->general_information ?>', '<?= $speciality->instruction?>', '<?= $speciality->examinations ?>', '<?= $speciality->degree ?>');
-
-            <?php $studyModules = $speciality->getStudyModules(); ?>
-            <?php foreach($studyModules as $studyModule): ?>
-                console.log('<?= json_encode($studyModule->name) ?>');
-                CreateStudyModule(null, lastStudyModuleCont, '<?= $studyModule->name ?>');
-
-                <?php $courses = $studyModule->getCourses(); ?>
-                <?php foreach($courses as $course): ?>
-                    CreateCourse(null, lastCourseCont, '<?= $course->code ?>', '<?= $course->name ?>', '<?= $course->semester ?>', '<?= $course->degree ?>', '<?= $course->ects ?>', '<?= $course->optional ?>', '<?= $course->exam ?>', '<?= $course->goals ?>', '<?= $course->description ?>', '<?= $course->contact_hours ?>');
-
-                    <?php $teachers = $course->getTeachers(); ?>
-                    console.log('<?= json_encode($teachers) ?>');
-                    <?php foreach($teachers as $teacher): ?>
-                        CreateTeacher(null, lastTeachersCont, '<?= $teacher ?>');
-                    <?php endforeach; ?>
-                    <?php $outcomes = $course->getOutcomes(); ?>
-                    console.log('<?= json_encode($outcomes) ?>');
-                    <?php foreach($outcomes as $outcome): ?>
-                        CreateOutcome(null, lastOutcomesCont, '<?= $outcome ?>');
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
+        CreateDepartment(<?= $department->id ?>, '<?= $department->name ?>');
     <?php endforeach; ?>
 </script>
 
 <style>
     /* TODO Kristjan tõsta see pärast site.css faili. */
-    .content-header-block h2 {
-        margin-top: 6px;
+    .section-block, .speciality-study-modules {
+        padding-top: 20px;
+        padding-left: 20px;
     }
-    .content-header-block input {
-        height: 30px;
-    }
-    .content-header-block h2, .content-header-block h3, .content-header-block input{
-        display: inline-block;
-        flex: 1;
-    }
-
-    .content-header-block {
-        width: 100%;
-        display: flex;
-    }
-
-    input[type='text'] {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .section-block {
-        padding: 10px;
-        padding-left: 40px;
-        border-left: 1px solid #DDD;
-        border-top: 1px solid #DDD;
-    }
-
     textarea {
         display: block;
     }

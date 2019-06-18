@@ -17,6 +17,7 @@ Helper::setTitle("University");
 		'name', 
 		'country', 
 		'contact_email', 
+		'homepage_url', 
 		'created_at', 
 		'id', 
 		'courses_available', 

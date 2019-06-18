@@ -61,6 +61,39 @@ class CourseController extends BaseController {
 		$user = User::find()->addWhere("=", "id", $model->created_by)->one();
 		return $this->render("view", ["model" => $model, "department" => $department, "studyModule" => $studyModule, "user" => $user]);
 	}
+
+    public function actionSave() {
+        $model = new Course();
+        $model->load($_POST);
+
+        $studyModule =
+
+        $model->save();
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "attributes" => $model->attributes, "messages" => $model->showErrorsAsHtml()]));
+    }
+
+    public function actionRemove() {
+        $model = new Course();
+        $model->load($_POST);
+        $model->delete();
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "attributes" => $model->attributes, "messages" => $model->showErrorsAsHtml()]));
+    }
+
+    public function actionGetTeachers() {
+        $model = new Course();
+        $model->load($_POST);
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "teachers" => $model->getTeachers(), "messages" => $model->showErrorsAsHtml()]));
+    }
+
+    public function actionGetOutcomes() {
+        $model = new Course();
+        $model->load($_POST);
+
+        return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "outcomes" => $model->getOutcomes(), "messages" => $model->showErrorsAsHtml()]));
+    }
 	
 	public function findModel($id) {
 		$model = new Course();
