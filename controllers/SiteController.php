@@ -89,6 +89,7 @@ class SiteController extends BaseController {
                     break;
                 } else {
                     $modelCheck = true;
+                    break;
                 }
             }
             
@@ -101,6 +102,7 @@ class SiteController extends BaseController {
                     $match = true;
                 } else {
                     $modelCheck = true;
+                    break;
                 }
 
                 if(strtolower($_POST["speciality"]) == strtolower($speciality->name) && !$matchName) {
@@ -108,6 +110,7 @@ class SiteController extends BaseController {
                     $matchName = true;
                 } else {
                     $modelCheck = true;
+                    break;
                 }
             }  
 
@@ -119,10 +122,10 @@ class SiteController extends BaseController {
                 
                 if(strpos($searchIndex->keyword, "-o_p-")) {
                     $modelMatches[$model->id]["match"] += 10;
-                    break;
-                } else {
+                } /*else {
                     $modelCheck = true;
-                }
+                    break;
+                }*/
                 
                 foreach ($selectedTopics as $selectedTopic) {
                     foreach ($topics as $topic) {
@@ -141,11 +144,11 @@ class SiteController extends BaseController {
                 $modelMatches[$model->id]["match"] += $match;
             }
 
-            if($modelCheck){
+            if(!$modelCheck){
+                $data[] = $modelMatches[$model->id];
+            } else {
                 unset($modelMatches[$model->id]);
-                break;
             }
-            $data[] = $modelMatches[$model->id];
         }
         return $this->json(json_encode($data));
     }
