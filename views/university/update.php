@@ -244,8 +244,12 @@ Helper::setTitle("Ülikooli muutmine");
         let containerId = parentId;
         let specialityContainer = document.createElement("div");
         specialityContainer.id = "speciality-id-"+containerId;
+        specialityContainer.className = "section-block";
         specialityContainer.dataset.value = containerId;
 
+        let headerEl = document.createElement("h3");
+        headerEl.innerText = "Eriala:";
+        specialityContainer.appendChild(headerEl);
         let specialityNameInput = CreateElement("input", "speciality-name", "specialityNames[]", "Eriala nimi", inputValueName, parentId);
         specialityContainer.appendChild(specialityNameInput);
         let specialityDescriptionInput = CreateElement("textarea", "speciality-description", "specialityDescription[]", "Üldinfo", inputValueDescription, parentId, "", "");
@@ -398,6 +402,9 @@ Helper::setTitle("Ülikooli muutmine");
         smContainer.dataset.value = containerId;
         smContainer.dataset.specialityId = specialityId;
 
+        let headerEl = document.createElement("h3");
+        headerEl.innerText = "Õppemoodul:";
+        smContainer.appendChild(headerEl);
         let smNameInput = CreateElement("input", "sm-name", "smNames[]", "Õppemooduli nimi", inputValue, parentId);
         smContainer.appendChild(smNameInput);
 
@@ -492,6 +499,7 @@ Helper::setTitle("Ülikooli muutmine");
         container.appendChild(smRemoveBtn);
         let courseContainer = document.createElement("div");
         courseContainer.id = "study-module-id-"+entityId+"-courses-container";
+        courseContainer.className = "section-block";
 
         let smViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata kursuseid", entityId, "study-module-view-id-"+entityId, "button");
         smViewBtn.addEventListener("click", function() {
@@ -534,13 +542,16 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
-    function CreateCourse(parentId, coursesContainer, studyModuleId, iCodeVal = "", iNameVal = "", iEctsVal = 0, iGoalsVal = "", iDescriptionVal = "", iContactHours = 0, iDegreeVal = 1, iSemesterVal = 0, iOptional = 0, iExam = 0) { // todo vaadata üle kasutused et iCodeVal ja iNameVal oleks õiged jne
+    function CreateCourse(parentId, coursesContainer, studyModuleId, iCodeVal = "", iNameVal = "", iEctsVal = 0, iGoalsVal = "", iDescriptionVal = "", iContactHours = 0, iDegreeVal = 1, iSemesterVal = 0, iOptional = 0, iExam = 0) {
         let containerId = parentId;
         let courseContainer = document.createElement("div");
         courseContainer.id = "course-id-"+containerId;
         courseContainer.dataset.value = containerId;
         courseContainer.dataset.studyModuleId = studyModuleId;
 
+        let headerEl = document.createElement("h3");
+        headerEl.innerText = "Õppeaine:";
+        courseContainer.appendChild(headerEl);
         let courseCodeInput = CreateElement("input", "course-code", "courseCodes[]", "Õppeaine kood", iCodeVal, parentId);
         courseContainer.appendChild(courseCodeInput);
         let courseNameInput = CreateElement("input", "course-name", "courseNames[]", "Õppeaine nimi", iNameVal, parentId);
@@ -620,7 +631,7 @@ Helper::setTitle("Ülikooli muutmine");
         let formData = new FormData();
         formData.append("id", id);
         formData.append("study_module_id", studyModuleId);
-        formData.append("department_id", 0);
+        formData.append("department_id", parseInt(selectedDepartment));
         formData.append("code", iCode.value);
         formData.append("name", iName.value);
         formData.append("ects", iEcts.value);
@@ -739,7 +750,8 @@ Helper::setTitle("Ülikooli muutmine");
 
 <style>
     /* TODO Kristjan tõsta see pärast site.css faili. */
-    .section-block {
+    .section-block, .speciality-study-modules {
+        padding-top: 20px;
         padding-left: 20px;
     }
     textarea {

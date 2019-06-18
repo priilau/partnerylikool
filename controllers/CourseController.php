@@ -65,6 +65,9 @@ class CourseController extends BaseController {
     public function actionSave() {
         $model = new Course();
         $model->load($_POST);
+
+        $studyModule =
+
         $model->save();
 
         return $this->json(json_encode(["status" => $model->hasErrors() ? "failed" : "success", "attributes" => $model->attributes, "messages" => $model->showErrorsAsHtml()]));
