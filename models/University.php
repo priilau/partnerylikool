@@ -51,11 +51,27 @@ class University extends ActiveRecord {
 		$departments = Department::find()->addWhere("=", "university_id", $this->id)->all();
 
 		foreach ($departments as $department) {
-			$str .= $department->name." ";
+			if(strlen($department->name) > 0){
+				$str .= $department->name." ";
+			}
 			$specialities = Speciality::find()->addWhere("=", "department_id", $department->id)->all();
 			
 			foreach ($specialities as $speciality) {
-				$str .= "{$speciality->name} {$speciality->general_information} {$speciality->instruction} {$speciality->examinations} ";
+				if(strlen($speciality->name) > 0){
+					$str .= $speciality->name." ";
+				}
+
+				if(strlen($speciality->general_information) > 0){
+					$str .= $speciality->general_information." ";
+				}
+
+				if(strlen($speciality->instruction) > 0){
+					$str .= $speciality->instruction." ";
+				}
+
+				if(strlen($speciality->examinations) > 0){
+					$str .= $speciality->examinations." ";
+				}
 
 				if($speciality->practice){
 					$str .= "-o_p-";
@@ -64,17 +80,29 @@ class University extends ActiveRecord {
 				$studyModules = StudyModule::find()->addWhere("=", "speciality_id", $speciality->id)->all();
 				
 				foreach ($studyModules as $studyModule) {
-					$str .= $studyModule->name." ";
+					if(strlen($studyModule->name) > 0){
+						$str .= $studyModule->name." ";
+					}
+					
 					$courses = Course::find()->addWhere("=", "study_module_id", $studyModule->id)->all();
 					$this->courses_available = count($courses);
 					QueryBuilder::update(self::tableName(), ["courses_available" => $this->courses_available], ["=", "id", $this->id])->execute();
 
 					foreach ($courses as $course) {
-						$str .= "{$course->code} {$course->name} ";
+						if(strlen($course->code) > 0){
+							$str .= $course->code." ";
+						}
+
+						if(strlen($course->name) > 0){
+							$str .= $course->name." ";
+						}
+						
 						$learningOutcomes = CourseLearningOutcome::find()->addWhere("=", "course_id", $course->id)->all();
 
 						foreach ($learningOutcomes as $learningOutcome) {
-							$str .= $learningOutcome->outcome." ";
+							if(strlen($learningOutcome->outcome) > 0){
+								$str .= $learningOutcome->outcome." ";
+							}
 						}
 					}
 				}
