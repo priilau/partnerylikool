@@ -717,6 +717,7 @@ input:-internal-autofill-selected {
 
 .university {
 	margin-top: 20px;
+	border-bottom: 2px solid #F3F3F3;
 }
 
 .universities {
@@ -748,6 +749,7 @@ input:-internal-autofill-selected {
 
 .description-text {
 	max-width: 535px;
+	min-width: 200px;
 	overflow-y: auto;
 	max-height: 130px;
 	padding-left: 10px;
