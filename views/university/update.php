@@ -26,9 +26,6 @@ Helper::setTitle("Ülikooli muutmine");
 
 <div class="departments section-block"></div>
 <div class="specialities section-block"></div>
-<div class="study-modules section-block"></div>
-<div class="courses section-block">
-</div>
 
 
 <div class="form-group">
@@ -41,8 +38,6 @@ Helper::setTitle("Ülikooli muutmine");
     let modelId = <?= $model->id ?>;
     let departmentsContainer = document.querySelector(".departments");
     let specialitiesContainer = document.querySelector(".specialities");
-    let studyModulesContainer = document.querySelector(".study-modules");
-    let coursesContainer = document.querySelector(".courses");
     let semesterArr = JSON.parse('<?= json_encode(Helper::generateSemesters()) ?>');
     let degrees = JSON.parse('<?= json_encode(Helper::getDegrees()) ?>');
 
@@ -76,6 +71,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function clearInner(node) {
+        if(node === null) return;
         while (node.hasChildNodes()) {
             clear(node.firstChild);
         }
@@ -92,6 +88,27 @@ Helper::setTitle("Ülikooli muutmine");
         if(removeElement !== undefined && removeElement !== null) {
             clearInner(removeElement);
         }
+    }
+
+    function RemoveEntity(id, entityName, removeUrl) {
+        let formData = new FormData();
+        formData.append("id", id);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                console.log(response.attributes.id, (response.attributes.id > 0));
+                if(response.attributes.id > 0) {
+                    let removeElement = document.querySelector("#"+entityName+"-id-"+response.attributes.id);
+                    console.log("REMOVE ELEMENT", removeElement);
+                    RemoveElement(removeElement);
+                }
+            }
+        };
+        xhttp.open("POST", removeUrl, true);
+        xhttp.send(formData);
     }
 
     function CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId = "", inputType = "text") {
@@ -166,24 +183,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function RemoveDepartment(id) {
-        let formData = new FormData();
-        formData.append("id", id);
-
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                let response = JSON.parse(this.responseText);
-                console.log(response);
-                console.log(response.attributes.id, (response.attributes.id > 0));
-                if(response.attributes.id > 0) {
-                    let removeElement = document.querySelector("#department-id-"+response.attributes.id);
-                    console.log("REMOVE ELEMENT", removeElement);
-                    RemoveElement(removeElement);
-                }
-            }
-        };
-        xhttp.open("POST", "/department/remove", true);
-        xhttp.send(formData);
+        RemoveEntity(id, "department", "/department/remove");
     }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
@@ -257,6 +257,14 @@ Helper::setTitle("Ülikooli muutmine");
         let specialityDegreeInput = CreateSelect("Kraad", "speciality-degree", "specialityDegree[]", inputValueDegree, degrees);
         specialityContainer.appendChild(specialityDegreeInput);
 
+        let specialityStudyModulesContainer = document.createElement("div");
+        specialityStudyModulesContainer.id = "speciality-id-"+parentId+"-study-modules";
+        specialityStudyModulesContainer.className = "speciality-study-modules";
+
+        console.log("SPECIALITY CONTINER");
+        console.log(specialityContainer);
+        specialityContainer.appendChild(specialityStudyModulesContainer);
+
         if(parentId > 0) {
             CreateSpecialityButtons(parentId, specialityContainer);
         }
@@ -318,39 +326,22 @@ Helper::setTitle("Ülikooli muutmine");
             RemoveSpeciality(entityId);
         });
         container.appendChild(specialityRemoveBtn);
-        let studyModulesContainer = document.createElement("div");
-        studyModulesContainer.id = "speciality-id-"+entityId+"-study-modules-container";
 
         let specialityViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata eriala õpimooduleid", entityId, "speciality-view-id-"+entityId, "button");
         specialityViewBtn.addEventListener("click", function() {
             let specialityName = container.querySelector(".speciality-name");
             if(specialityName !== undefined && specialityName !== null) {
+                let studyModulesContainer = document.querySelector("#speciality-id-"+entityId+" .speciality-study-modules");
+                console.log("SM CONT", "#speciality-id-"+entityId+" .speciality-study-modules", studyModulesContainer);
                 GetStudyModules(entityId, studyModulesContainer);
+                container.appendChild(studyModulesContainer);
             }
         });
         container.appendChild(specialityViewBtn);
-        container.appendChild(studyModulesContainer);
     }
 
     function RemoveSpeciality(id) {
-        let formData = new FormData();
-        formData.append("id", id);
-
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                let response = JSON.parse(this.responseText);
-                console.log(response);
-                console.log(response.attributes.id, (response.attributes.id > 0));
-                if(response.attributes.id > 0) {
-                    let removeElement = document.querySelector("#speciality-id-"+response.attributes.id);
-                    console.log("REMOVE ELEMENT", removeElement);
-                    RemoveElement(removeElement);
-                }
-            }
-        };
-        xhttp.open("POST", "/speciality/remove", true);
-        xhttp.send(formData);
+        RemoveEntity(id, "speciality", "/speciality/remove");
     }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
@@ -414,7 +405,7 @@ Helper::setTitle("Ülikooli muutmine");
             CreateStudyModuleButtons(parentId, smContainer);
         }
 
-        specialitiesContainer.appendChild(smContainer);
+        studyModulesContainer.appendChild(smContainer);
 
         let updateStudyModule = function() {
             if(studyModuleTimer !== null) {
@@ -451,7 +442,7 @@ Helper::setTitle("Ülikooli muutmine");
                 inputField.parentElement.id = "study-module-id-"+inputField.dataset.value;
             }
         };
-        xhttp.open("POST", "/study-module/save", true); // TODO action
+        xhttp.open("POST", "/study-module/save", true);
         xhttp.send(formData);
     }
 
@@ -468,6 +459,7 @@ Helper::setTitle("Ülikooli muutmine");
 
         FetchStudyModules(specialityId, studyModulesContainer);
         studyModulesContainer.appendChild(addSMBtn);
+        specialitiesContainer.appendChild(studyModulesContainer);
     }
 
     function FetchStudyModules(specialityId, studyModulesContainer) {
@@ -499,65 +491,190 @@ Helper::setTitle("Ülikooli muutmine");
         });
         container.appendChild(smRemoveBtn);
         let courseContainer = document.createElement("div");
-        courseContainer.id = "study-module-id-"+entityId+"-course-container";
+        courseContainer.id = "study-module-id-"+entityId+"-courses-container";
 
         let smViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata kursuseid", entityId, "study-module-view-id-"+entityId, "button");
         smViewBtn.addEventListener("click", function() {
-            let smName = container.querySelector(".speciality-name");
+            let smName = container.querySelector(".sm-name");
+            if(smName !== undefined && smName !== null) {
+                GetCourses(entityId, courseContainer);
+            }
+        });
+        container.appendChild(smViewBtn);
+        container.appendChild(courseContainer);
+    }
+
+    function RemoveStudyModule(id) {
+        RemoveEntity(id, "study-module", "/study-module/remove");
+    }
+
+    /* COURSE */
+    /* COURSE */
+    /* COURSE */
+    /* COURSE */
+    /* COURSE */
+
+    function GetCourses(studyModulesId, coursesContainer) {
+        console.log("GetCourses", 1);
+        courseCount = 0;
+        clearInner(coursesContainer);
+        let addCourseBtn = document.createElement("input");
+        addCourseBtn.type = "button";
+        addCourseBtn.className = "btn btn-primary";
+        addCourseBtn.value = "Lisa õppeaine";
+        addCourseBtn.addEventListener("click", function() {
+            CreateCourse(0, coursesContainer, studyModulesId, "");
+        });
+        console.log("GetCourses", 2);
+
+        FetchCourses(studyModulesId, coursesContainer);
+        console.log("GetCourses", 3);
+        coursesContainer.appendChild(addCourseBtn);
+        console.log("GetCourses", 4, coursesContainer);
+    }
+
+    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
+    function CreateCourse(parentId, coursesContainer, studyModuleId, iCodeVal = "", iNameVal = "", iEctsVal = 0, iGoalsVal = "", iDescriptionVal = "", iContactHours = 0, iDegreeVal = 1, iSemesterVal = 0, iOptional = 0, iExam = 0) { // todo vaadata üle kasutused et iCodeVal ja iNameVal oleks õiged jne
+        let containerId = parentId;
+        let courseContainer = document.createElement("div");
+        courseContainer.id = "course-id-"+containerId;
+        courseContainer.dataset.value = containerId;
+        courseContainer.dataset.studyModuleId = studyModuleId;
+
+        let courseCodeInput = CreateElement("input", "course-code", "courseCodes[]", "Õppeaine kood", iCodeVal, parentId);
+        courseContainer.appendChild(courseCodeInput);
+        let courseNameInput = CreateElement("input", "course-name", "courseNames[]", "Õppeaine nimi", iNameVal, parentId);
+        courseContainer.appendChild(courseNameInput);
+        let courseEctsInput = CreateElement("input", "course-ects", "courseEcts[]", "EAP", iEctsVal, parentId);
+        courseContainer.appendChild(courseEctsInput);
+        let courseGoalsInput = CreateElement("input", "course-goals", "courseGoals[]", "Eesmärgid", iGoalsVal, parentId);
+        courseContainer.appendChild(courseGoalsInput);
+        let courseDescriptionInput = CreateElement("input", "course-description", "courseDescription[]", "Kirjeldus", iDescriptionVal, parentId);
+        courseContainer.appendChild(courseDescriptionInput);
+        let courseContactHoursInput = CreateElement("input", "course-contact_hours", "courseContactHours[]", "Kontakttunnid", iContactHours, parentId);
+        courseContainer.appendChild(courseContactHoursInput);
+
+        let courseDegreeInput = CreateSelect("Kraad", "course-degree", "courseDegree[]", iDegreeVal, degrees);
+        courseContainer.appendChild(courseDegreeInput);
+
+        let courseSemesterInput = CreateSelect("Semester", "course-semester", "courseSemester[]", iSemesterVal, semesterArr);
+        courseContainer.appendChild(courseSemesterInput);
+
+        let courseOptionalInput = CreateElement("input", "course-optional", "courseOptional[]", "Valikaine", iOptional, parentId, "", "checkbox");
+        let courseOptionalLabel = document.createElement("label");
+        courseOptionalLabel.innerText = "Valikaine";
+        courseContainer.appendChild(courseOptionalInput);
+        courseContainer.appendChild(courseOptionalLabel);
+
+        let courseExamInput = CreateElement("input", "course-exam", "courseExam[]", "Eksam", iExam, parentId, "", "checkbox");
+        let courseExamLabel = document.createElement("label");
+        courseExamLabel.innerText = "Eksam";
+        courseContainer.appendChild(courseExamInput);
+        courseContainer.appendChild(courseExamLabel);
+
+        if(parentId > 0) {
+            CreateCourseButtons(parentId, courseContainer, coursesContainer);
+        }
+        console.log("COURSES JA COURSE CONTROLLER");
+        console.log(coursesContainer);
+        console.log(courseContainer);
+        coursesContainer.appendChild(courseContainer);
+
+        let updateCallback = function() { if(courseTimer !== null) { clearTimeout(courseTimer); }
+            courseTimer = setTimeout(PostCourse, 500, this.parentElement.dataset.value, studyModuleId,
+                courseCodeInput, courseNameInput, courseEctsInput, courseGoalsInput, courseDescriptionInput, courseContactHoursInput, courseDegreeInput, courseSemesterInput, courseOptionalInput, courseExamInput);
+        };
+        courseCodeInput.addEventListener("input", updateCallback);
+        courseNameInput.addEventListener("input", updateCallback);
+        courseEctsInput.addEventListener("input", updateCallback);
+        courseGoalsInput.addEventListener("input", updateCallback);
+        courseDescriptionInput.addEventListener("input", updateCallback);
+        courseContactHoursInput.addEventListener("input", updateCallback);
+        courseDegreeInput.addEventListener("input", updateCallback);
+        courseSemesterInput.addEventListener("input", updateCallback);
+
+        courseCount++;
+    }
+
+    function CreateCourseButtons(entityId, container, coursesContainer) {
+        let RemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "course-remove-id-"+entityId, "button");
+        RemoveBtn.addEventListener("click", function() { RemoveCourse(entityId); });
+        container.appendChild(RemoveBtn);
+        let subEntityContainer = document.createElement("div");
+        subEntityContainer.id = "course-id-"+entityId+"-course-teacher-container";
+
+        let viewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata kursuseid", entityId, "study-module-view-id-"+entityId, "button");
+        viewBtn.addEventListener("click", function() {
+            let smName = container.querySelector(".sm-name");
             if(smName !== undefined && smName !== null) {
                 GetCourses(entityId, coursesContainer);
             }
         });
-        container.appendChild(smViewBtn);
-        container.appendChild(coursesContainer);
+        container.appendChild(viewBtn);
+        //container.appendChild(coursesContainer);
     }
 
-    function RemoveStudyModule(id) {
+    function PostCourse(id, studyModuleId, iCode, iName, iEcts, iGoals, iDescription, iContactHours, iDegree, iSemester, iOptional, iExam) {
+        console.log("PostCourse: ", id, studyModuleId, iDegree, iSemester);
+
         let formData = new FormData();
         formData.append("id", id);
+        formData.append("study_module_id", studyModuleId);
+        formData.append("department_id", 0);
+        formData.append("code", iCode.value);
+        formData.append("name", iName.value);
+        formData.append("ects", iEcts.value);
+        formData.append("goals", iGoals.value);
+        formData.append("description", iDescription.value);
+        formData.append("contact_hours", iContactHours.value);
+        formData.append("degree", iDegree.querySelector("select").value);
+        formData.append("semester", iSemester.querySelector("select").value);
+        formData.append("optional", iOptional.value);
+        formData.append("exam", iExam.value);
 
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let response = JSON.parse(this.responseText);
-                console.log(response);
-                console.log(response.attributes.id, (response.attributes.id > 0));
-                if(response.attributes.id > 0) {
-                    let removeElement = document.querySelector("#study-module-id-"+response.attributes.id);
-                    console.log("REMOVE ELEMENT", removeElement);
-                    RemoveElement(removeElement);
+                console.log(response.attributes.id);
+                iName.dataset.value = response.attributes.id;
+                iName.parentElement.dataset.value = response.attributes.id;
+
+                if(id != iName.parentElement.dataset.value) {
+                    CreateCourseButtons(iName.dataset.value, iName.parentElement, specialityId);
                 }
+                console.log(iName.parentElement, "course-id-"+iName.dataset.value);
+                iName.parentElement.id = "course-id-"+iName.dataset.value;
             }
         };
-        xhttp.open("POST", "/study-module/remove", true);
+        xhttp.open("POST", "/course/save", true);
         xhttp.send(formData);
     }
 
-    /* COURSE */
-    /* COURSE */
-    /* COURSE */
-    /* COURSE */
-    /* COURSE */
+    function FetchCourses(studyModulesId, coursesContainer) {
+        let formData = new FormData();
+        formData.append("id", studyModulesId);
 
-    // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
-    function CreateCourse(parentId, inputValue) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(coursesContainer);
 
-    }
-
-    function PostCourse(id, parentId, inputField, inputValue) {
-
+                for(let i = 0; i < response.courses.length; i++) {
+                    let course = response.courses[i];
+                    console.log("course", course);
+                    CreateCourse(course.attributes.id, coursesContainer, studyModulesId, course.attributes.code, course.attributes.name, course.attributes.etcs,
+                        course.attributes.goals, course.attributes.description, course.attributes.contact_hours, course.attributes.degree, course.attributes.semester, course.attributes.optional, course.attributes.exam);
+                }
+            }
+        };
+        xhttp.open("POST", "/study-module/get-courses", true);
+        xhttp.send(formData);
     }
 
     function RemoveCourse(id) {
-
-    }
-
-    function GetCourses(parentId) {
-
-    }
-
-    function CreateCourseButtons(parentId, container) {
-
+        RemoveEntity(id, "course", "/course/remove");
     }
 
     /* TEACHER */
@@ -565,9 +682,17 @@ Helper::setTitle("Ülikooli muutmine");
     /* TEACHER */
     /* TEACHER */
     /* TEACHER */
+
+    function GetTeachers(parentId) {
+
+    }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
-    function CreateTeacher(parentId, inputValue) {
+    function CreateTeacher(parentId, inputValue, teachersContainer, courseId) {
+
+    }
+
+    function CreateTeacherButtons(parentId, container) {
 
     }
 
@@ -576,15 +701,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function RemoveTeacher(id) {
-
-    }
-
-    function GetTeachers(parentId) {
-
-    }
-
-    function CreateTeacherButtons(parentId, container) {
-
+        RemoveEntity(id, "course-teacher", "/course-teacher/remove");
     }
 
     /* OUTCOME */
@@ -592,9 +709,17 @@ Helper::setTitle("Ülikooli muutmine");
     /* OUTCOME */
     /* OUTCOME */
     /* OUTCOME */
+
+    function GetOutcomes(parentId) {
+
+    }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
-    function CreateOutcome(parentId, inputValue) {
+    function CreateOutcome(parentId, inputValue, outcomesContainer, courseId) {
+
+    }
+
+    function CreateOutcomeButtons(parentId, container) {
 
     }
 
@@ -603,15 +728,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function RemoveOutcome(id) {
-
-    }
-
-    function GetOutcomes(parentId) {
-
-    }
-
-    function CreateOutcomeButtons(parentId, container) {
-
+        RemoveEntity(id, "course-learning-outcome", "/course-learning-outcome/remove");
     }
 
     <?php $departments = $model->getDepartments(); ?>
