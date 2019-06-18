@@ -695,6 +695,11 @@ input:-internal-autofill-selected {
 	display: inline-block;
 }
 
+#right-sub {
+	width: auto;
+	max-width: 395px;
+}
+
 .university {
 	margin-top: 20px;
 }
