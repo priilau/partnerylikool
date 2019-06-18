@@ -96,6 +96,33 @@ class Helper {
 		return true;
     }
 
+    public static function isContentClean($str, $maxLength = 1024) {
+        $alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä,.+*-/():!?";
+		$strLen = strlen($str);
+		$strLenX = strlen($alphabet);
+		
+		if($strLen >= $maxLength) {
+			return false;
+		}
+		$str = mb_strtolower($str);
+		
+		for($i = 0; $i < $strLen; $i++) {
+			$myError = true;
+			
+			for($x = 0; $x < $strLenX; $x++) {
+				if(strcmp($str[$i], $alphabet[$x])) {
+					$myError = false;
+					break;
+				}
+			}
+			
+			if($myError) {
+				return false;
+			}
+		}
+		return true;
+    }
+
     public static function getCountries() {
         return ["-", "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda",
             "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus",
