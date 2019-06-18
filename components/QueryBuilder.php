@@ -42,14 +42,6 @@ class QueryBuilder {
         $this->wheres[$this->whereIndex][] = [$operator, $fieldName, $fieldValue];
         return $this;
     }
-    
-    public function leftJoin($otherTableName, $firstTableField, $otherTableField){
-        if(!Helper::isStringClean($this->tableName) || !Helper::isStringClean($otherTableName) || !Helper::isStringClean($firstTableField) || !Helper::isStringClean($otherTableField)){
-            return false;
-        }
-        $this->sql .= "SELECT column_names FROM {$this->tableName} LEFT JOIN {$otherTableName} ON {$this->tableName}.{$firstTableField}={$otherTableName}.{$otherTableField};";
-        return $this->sql;
-    }
 
     public function refValues($arr){
         if (strnatcmp(phpversion(),'5.3') >= 0) //Reference is required for PHP 5.3+
