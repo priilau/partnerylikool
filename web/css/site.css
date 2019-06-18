@@ -442,6 +442,19 @@ li {
 	float: none;
 }
 
+.footer-section:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 63px;
+    width: 3px;
+    height: 160px;
+    background: #efefef;
+	transform: rotate(15deg);
+	z-index: 999;
+}
+
 /* FORMS, INPUTS, BUTTONS, ETC */
 
 label {
@@ -676,6 +689,8 @@ input:-internal-autofill-selected {
 	vertical-align: top;
 	padding: 80px 4.86111vw;
 	max-width: 800px;
+	min-width: 320px;
+	width: auto;
 }
 
 .content-admin-button {
@@ -702,10 +717,12 @@ input:-internal-autofill-selected {
 
 .university {
 	margin-top: 20px;
+	border-bottom: 2px solid #F3F3F3;
 }
 
 .universities {
 	margin-top: 20px;
+	width: auto;
 }
 
 #left-sub {
@@ -732,6 +749,7 @@ input:-internal-autofill-selected {
 
 .description-text {
 	max-width: 535px;
+	min-width: 200px;
 	overflow-y: auto;
 	max-height: 130px;
 	padding-left: 10px;
@@ -802,8 +820,9 @@ h5 {
 	font-size: 20px;
 	min-height: 128px;
 	min-width: 60px;
-	max-width: 74px;
+	max-width: 75px;
 	padding-left: 2px;
+	width: auto;
 }
 
 .percent-with-link div:last-child {
@@ -863,21 +882,30 @@ select {
 	background: #b80007;
 }
 
+.keyword-block {
+	display: inline-block;
+}
+
+#all-keywords .keyword-block label{
+	width: 100px;
+	min-width: 100px;
+}
+
 /* MOBILE */
 
 @media only screen and (max-width: 1441px) {
-	/* header menu font size*/
+	/* header menu size*/
 }
 
 @media only screen and (max-width: 1440px) {
-	/* header menu font size*/
+	/* header menu size*/
 }
 
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1420px) {
 	/* header menu to dropdown list*/
 }
 
-@media only screen and (max-width: 940px {
+@media only screen and (max-width: 940px) {
 	/* side menu to header */
 }
 
