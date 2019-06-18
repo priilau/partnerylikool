@@ -42,7 +42,6 @@ $files = [
 	__DIR__ . '/../controllers/SpecialityController.php',
 	__DIR__ . '/../controllers/StudyModuleController.php',
 	__DIR__ . '/../controllers/TeacherController.php',
-	__DIR__ . '/../controllers/AdminController.php',
 	__DIR__ . '/../controllers/TopicController.php'
 ];
 

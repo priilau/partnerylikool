@@ -99,7 +99,7 @@ class ActiveForm {
         return $this;
     }
     
-    public function field($model, $fieldName, $options = []){
+    public function field($model, $fieldName){
         $this->elementType = "input";
         $this->inputType = "text";
         $this->modelName = Helper::getClassName($model);
