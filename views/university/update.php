@@ -330,7 +330,6 @@ Helper::setTitle("Ülikooli muutmine");
         });
         container.appendChild(specialityViewBtn);
         container.appendChild(studyModulesContainer);
-
     }
 
     function RemoveSpeciality(id) {
@@ -401,26 +400,70 @@ Helper::setTitle("Ülikooli muutmine");
     /* STUDY MODULE */
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
-    function CreateStudyModule(parentId, inputValue, studyModulesContainer) {
-        // TODO siit jätka 1 (inputValue tuleb välja.)
+    function CreateStudyModule(parentId, inputValue, studyModulesContainer, specialityId) {
+        let containerId = parentId;
+        let smContainer = document.createElement("div");
+        smContainer.id = "study-module-id-"+containerId;
+        smContainer.dataset.value = containerId;
+        smContainer.dataset.specialityId = specialityId;
+
+        let smNameInput = CreateElement("input", "sm-name", "smNames[]", "Õppemooduli nimi", inputValue, parentId);
+        smContainer.appendChild(smNameInput);
+
+        if(parentId > 0) {
+            CreateStudyModuleButtons(parentId, smContainer);
+        }
+
+        specialitiesContainer.appendChild(smContainer);
+
+        let updateStudyModule = function() {
+            if(studyModuleTimer !== null) {
+                clearTimeout(studyModuleTimer);
+            }
+            console.log("SM PARENT VAL ", this.parentElement.dataset.value);
+            studyModuleTimer = setTimeout(PostStudyModule, 500, this.parentElement.dataset.value, smNameInput, specialityId);
+        };
+        smNameInput.addEventListener("input", updateStudyModule);
+
+        studyModuleCount++;
     }
 
-    function PostStudyModule(id, parentId, inputField, inputValue) {
+    function PostStudyModule(id, inputField, specialityId) {
+        console.log("PostStudyModule: ", id, inputField);
 
-    }
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("name", inputField.value);
+        formData.append("speciality_id", specialityId);
 
-    function RemoveStudyModule(id) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response.attributes.id);
+                inputField.dataset.value = response.attributes.id;
+                inputField.parentElement.dataset.value = response.attributes.id;
 
+                if(id != inputField.parentElement.dataset.value) {
+                    CreateStudyModuleButtons(inputField.dataset.value, inputField.parentElement, specialityId);
+                }
+                console.log(inputField.parentElement, "study-module-id-"+inputField.dataset.value);
+                inputField.parentElement.id = "study-module-id-"+inputField.dataset.value;
+            }
+        };
+        xhttp.open("POST", "/study-module/save", true); // TODO action
+        xhttp.send(formData);
     }
 
     function GetStudyModules(specialityId, studyModulesContainer) {
+        studyModuleCount = 0;
         clearInner(studyModulesContainer);
         let addSMBtn = document.createElement("input");
         addSMBtn.type = "button";
         addSMBtn.className = "btn btn-primary";
         addSMBtn.value = "Lisa õppemoodul";
         addSMBtn.addEventListener("click", function() {
-            CreateStudyModule(0, "", studyModulesContainer);
+            CreateStudyModule(0, "", studyModulesContainer, specialityId);
         });
 
         FetchStudyModules(specialityId, studyModulesContainer);
@@ -441,7 +484,7 @@ Helper::setTitle("Ülikooli muutmine");
                 for(let i = 0; i < response.studyModules.length; i++) {
                     let sm = response.studyModules[i];
                     console.log("sm", sm);
-                    CreateStudyModule(sm.attributes.id, sm.attributes.name, studyModulesContainer);
+                    CreateStudyModule(sm.attributes.id, sm.attributes.name, studyModulesContainer, specialityId);
                 }
             }
         };
@@ -449,8 +492,45 @@ Helper::setTitle("Ülikooli muutmine");
         xhttp.send(formData);
     }
 
-    function CreateStudyModuleButtons(parentId, container) {
-        // TODO siit jätka 2
+    function CreateStudyModuleButtons(entityId, container) {
+        let smRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "study-module-remove-id-"+entityId, "button");
+        smRemoveBtn.addEventListener("click", function() {
+            RemoveStudyModule(entityId);
+        });
+        container.appendChild(smRemoveBtn);
+        let courseContainer = document.createElement("div");
+        courseContainer.id = "study-module-id-"+entityId+"-course-container";
+
+        let smViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata kursuseid", entityId, "study-module-view-id-"+entityId, "button");
+        smViewBtn.addEventListener("click", function() {
+            let smName = container.querySelector(".speciality-name");
+            if(smName !== undefined && smName !== null) {
+                GetCourses(entityId, coursesContainer);
+            }
+        });
+        container.appendChild(smViewBtn);
+        container.appendChild(coursesContainer);
+    }
+
+    function RemoveStudyModule(id) {
+        let formData = new FormData();
+        formData.append("id", id);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                console.log(response.attributes.id, (response.attributes.id > 0));
+                if(response.attributes.id > 0) {
+                    let removeElement = document.querySelector("#study-module-id-"+response.attributes.id);
+                    console.log("REMOVE ELEMENT", removeElement);
+                    RemoveElement(removeElement);
+                }
+            }
+        };
+        xhttp.open("POST", "/study-module/remove", true);
+        xhttp.send(formData);
     }
 
     /* COURSE */
