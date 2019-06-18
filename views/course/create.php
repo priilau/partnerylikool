@@ -21,8 +21,8 @@ Helper::setTitle("Courses");
 <?= $form->field($model, 'semester')->dropDownList(Helper::generateSemesters()) ?>
 <?= $form->field($model, 'contact_hours') ?>
 <?= $form->field($model, 'exam')->checkBox() ?>
-<?= $form->field($model, 'goals') ?>
-<?= $form->field($model, 'description') ?>
+<?= $form->field($model, 'goals')->textarea() ?>
+<?= $form->field($model, 'description')->textarea() ?>
 
 <div class="form-group">
 <?= ActiveForm::submitButton("Save", ['class' => 'btn btn-success']) ?>
