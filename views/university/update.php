@@ -614,15 +614,23 @@ Helper::setTitle("Ülikooli muutmine");
         let subEntityContainer = document.createElement("div");
         subEntityContainer.id = "course-id-"+entityId+"-course-teacher-container";
 
-        let viewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata kursuseid", entityId, "study-module-view-id-"+entityId, "button");
+        let viewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata õpetajaid", entityId, "teacher-view-id-"+entityId, "button");
         viewBtn.addEventListener("click", function() {
-            let smName = container.querySelector(".sm-name");
-            if(smName !== undefined && smName !== null) {
-                GetCourses(entityId, coursesContainer);
+            let NameInput = container.querySelector(".course-name");
+            if(NameInput !== undefined && NameInput !== null) {
+                GetTeachers(entityId, coursesContainer); // TODO välja selgitada container mis siia peab tegelt minema.
             }
         });
         container.appendChild(viewBtn);
-        //container.appendChild(coursesContainer);
+
+        let outcomesViewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata väljundeid", entityId, "outcomes-view-id-"+entityId, "button");
+        outcomesViewBtn.addEventListener("click", function() {
+            let NameInput = container.querySelector(".course-name");
+            if(NameInput !== undefined && NameInput !== null) {
+                GetOutcomes(entityId, coursesContainer); // TODO välja selgitada container mis siia peab tegelt minema.
+            }
+        });
+        container.appendChild(outcomesViewBtn);
     }
 
     function PostCourse(id, studyModuleId, iCode, iName, iEcts, iGoals, iDescription, iContactHours, iDegree, iSemester, iOptional, iExam) {
