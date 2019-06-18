@@ -29,6 +29,7 @@ class Flash {
         if($flash->hasMessage($index)) {
             return $flash->messages[$index];
         }
+        return "";
     }
     
     public function hasMessage($index) {
