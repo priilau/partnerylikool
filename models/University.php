@@ -97,6 +97,7 @@ class University extends ActiveRecord {
 				"name" => "Nimi",
 				"country" => "Riik",
 				"contact_email" => "Kontakt email",
+				"homepage_url" => "Koduleht",
 				"created_at" => "Lisatud",
 				"created_by" => "Lisaja",
 				"courses_available" => "Vabad Õppeained",
@@ -104,7 +105,7 @@ class University extends ActiveRecord {
 		];
 	}
 
-	public function getCourses(){
+	public function getCourses() {
 		$sql = "SELECT DISTINCT course.semester, course.degree FROM `university` AS u LEFT JOIN `department` ON department.university_id = u.id LEFT JOIN course ON course.department_id = department.id WHERE u.id = {$this->id};";
 
 		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
@@ -116,7 +117,7 @@ class University extends ActiveRecord {
 		$stmt->execute();
 		$result = $stmt->get_result();
 
-		while($row = $result->fetch_assoc()){
+		while($row = $result->fetch_assoc()) {
 			$model = new University();
 			$model->load($row);
 			$this->courses[] = $model;
@@ -126,8 +127,8 @@ class University extends ActiveRecord {
 		return $this->courses;
 	}
 
-	public function getSearchIndexes(){
-		$sql = "SELECT DISTINCT search_index.keyword, search_index.university_id FROM `university` AS u LEFT JOIN `search_index` ON search_index.university_id = u.id WHERE u.id = {$this->id};";
+	public function getSearchIndexes() {
+		$sql = "SELECT DISTINCT search_index.id, search_index.keyword, search_index.university_id FROM `university` AS u LEFT JOIN `search_index` ON search_index.university_id = u.id WHERE u.id = {$this->id};";
 
 		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
 		$stmt = $mysqli->prepare($sql); 
@@ -138,7 +139,7 @@ class University extends ActiveRecord {
 		$stmt->execute();
 		$result = $stmt->get_result();
 
-		while($row = $result->fetch_assoc()){
+		while($row = $result->fetch_assoc()) {
 			$model = new University();
 			$model->load($row);
 			$this->searchIndexes[] = $model;
@@ -148,7 +149,7 @@ class University extends ActiveRecord {
 		return $this->searchIndexes;
 	}
 
-	public function getSpecialities(){
+	public function getSpecialities() {
 		$sql = "SELECT DISTINCT speciality.degree, speciality.name FROM `university` AS u LEFT JOIN `department` ON department.university_id = u.id LEFT JOIN speciality ON speciality.department_id = department.id WHERE u.id = {$this->id};";
 
 		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
@@ -160,7 +161,7 @@ class University extends ActiveRecord {
 		$stmt->execute();
 		$result = $stmt->get_result();
 
-		while($row = $result->fetch_assoc()){
+		while($row = $result->fetch_assoc()) {
 			$model = new University();
 			$model->load($row);
 			$this->specialities[] = $model;
@@ -168,6 +169,16 @@ class University extends ActiveRecord {
 		$stmt->close();
 		$mysqli->close();
 		return $this->specialities;
+	}
+
+	public function getTopics() {
+		$topics = Topic::find()->all();
+		return $topics;
+	}
+
+	public function getTopicSearches() {
+		$topicSearches = TopicSearch::find()->all();
+		return $topicSearches;
 	}
 
 	public function getDepartments() {

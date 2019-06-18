@@ -29,10 +29,14 @@ class TopicController extends BaseController {
 		}
   		if($model->load($modelPost) && $model->save()){
   			return $this->json($model->id);
-  		} else {
-			$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();
+		} else {
 			$searchIndexes = SearchIndex::find()->all();
-  			return $this->render("create", ["model" => $model, "topicSearches" => $topicSearches, "searchIndexes" => $searchIndexes]);
+			$keywords = [];
+			foreach ($searchIndexes as $index => $name) {
+				$keywords[] = $name->keyword;
+			}
+			$keywords = array_flip(array_flip($keywords));
+  			return $this->render("create", ["model" => $model, "searchIndexes" => $keywords]);
   		}
   	}
 
@@ -40,10 +44,10 @@ class TopicController extends BaseController {
   		$model = $this->findModel($id);
 		$modelPost = [];
 
-		if(isset($_POST["name"])){
+		if(isset($_POST["name"])) {
 			$modelPost["name"] = $_POST["name"];
 		}
-		if($model->load($modelPost) && $model->save()){
+		if($model->load($modelPost) && $model->save()) {
   			return $this->json($model->id);
   		} else {
 			$topicSearches = TopicSearch::find()->addWhere("=", "topic_id", $model->id)->all();

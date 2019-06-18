@@ -71,12 +71,12 @@ class QueryBuilder {
             } else if(is_float($fieldValue) || is_double($fieldValue)){
                 $this->fieldParams .= "d";
             } else {
-                $this->fieldParams .= "s"; // insertis oli nii, k6igis teistes oli "return false;"
+                $this->fieldParams .= "s";
             }
         }
     }
     
-    public function compose($limit = 0){ // TODO refactoring
+    public function compose($limit = 0){ 
         $fieldStr = "";
         $conditionStr = "";
         $fieldVals = "";
@@ -201,7 +201,6 @@ class QueryBuilder {
             echo $mysqli->error;
             exit("Unable to create stmt!");    
         }
-        //var_dump($this->fieldParams, "<br><br>", $this->fieldValues);
         call_user_func_array([$stmt, 'bind_param'], $this->refValues($this->fieldValues));
         $id = $stmt->execute();
         if(!$id){

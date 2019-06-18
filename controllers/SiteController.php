@@ -29,23 +29,21 @@ class SiteController extends BaseController {
 		return $this->render("index", ["semesters" => $semesters, "degrees" => $degrees, 'specialities' => $specialities, 'topics' => $topics]);
     }
     
-    public function actionSearch(){
-        $matchCount = 0;
-        $keywordCount = 0;
+    public function actionSearch() {
         $topicIdsStr = "";
         $models = [];
         $data = [];
         $modelMatches = [];
- 
+        
         $selectedTopics = json_decode($_POST["selectedTopics"]); 
         if(!empty($selectedTopics)){
             foreach ($selectedTopics as $topic) {
                 $topicIdsStr .= "{$topic}, ";
             }
             $topicIdsStr = rtrim($topicIdsStr, ", ");
-
+            
             $sql = "SELECT DISTINCT university.id, university.name, university.description, university.homepage_url FROM university LEFT JOIN search_index ON university.id = search_index.university_id LEFT JOIN topic_search ON search_index.id = topic_search.search_index_id WHERE topic_id IN ({$topicIdsStr});";
-
+            
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
             if(!$stmt){
@@ -54,8 +52,8 @@ class SiteController extends BaseController {
             }
             $stmt->execute();
             $result = $stmt->get_result();
-    
-            while($row = $result->fetch_assoc()){
+            
+            while($row = $result->fetch_assoc()) {
                 $model = new University();
                 $model->load($row);
                 $models[] = $model;
@@ -63,8 +61,11 @@ class SiteController extends BaseController {
             $stmt->close();
             $mysqli->close();
         }
-
+        
         foreach ($models as $model) {
+            $matchCount = 0;
+            $keywordCount = 0;
+            $uniKeywords = [];
             $modelMatches[$model->id] = [
                 "name" => $model->name, 
                 //"icon" => $model->icon, 
@@ -77,10 +78,12 @@ class SiteController extends BaseController {
             $courses = $model->getCourses();
             $specialities = $model->getSpecialities();
             $searchIndexes = $model->getSearchIndexes();
+            $topicSearches = $model->getTopicSearches();
+            $topics = $model->getTopics();
             
             foreach ($courses as $course) {
-                if($_POST["semester"] == $course->semester){
-                    $matchCount++;
+                if($_POST["semester"] == $course->semester) {
+                    $modelMatches[$model->id]["match"] += 10;
                     break;
                 }
             }
@@ -90,7 +93,7 @@ class SiteController extends BaseController {
             
             foreach($specialities as $speciality) {
                 if($_POST["degree"] == $speciality->degree && !$match) {
-                    $matchCount++;
+                    $modelMatches[$model->id]["match"] += 10;
                     $match = true;
                 }
                 if(strtolower($_POST["speciality"]) == strtolower($speciality->name) && !$matchName) {
@@ -100,16 +103,29 @@ class SiteController extends BaseController {
             }  
 
             foreach ($searchIndexes as $searchIndex) {
-                if($searchIndex->university_id == $model->id){
+                if($searchIndex->university_id == $model->id) {
                     $keywordCount++;
+                    $uniKeywords[] = $searchIndex->keyword;
                 }
-                if(strpos($searchIndex->keyword, "-o_p-")){
+                
+                if(strpos($searchIndex->keyword, "-o_p-")) {
                     $modelMatches[$model->id]["match"] += 10;
                     break;
                 }
+                
+                foreach ($selectedTopics as $selectedTopic) {
+                    foreach ($topics as $topic) {
+                        foreach ($topicSearches as $topicSearch) {
+                            if(($searchIndex->id == $topicSearch->search_index_id) && ($selectedTopic == $topic->id) && ($selectedTopic == $topicSearch->topic_id)) {
+                                $matchCount++;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            if($keywordCount != 0){
-                $match = ($matchCount / $keywordCount) * 100;
+            if($keywordCount != 0) {
+                $match = ($matchCount / $keywordCount) * 60;
                 $modelMatches[$model->id]["match"] += $match;
             }
             $data[] = $modelMatches[$model->id];

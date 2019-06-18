@@ -22,7 +22,7 @@ class TeacherController extends BaseController {
 	
 	public function actionCreate() {
 		$model = new Teacher();
-		if($model->load($_POST) && $model->save()){
+		if($model->load($_POST) && $model->save()) {
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
 			return $this->render("create", ["model" => $model]);
@@ -33,7 +33,7 @@ class TeacherController extends BaseController {
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
 		
-		if($model->load($_POST) && $model->save()){
+		if($model->load($_POST) && $model->save()) {
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
 			return $this->render("update", ["model" => $model]);

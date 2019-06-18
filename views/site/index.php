@@ -45,7 +45,7 @@ Helper::setTitle("Pealeht");
 	<input type="button" class="btn btn-primary" id="search" value="Otsi">
 </div>
 	
-	<div id="search-results">
+	<div id="search-results" style="display: none;">
 		<h2>Ülikoolid</h2>
 		<div class="universities">
 		</div>
@@ -54,130 +54,133 @@ Helper::setTitle("Pealeht");
 
 <script>
 	let searchBtn = document.querySelector("#search");
-
 	let degree = document.querySelector("#degree");
 	let semester = document.querySelector("#semester");
 	let speciality = document.querySelector("#speciality");
 	let practice = document.querySelector("#practice");
 	let topics = document.querySelectorAll(".topic");
 	let universities = document.querySelector(".universities");
-
-	searchBtn.addEventListener("click", function(){
+	
+	searchBtn.addEventListener("click", function() {
 		let degreeVal = 0;
 		let semesterVal = 0;
 		let specialityVal = 0;
 		let practiceVal = 0;
-
-		if(degree !== null || degree !== undefined){
+		
+		if(degree !== null || degree !== undefined) {
 			degreeVal = degree.value;
 		}
-		if(semester !== null || semester !== undefined){
+		if(semester !== null || semester !== undefined) {
 			semesterVal = semester.value;
 		}
-		if(speciality !== null || speciality !== undefined){
+		if(speciality !== null || speciality !== undefined) {
 			specialityVal = speciality.value;
 		}
-		if(practice !== null || practice !== undefined){
+		if(practice !== null || practice !== undefined) {
 			practiceVal = practice.checked ? 1 : 0;
 		}
-
+		
 		let selectedTopics = [];
 		
-        for(let i = 0; i < topics.length; i++){
-            if(topics[i].checked){
-                selectedTopics.push(topics[i].value);
+        for(let i = 0; i < topics.length; i++) {
+			if(topics[i].checked){
+				selectedTopics.push(topics[i].value);
             }
         }
-
-		if(selectedTopics.length > 0){
-			let formData = new FormData();
-			formData.append("degree", degreeVal);
-			formData.append("semester", semesterVal);
-			formData.append("speciality", specialityVal);
-			formData.append("practice", practiceVal);
-			formData.append("selectedTopics", JSON.stringify(selectedTopics));
-
-			let xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					RenderUniversities(JSON.parse(this.responseText));
-				}
-			};
-			xhttp.open("POST", "/site/search", true);
-			xhttp.send(formData);
-		} else {
+		
+		if(selectedTopics.length <= 0){
 			alert("Valige mõni teema, millest olete huvitatud!");
+			return;
 		}
+		
+		let formData = new FormData();
+		formData.append("degree", degreeVal);
+		formData.append("semester", semesterVal);
+		formData.append("speciality", specialityVal);
+		formData.append("practice", practiceVal);
+		formData.append("selectedTopics", JSON.stringify(selectedTopics));
+		
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.querySelector("#search-results").style = "";
+				RenderUniversities(JSON.parse(this.responseText));
+			}
+		};
+		xhttp.open("POST", "/site/search", true);
+		xhttp.send(formData);
 	});
 
-function CreateUniversity(name, icon, description, percent, link, map) {
-    let uniBlock = document.createElement("div");
-    uniBlock.className = "university";
-    
-    let uniHeader = document.createElement("h3");
-    uniHeader.innerHTML = name;
-    
-    let uniContainer = document.createElement("div");
-    uniContainer.className = "university-description";
-    
-    let uniIconContainer = document.createElement("div");
-    uniIconContainer.className = "university-icon";
-    let uniIcon = document.createElement("img");
-    uniIcon.src = icon;
-    uniIconContainer.appendChild(uniIcon);
-    
-    let uniText = document.createElement("div");
-    uniText.className = "description-text";
-    uniText.innerHTML = description;
-    
-    let uniPerContainer = document.createElement("div");
-    uniPerContainer.className = "percent-with-link";
-    let uniPer = document.createElement("div");
-    uniPer.innerHTML = percent;
-    uniPerContainer.appendChild(uniPer);
-    
-    let uniLinkContainer = document.createElement("div");
-    let uniLink = document.createElement("a");
-    uniLink.href = link;
-    uniLink.innerHTML = "wwwcom";
-    uniLinkContainer.appendChild(uniLink);
-    uniPerContainer.appendChild(uniLinkContainer);
-    
-    let uniMapContainer = document.createElement("div");
-    uniMapContainer.className = "university-map";
-    let uniMap = document.createElement("img");
-    uniMap.src = map;
-    uniMapContainer.appendChild(uniMap);
-	
-    uniBlock.appendChild(uniHeader);
-    uniContainer.appendChild(uniIconContainer);
-    uniContainer.appendChild(uniText);
-    uniContainer.appendChild(uniPerContainer);
-    uniContainer.appendChild(uniMapContainer);
-    uniBlock.appendChild(uniContainer);
-    universities.appendChild(uniBlock);
-}
+	function CreateUniversity(name, icon, description, percent, link, map) {
 
-function RenderUniversities(resultArr){
-	clearInner(universities);
-    for(let i = 0; i < resultArr.length; i++){
-		let icon = "https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png";
-		let map = "https://custom-map-source.appspot.com/galileo-google-maps.png";
-        CreateUniversity(resultArr[i]["name"], icon, resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"], map);
-        //CreateUniversity(resultArr[i]["name"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"]);
-    }
-}
+		let uniBlock = document.createElement("div");
+		uniBlock.className = "university";
+		
+		let uniHeader = document.createElement("h3");
+		uniHeader.innerHTML = name;
+		
+		let uniContainer = document.createElement("div");
+		uniContainer.className = "university-description";
+		
+		let uniIconContainer = document.createElement("div");
+		uniIconContainer.className = "university-icon";
+		let uniIcon = document.createElement("img");
+		uniIcon.src = icon;
+		uniIconContainer.appendChild(uniIcon);
+		
+		let uniText = document.createElement("div");
+		uniText.className = "description-text";
+		uniText.innerHTML = description;
+		
+		let uniPerContainer = document.createElement("div");
+		uniPerContainer.className = "percent-with-link";
+		let uniPer = document.createElement("div");
+		uniPer.innerHTML = Math.round(percent) + " %";
+		uniPerContainer.appendChild(uniPer);
+		
+		let uniLinkContainer = document.createElement("div");
+		let uniLink = document.createElement("a");
+		uniLink.href = link;
+		uniLink.target = "_blank";
+		uniLink.innerHTML = "wwwcom";
+		uniLinkContainer.appendChild(uniLink);
+		uniPerContainer.appendChild(uniLinkContainer);
+		
+		let uniMapContainer = document.createElement("div");
+		uniMapContainer.className = "university-map";
+		let uniMap = document.createElement("img");
+		uniMap.src = map;
+		uniMapContainer.appendChild(uniMap);
+		
+		uniBlock.appendChild(uniHeader);
+		uniContainer.appendChild(uniIconContainer);
+		uniContainer.appendChild(uniText);
+		uniContainer.appendChild(uniPerContainer);
+		uniContainer.appendChild(uniMapContainer);
+		uniBlock.appendChild(uniContainer);
+		universities.appendChild(uniBlock);
+	}
 
-function clearInner(node) {
-  while (node.hasChildNodes()) {
-    clear(node.firstChild);
-  }
-}
+	function RenderUniversities(resultArr){
+		clearInner(universities);
+		for(let i = 0; i < resultArr.length; i++){
+			let icon = "https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png";
+			let map = "https://custom-map-source.appspot.com/galileo-google-maps.png";
+			CreateUniversity(resultArr[i]["name"], icon, resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"], map);
+			//CreateUniversity(resultArr[i]["name"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"]);
+		}
+	}
 
-function clear(node) {
-  while (node.hasChildNodes()) {
-    clear(node.firstChild);
-  }
-  node.parentNode.removeChild(node);
-}
+	function clearInner(node) {
+		while (node.hasChildNodes()) {
+			clear(node.firstChild);
+		}
+	}
+
+	function clear(node) {
+		while (node.hasChildNodes()) {
+			clear(node.firstChild);
+		}
+		node.parentNode.removeChild(node);
+	}
 </script>

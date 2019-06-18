@@ -35,7 +35,7 @@ class Topic extends ActiveRecord {
 	public function resetTopicSearch() {
 		QueryBuilder::delete(TopicSearch::tableName(), ["=", "topic_id", $this->id])->execute();
 		
-		if(isset($_POST["selectedKeywords"])){
+		if(isset($_POST["selectedKeywords"])) {
 			$selectedKeywords = json_decode($_POST["selectedKeywords"]);
 
 			foreach ($selectedKeywords as $selectedKeyword) {
