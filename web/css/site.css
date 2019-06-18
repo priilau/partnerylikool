@@ -706,6 +706,7 @@ input:-internal-autofill-selected {
 
 .universities {
 	margin-top: 20px;
+	width: auto;
 }
 
 #left-sub {
@@ -802,8 +803,9 @@ h5 {
 	font-size: 20px;
 	min-height: 128px;
 	min-width: 60px;
-	max-width: 74px;
+	max-width: 75px;
 	padding-left: 2px;
+	width: auto;
 }
 
 .percent-with-link div:last-child {
@@ -861,6 +863,15 @@ select {
 	transform-origin: 0 0;
 	transform: rotate(15deg);
 	background: #b80007;
+}
+
+.keyword-block {
+	display: inline-block;
+}
+
+#all-keywords .keyword-block label{
+	width: 100px;
+	min-width: 100px;
 }
 
 /* MOBILE */
