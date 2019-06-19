@@ -81,10 +81,6 @@ class QueryBuilder {
             case "insert":{
                 $this->sql = "INSERT INTO {$this->tableName} ";
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!Helper::isContentClean($fieldName) || !Helper::isContentClean($fieldValue)){
-                        echo "[{$fieldName}] or [{$fieldValue}] is not clean (1)!";
-                        return false;
-                    }
                     $fieldStr .= "{$fieldName}, ";
                     $fieldVals .= "?, ";
                     $this->fieldValues[] = $fieldValue;
@@ -99,10 +95,6 @@ class QueryBuilder {
             case "update":{
                 $this->sql = "UPDATE {$this->tableName} SET ";
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!Helper::isContentClean($fieldName) || !Helper::isContentClean($fieldValue, 255)){
-                        echo "[{$fieldName}] or [{$fieldValue}] is not clean (2)!";
-                        return false;
-                    }
                     $fieldStr .= "`{$fieldName}` = ?, ";
                     $this->fieldValues[] = $fieldValue;
                 }
@@ -114,10 +106,6 @@ class QueryBuilder {
                         $whereSql .= " OR (";
                     }
                     foreach($whereBlock as $whereItem){
-                        if(!Helper::isContentClean($whereItem[1]) || !Helper::isContentClean($whereItem[2])){
-                            echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (3)!";
-                            return false;
-                        }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
                         $this->fieldValues[] = $whereItem[2];
                     }
@@ -137,10 +125,6 @@ class QueryBuilder {
                         $whereSql .= " OR (";
                     }
                     foreach($whereBlock as $whereItem){
-                        if(!Helper::isContentClean($whereItem[1]) || !Helper::isContentClean($whereItem[2])){
-                            echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (4)!";
-                            return false;
-                        }
                         $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
                         $this->fieldValues[] = $whereItem[2]; 
                     }
@@ -161,10 +145,6 @@ class QueryBuilder {
                             $whereSql .= " OR (";
                         }
                         foreach($whereBlock as $whereItem){
-                            if(!Helper::isContentClean($whereItem[1]) || !Helper::isContentClean($whereItem[2])){
-                                echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (5)!";
-                                return false;
-                            }
                             $whereSql .= "{$whereItem[1]} {$whereItem[0]} ? AND ";
                             $this->fieldValues[] = $whereItem[2];
                         }

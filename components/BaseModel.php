@@ -160,6 +160,7 @@ class BaseModel {
 							foreach ($value[1] as $dataRule){
 								switch($dataRule){
 									case "string":{
+                                        $fieldValue = $fieldValue."";
 										if(!is_string($fieldValue)){
 											$this->addError("{$fieldName} - Must be a string! [".print_r($fieldValue, true)."]");
 										}
