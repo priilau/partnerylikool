@@ -5,7 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 class StudyModule extends ActiveRecord {
-	public $courses;
+	public $courses = [];
 
 	public static function tableName() {
 		return "study_module";

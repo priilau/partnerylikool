@@ -20,6 +20,7 @@ $files = [
     __DIR__ . '/../components/BaseController.php',
     __DIR__ . '/../models/LoginForm.php',
     __DIR__ . '/../models/ForgotPasswordForm.php',
+    __DIR__ . '/../models/PartnerUniversitySystemLog.php',
 	__DIR__ . '/../models/University.php',
 	__DIR__ . '/../models/Course.php',
 	__DIR__ . '/../models/CourseLearningOutcome.php',

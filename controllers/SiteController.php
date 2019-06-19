@@ -129,7 +129,6 @@ class SiteController extends BaseController {
                     foreach ($topics as $topic) {
                         foreach ($topicSearches as $topicSearch) {
                             if(($searchIndex->id == $topicSearch->search_index_id) && ($selectedTopic == $topic->id) && ($selectedTopic == $topicSearch->topic_id) && ($searchIndex->university_id == $model->id) && !$match) {
-                                //var_dump($searchIndex->keyword);
                                 $matchCount++;
                                 $match = true;
                             }
