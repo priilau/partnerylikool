@@ -168,6 +168,8 @@ Helper::setTitle("Pealeht");
 		let uniMap = document.createElement("a");
 		uniMap.href = map;
 		uniMap.innerText = "🗺";
+		uniMap.className = "map-link";
+
 		uniMapContainer.appendChild(uniMap);
 		
 		uniBlock.appendChild(uniHeader);

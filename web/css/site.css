@@ -950,6 +950,10 @@ select {
 	.content {
 		padding: 10px 10px;
 	}
+
+	h1 {
+		margin-bottom: 10px;
+	}
 }
 
 
