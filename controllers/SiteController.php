@@ -66,6 +66,8 @@ class SiteController extends BaseController {
             $matchCount = 0;
             $keywordCount = 0;
             $uniKeywords = [];
+            $modelCheck = false;
+
             $modelMatches[$model->id] = [
                 "name" => $model->name, 
                 //"icon" => $model->icon, 
@@ -85,6 +87,9 @@ class SiteController extends BaseController {
                 if($_POST["semester"] == $course->semester) {
                     $modelMatches[$model->id]["match"] += 10;
                     break;
+                } else {
+                    $modelCheck = true;
+                    break;
                 }
             }
             
@@ -95,10 +100,17 @@ class SiteController extends BaseController {
                 if($_POST["degree"] == $speciality->degree && !$match) {
                     $modelMatches[$model->id]["match"] += 10;
                     $match = true;
+                } else {
+                    $modelCheck = true;
+                    break;
                 }
+
                 if(strtolower($_POST["speciality"]) == strtolower($speciality->name) && !$matchName) {
                     $modelMatches[$model->id]["match"] += 10;
                     $matchName = true;
+                } else {
+                    $modelCheck = true;
+                    break;
                 }
             }  
 
@@ -110,8 +122,10 @@ class SiteController extends BaseController {
                 
                 if(strpos($searchIndex->keyword, "-o_p-")) {
                     $modelMatches[$model->id]["match"] += 10;
+                } /*else {
+                    $modelCheck = true;
                     break;
-                }
+                }*/
                 
                 foreach ($selectedTopics as $selectedTopic) {
                     foreach ($topics as $topic) {
@@ -124,11 +138,17 @@ class SiteController extends BaseController {
                     }
                 }
             }
+
             if($keywordCount != 0) {
                 $match = ($matchCount / $keywordCount) * 60;
                 $modelMatches[$model->id]["match"] += $match;
             }
-            $data[] = $modelMatches[$model->id];
+
+            if(!$modelCheck){
+                $data[] = $modelMatches[$model->id];
+            } else {
+                unset($modelMatches[$model->id]);
+            }
         }
         return $this->json(json_encode($data));
     }

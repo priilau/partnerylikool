@@ -42,14 +42,6 @@ class QueryBuilder {
         $this->wheres[$this->whereIndex][] = [$operator, $fieldName, $fieldValue];
         return $this;
     }
-    
-    public function leftJoin($otherTableName, $firstTableField, $otherTableField){
-        if(!Helper::isStringClean($this->tableName) || !Helper::isStringClean($otherTableName) || !Helper::isStringClean($firstTableField) || !Helper::isStringClean($otherTableField)){
-            return false;
-        }
-        $this->sql .= "SELECT column_names FROM {$this->tableName} LEFT JOIN {$otherTableName} ON {$this->tableName}.{$firstTableField}={$otherTableName}.{$otherTableField};";
-        return $this->sql;
-    }
 
     public function refValues($arr){
         if (strnatcmp(phpversion(),'5.3') >= 0) //Reference is required for PHP 5.3+
@@ -89,7 +81,7 @@ class QueryBuilder {
             case "insert":{
                 $this->sql = "INSERT INTO {$this->tableName} ";
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!Helper::isStringClean($fieldName, 255) || !Helper::isStringClean($fieldValue, 255)){
+                    if(!Helper::isContentClean($fieldName) || !Helper::isContentClean($fieldValue)){
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean (1)!";
                         return false;
                     }
@@ -107,7 +99,7 @@ class QueryBuilder {
             case "update":{
                 $this->sql = "UPDATE {$this->tableName} SET ";
                 foreach($this->data as $fieldName => $fieldValue){
-                    if(!Helper::isStringClean($fieldName) || !Helper::isStringClean($fieldValue, 255)){
+                    if(!Helper::isContentClean($fieldName) || !Helper::isContentClean($fieldValue, 255)){
                         echo "[{$fieldName}] or [{$fieldValue}] is not clean (2)!";
                         return false;
                     }
@@ -122,7 +114,7 @@ class QueryBuilder {
                         $whereSql .= " OR (";
                     }
                     foreach($whereBlock as $whereItem){
-                        if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
+                        if(!Helper::isContentClean($whereItem[1]) || !Helper::isContentClean($whereItem[2])){
                             echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (3)!";
                             return false;
                         }
@@ -145,7 +137,7 @@ class QueryBuilder {
                         $whereSql .= " OR (";
                     }
                     foreach($whereBlock as $whereItem){
-                        if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
+                        if(!Helper::isContentClean($whereItem[1]) || !Helper::isContentClean($whereItem[2])){
                             echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (4)!";
                             return false;
                         }
@@ -169,7 +161,7 @@ class QueryBuilder {
                             $whereSql .= " OR (";
                         }
                         foreach($whereBlock as $whereItem){
-                            if(!Helper::isStringClean($whereItem[1]) || !Helper::isStringClean($whereItem[2])){
+                            if(!Helper::isContentClean($whereItem[1]) || !Helper::isContentClean($whereItem[2])){
                                 echo "[{$whereItem[1]}] or [{$whereItem[2]}] is not clean (5)!";
                                 return false;
                             }

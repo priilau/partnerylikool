@@ -51,7 +51,6 @@ Helper::setTitle("Courses");
 			}
 		],
 		'goals',
-		'description',
 		[
 			'attribute' => "created_by",
 			'value' => function($model) use ($userNames){

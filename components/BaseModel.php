@@ -161,7 +161,7 @@ class BaseModel {
 								switch($dataRule){
 									case "string":{
 										if(!is_string($fieldValue)){
-											$this->addError("{$fieldName} - Must be a string!");
+											$this->addError("{$fieldName} - Must be a string! [".print_r($fieldValue, true)."]");
 										}
 										break;
 									}
