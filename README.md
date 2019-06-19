@@ -25,4 +25,4 @@ Andmebaasi kirjeldus asub doc kaustas
 VIIDE TULEB SIIA GITLABI REPOST CONFIST
 
 
-![alt text](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/license.txt)
+[Litsents](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/license.txt)
