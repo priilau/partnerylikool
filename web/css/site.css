@@ -717,7 +717,6 @@ input:-internal-autofill-selected {
 
 .university {
 	margin-top: 20px;
-	border-bottom: 2px solid #F3F3F3;
 }
 
 .universities {
@@ -836,6 +835,10 @@ h5 {
 
 .university-map img {
 	width: 128px;
+}
+
+.university-description {
+	border-bottom: 2px solid #F3F3F3 
 }
 
 select {
