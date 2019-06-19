@@ -912,8 +912,14 @@ select {
 
 }
 
-@media only screen and (max-width: 940px) {
-	/* side menu to header */
+@media only screen and (max-width: 1150px) {
+	.side-menu { 
+		display: none; 
+	}
+
+	.content {
+		padding-top: 20px;
+	}
 }
 
 @media only screen and (max-width: 870px) {
@@ -936,8 +942,13 @@ select {
 		min-width: 200px;
 	}
 
+	.university-map a {
+		padding-top: 15px;
+		padding-left: 10px;
+	}
+
 	.content {
-		padding: 20px 10px;
+		padding: 10px 10px;
 	}
 }
 
