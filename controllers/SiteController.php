@@ -61,7 +61,7 @@ class SiteController extends BaseController {
             $stmt->close();
             $mysqli->close();
         }
-        
+
         foreach ($models as $model) {
             $matchCount = 0;
             $keywordCount = 0;
@@ -87,9 +87,6 @@ class SiteController extends BaseController {
                 if($_POST["semester"] == $course->semester) {
                     $modelMatches[$model->id]["match"] += 10;
                     break;
-                } else {
-                    $modelCheck = true;
-                    break;
                 }
             }
             
@@ -101,25 +98,16 @@ class SiteController extends BaseController {
                 if($_POST["degree"] == $speciality->degree && !$match) {
                     $modelMatches[$model->id]["match"] += 10;
                     $match = true;
-                } else {
-                    $modelCheck = true;
-                    break;
                 }
 
                 if(strtolower($_POST["speciality"]) == strtolower($speciality->name) && !$matchName) {
                     $modelMatches[$model->id]["match"] += 10;
                     $matchName = true;
-                } else {
-                    $modelCheck = true;
-                    break;
                 }
 
                 if($_POST["practice"] == $speciality->practice && !$matchPractice) {
                     $modelMatches[$model->id]["match"] += 10;
                     $matchPractice = true;
-                } else {
-                    $modelCheck = true;
-                    break;
                 }
             }  
 
