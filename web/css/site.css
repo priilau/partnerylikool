@@ -345,11 +345,6 @@ li {
 
 /*FOOTER */
 
-.footer {
-	display: flex;
-	box-shadow: inset 10px 0 0 #b71234,0 0 20px rgba(0,0,0,.05);
-}
-
 .red-section {
 	background: #b71234;
 	width: 270px;
@@ -390,7 +385,7 @@ li {
 	display: inline-block;
 	vertical-align: top;
 	width: 235px;
-	padding-left: 104px;
+	padding-left: 5vw;
 }
 
 .white-section .upper-footer .footer-section a {
@@ -902,6 +897,7 @@ select {
 
 @media only screen and (max-width: 1420px) {
 	/* header menu to dropdown list*/
+
 }
 
 @media only screen and (max-width: 940px) {
@@ -929,7 +925,7 @@ select {
 	}
 
 	.content {
-		padding: 40px 2vw;
+		padding: 20px 10px;
 	}
 }
 
