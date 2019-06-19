@@ -16,9 +16,9 @@ class Helper {
 
     public static function getDegrees() {
         return [
-            1 => "Bakalaureus",
-            2 => "Magister",
-            3 => "Doktor",
+            1 => "Bachelor",
+            2 => "Master's",
+            3 => "Doctorate",
         ];
     }
 
