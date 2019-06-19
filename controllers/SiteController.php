@@ -95,6 +95,7 @@ class SiteController extends BaseController {
             
             $match = false;
             $matchName = false;
+            $matchPractice = false;
             
             foreach($specialities as $speciality) {
                 if($_POST["degree"] == $speciality->degree && !$match) {
@@ -113,8 +114,9 @@ class SiteController extends BaseController {
                     break;
                 }
 
-                if($_POST["practice"] == $speciality->practice) {
+                if($_POST["practice"] == $speciality->practice && !$matchPractice) {
                     $modelMatches[$model->id]["match"] += 10;
+                    $matchPractice = true;
                 } else {
                     $modelCheck = true;
                     break;
