@@ -20,7 +20,7 @@ Projekti autorid:
 Caupo Helvik, Kristan Põldmets, Priit Laupa, Lauri Raus, Rasmus Aron
 
 Paigaldusjuhised asuvad doc kaustas
-
+[paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/paigaldusjuhis.txt)
 Andmebaasi kirjeldus asub doc kaustas
 VIIDE TULEB SIIA GITLABI REPOST CONFIST
 
