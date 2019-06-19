@@ -112,6 +112,13 @@ class SiteController extends BaseController {
                     $modelCheck = true;
                     break;
                 }
+
+                if($_POST["practice"] == $speciality->practice) {
+                    $modelMatches[$model->id]["match"] += 10;
+                } else {
+                    $modelCheck = true;
+                    break;
+                }
             }  
 
             foreach ($searchIndexes as $searchIndex) {
@@ -119,13 +126,6 @@ class SiteController extends BaseController {
                     $keywordCount++;
                     $uniKeywords[] = $searchIndex->keyword;
                 }
-                
-                if(strpos($searchIndex->keyword, "-o_p-")) {
-                    $modelMatches[$model->id]["match"] += 10;
-                } /*else {
-                    $modelCheck = true;
-                    break;
-                }*/
                 
                 foreach ($selectedTopics as $selectedTopic) {
                     foreach ($topics as $topic) {

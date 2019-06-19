@@ -178,7 +178,7 @@ class University extends ActiveRecord {
 	}
 
 	public function getSpecialities() {
-		$sql = "SELECT DISTINCT speciality.degree, speciality.name FROM `university` AS u LEFT JOIN `department` ON department.university_id = u.id LEFT JOIN speciality ON speciality.department_id = department.id WHERE u.id = {$this->id};";
+		$sql = "SELECT DISTINCT speciality.degree, speciality.name, speciality.practice FROM `university` AS u LEFT JOIN `department` ON department.university_id = u.id LEFT JOIN speciality ON speciality.department_id = department.id WHERE u.id = {$this->id};";
 
 		$mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
 		$stmt = $mysqli->prepare($sql); 
