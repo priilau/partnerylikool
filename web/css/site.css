@@ -470,7 +470,7 @@ input {
 }
 
 input[type="checkbox"] {
-	width: 5px;
+	width: 12px;
 }
 
 input[type=button], input[type=submit], .btn {
