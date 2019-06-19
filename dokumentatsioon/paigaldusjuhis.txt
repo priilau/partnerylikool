@@ -54,19 +54,19 @@ Apache/2.4.25 (Debian) konfiguratsioon vhosts faili:
 </VirtualHost>
 
 <VirtualHost *:443>
-        ServerName partner.caupo.ee
-        #ServerAlias www.partner.caupo.ee
-        ServerAdmin helvikcaupo@gmail.com
-        DocumentRoot /var/www/partner.caupo.ee/web
+        ServerName domain.ee
+        #ServerAlias www.domain.ee
+        ServerAdmin admin@domain.com
+        DocumentRoot /var/www/domain.ee/web
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
         SSLEngine on
-        SSLCertificateFile    /etc/ssl/certs/ssl-cert-caupo.ee.pem
-        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-caupo.ee.key
+        SSLCertificateFile    /etc/ssl/certs/ssl-cert-domain.pem
+        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-domain.key
 
-        <Directory /var/www/partner.caupo.ee>
+        <Directory /var/www/domain.ee>
                 Options FollowSymLinks MultiViews
                 AllowOverride All
                 Order allow,deny
