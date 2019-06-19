@@ -16,8 +16,8 @@ Helper::setTitle("Pealeht");
                 <?php endforeach; ?>
             </select>
 			<select id="semester">
-                <?php foreach($semesters as $semester): ?>
-                    <option value="<?= $semester ?>"><?= $semester ?></option>
+                <?php foreach($semesters as $semesterKey => $semesterValue): ?>
+                    <option value="<?= $semesterKey ?>"><?= $semesterValue ?></option>
                 <?php endforeach; ?>
             </select>
 			<select id="speciality">
@@ -42,13 +42,12 @@ Helper::setTitle("Pealeht");
 		</div>
 	</div>
 <div>
-	<input type="button" class="btn btn-primary" id="search" value="Otsi">
+	<input type="button" class="btn btn-primary" id="search" value="Search">
 </div>
 	
 	<div id="search-results" style="display: none;">
 		<h2>Ülikoolid</h2>
-		<div class="universities">
-		</div>
+		<div class="universities"></div>
 	</div>
 </div>
 
@@ -60,6 +59,7 @@ Helper::setTitle("Pealeht");
 	let practice = document.querySelector("#practice");
 	let topics = document.querySelectorAll(".topic");
 	let universities = document.querySelector(".universities");
+	let searchResults = document.querySelector("#search-results");
 	
 	searchBtn.addEventListener("click", function() {
 		let degreeVal = 0;
@@ -71,7 +71,7 @@ Helper::setTitle("Pealeht");
 			degreeVal = degree.value;
 		}
 		if(semester !== null || semester !== undefined) {
-			semesterVal = semester.value;
+			semesterVal = parseInt(semester.value, 10);
 		}
 		if(speciality !== null || speciality !== undefined) {
 			specialityVal = speciality.value;
@@ -103,13 +103,30 @@ Helper::setTitle("Pealeht");
 		let xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				document.querySelector("#search-results").style = "";
-				RenderUniversities(JSON.parse(this.responseText));
+				ClearInner(universities);
+				let data = JSON.parse(this.responseText);
+				if(data === undefined || data === null || data.length <= 0){
+					searchResults.style = "";
+					CreateSearchMessage();
+				} else {
+					searchResults.style = "";
+					RenderUniversities(data);
+				}
 			}
 		};
 		xhttp.open("POST", "/site/search", true);
 		xhttp.send(formData);
 	});
+
+	function CreateSearchMessage(){
+		let searchMsg = document.createElement("div");
+		searchMsg.id = "search-msg";
+
+		let msg = document.createElement("h4");
+		msg.innerText = "Vastavaid ülikoole ei leitud!";
+		searchMsg.appendChild(msg);
+		universities.appendChild(searchMsg);
+	}
 
 	function CreateUniversity(name, icon, description, percent, link, map) {
 
@@ -142,7 +159,7 @@ Helper::setTitle("Pealeht");
 		let uniLink = document.createElement("a");
 		uniLink.href = link;
 		uniLink.target = "_blank";
-		uniLink.innerHTML = "wwwcom";
+		uniLink.innerHTML = "koduleht";
 		uniLinkContainer.appendChild(uniLink);
 		uniPerContainer.appendChild(uniLinkContainer);
 		
@@ -162,7 +179,6 @@ Helper::setTitle("Pealeht");
 	}
 
 	function RenderUniversities(resultArr){
-		clearInner(universities);
 		for(let i = 0; i < resultArr.length; i++){
 			let icon = "https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png";
 			let map = "https://custom-map-source.appspot.com/galileo-google-maps.png";
@@ -171,15 +187,15 @@ Helper::setTitle("Pealeht");
 		}
 	}
 
-	function clearInner(node) {
+	function ClearInner(node) {
 		while (node.hasChildNodes()) {
-			clear(node.firstChild);
+			Clear(node.firstChild);
 		}
 	}
 
-	function clear(node) {
+	function Clear(node) {
 		while (node.hasChildNodes()) {
-			clear(node.firstChild);
+			Clear(node.firstChild);
 		}
 		node.parentNode.removeChild(node);
 	}

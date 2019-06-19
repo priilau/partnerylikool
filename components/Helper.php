@@ -97,7 +97,7 @@ class Helper {
     }
 
     public static function isContentClean($str, $maxLength = 1024) {
-        $alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä,.+*-–/():!?";
+        $alphabet = "abcdefghijklmnopqrstuvwxyz1234567890_üõöä,.+*-–/():!?\"'";
 		$strLen = strlen($str);
 		$strLenX = strlen($alphabet);
 		
