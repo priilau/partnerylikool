@@ -26,11 +26,11 @@ Helper::setTitle("Pealeht");
                 <?php endforeach; ?>
             </select>
 			<div>
-				<input id="practice" type="checkbox"> <label for="practice">Soovin välispraktikat</label>
+				<input id="practice" type="checkbox"> <label for="practice">I want an internship</label>
 			</div>
 		</div>
 		<div class="filter-sub-container" id="right-sub">
-			<h3>Teemad millest olen huvitatud</h3>
+			<h3>Topics I am interested in</h3>
 			<div class="filter-options">
 				<?php foreach($topics as $topic): ?>
 					<div>
@@ -46,7 +46,7 @@ Helper::setTitle("Pealeht");
 </div>
 	
 	<div id="search-results" style="display: none;">
-		<h2>Ülikoolid</h2>
+		<h2>Universities</h2>
 		<div class="universities"></div>
 	</div>
 </div>
@@ -159,7 +159,7 @@ Helper::setTitle("Pealeht");
 		let uniLink = document.createElement("a");
 		uniLink.href = link;
 		uniLink.target = "_blank";
-		uniLink.innerHTML = "koduleht";
+		uniLink.innerHTML = "homepage";
 		uniLinkContainer.appendChild(uniLink);
 		uniPerContainer.appendChild(uniLinkContainer);
 		
@@ -167,6 +167,7 @@ Helper::setTitle("Pealeht");
 		uniMapContainer.className = "university-map";
 		let uniMap = document.createElement("a");
 		uniMap.href = map;
+		uniMap.target = "_blank";
 		uniMap.innerText = "🗺";
 		uniMap.className = "map-link";
 

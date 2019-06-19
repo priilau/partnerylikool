@@ -732,7 +732,7 @@ input:-internal-autofill-selected {
 	max-height: 102px;
 	overflow: auto;
 	background: #F5F5F5;
-	padding: 8px 0px 0px 15px;
+	padding: 8px 8px 0px 15px;
 	margin-bottom: 10px;
 }
 
@@ -809,15 +809,15 @@ h5 {
 .percent-with-link {
 	position: relative;
 	font-size: 20px;
-	min-height: 128px;
 	min-width: 60px;
 	max-width: 75px;
 	padding-left: 2px;
 	width: auto;
+	height: auto;
+	font-weight: bold;
 }
 
 .percent-with-link a{
-	font-weight: bold;
 	text-transform: uppercase;
 	color: #b80007;
 	padding-right: 5px

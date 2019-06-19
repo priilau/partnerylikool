@@ -46,9 +46,8 @@ class UniversityController extends BaseController {
 
 		if($model->load($modelPost) && $model->save()){
 			return $this->redirect("update", ["id" => $model->id]);
-		} else {
-            return $this->redirect("update", ["id" => $model->id]);
 		}
+		return $this->goHome();
 	}
 
 	public function addCourseTeacher($courseId, $teacherId) {
