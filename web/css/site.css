@@ -917,9 +917,12 @@ select {
 		display: none; 
 	}
 
+	.menu-wrapper { 
+		display: none; 
+	}
+
 	.content {
 		padding-top: 20px;
-		display: block;
 	}
 }
 
