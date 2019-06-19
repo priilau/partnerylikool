@@ -24,8 +24,6 @@ Helper::setTitle("Speciality");
 			return "-";
 			}
 		],
-		'general_information',
-		'instruction',
 		'examinations',
 		[
 			'attribute' => "created_by",

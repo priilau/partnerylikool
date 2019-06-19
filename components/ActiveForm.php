@@ -79,7 +79,7 @@ class ActiveForm {
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' name='{$this->fieldName}' value='{$this->inputValue}'>";
             foreach ($this->options as $optionValue => $optionName){
                 $optionName = ucfirst($optionName);
-                $selected = ($this->model->$fName == $optionValue) ? 'selected="selected"' : '';
+                $selected = ($this->model->$fName == $optionName) ? 'selected="selected"' : '';
 
                 if($this->optionValAsDataVal) {
                     $str .= "<option value='{$optionName}' {$selected}>{$optionName}</option>";
