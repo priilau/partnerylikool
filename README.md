@@ -19,8 +19,9 @@ CSS3
 Projekti autorid:
 Caupo Helvik, Kristan Põldmets, Priit Laupa, Lauri Raus, Rasmus Aron
 
-Paigaldusjuhised asuvad doc kaustas
-[paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/paigaldusjuhis.txt)
+
+[Paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/paigaldusjuhis.txt) asub doc kaustas\
+
 Andmebaasi kirjeldus asub doc kaustas
 VIIDE TULEB SIIA GITLABI REPOST CONFIST
 
