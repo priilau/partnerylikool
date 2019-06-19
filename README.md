@@ -10,11 +10,11 @@ Rakendus luuakse selleks, et Tallinna Ülikoolil  oleks võimalik pakkuda õpila
 Arendus on teostatud Tallinna Ülikooli Tarkvaraarenduse praktika(IFI6213.DT) 2019.a kevadsemestri raames.
 
 Kasutatud tehnoloogiad ja nende versioonid:
-Ver 15.1 Distrib 10.1.37-MariaDB
-Apache/2.4.25 (Debian)
-PHP Version 7.0.33
-HTML5
-CSS3
+Ver 15.1 Distrib 10.1.37-MariaDB\\
+Apache/2.4.25 (Debian)\\
+PHP Version 7.0.33\\
+HTML5\\
+CSS3\\
 
 Projekti autorid:
 Caupo Helvik, Kristan Põldmets, Priit Laupa, Lauri Raus, Rasmus Aron
