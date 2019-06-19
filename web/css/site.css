@@ -701,13 +701,14 @@ input:-internal-autofill-selected {
 	display: block;
 }
 
-.university > div, .filter-container > div, .filter-sub-container select, .university-description > div {
+.university > div, .filter-sub-container select, .university-description > div {
 	display: inline-block;
 }
 
 #right-sub {
 	width: auto;
-	max-width: 395px;
+	max-width: 300px;
+	flex: 2;
 }
 
 .university {
@@ -721,6 +722,8 @@ input:-internal-autofill-selected {
 
 #left-sub {
 	padding-top: 14px;
+	flex: 1;
+	width: 510px;
 }
 
 .filter-sub-container, .university-description > div {
@@ -750,12 +753,8 @@ input:-internal-autofill-selected {
 }
 
 .filter-container {
-	/*display: flex;*/
-	display:inline-block;
-}
-
-.filter-container > div {
-	flex: 1;
+	display: flex;
+	width: auto;
 }
 
 h1 {
@@ -934,14 +933,12 @@ select {
 	}
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 660px) {
 	.description-text {
 		max-width: 535px;
 		min-width: 200px;
 	}
-}
 
-@media only screen and (max-width: 640px) {
 	.description-text {
 		max-width: 250px;
 		min-width: 200px;
@@ -959,6 +956,17 @@ select {
 	h1 {
 		margin-bottom: 10px;
 	}
+
+	.filter-container {
+		display: inline-block;
+	}
 }
 
+@media only screen and (max-width: 480px) {
+	#left-sub {
+		padding-top: 14px;
+		flex: 1;
+		width: auto;
+	}
+}
 
