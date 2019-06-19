@@ -61,7 +61,7 @@ class SiteController extends BaseController {
             $stmt->close();
             $mysqli->close();
         }
-        
+
         foreach ($models as $model) {
             $matchCount = 0;
             $keywordCount = 0;
