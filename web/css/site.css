@@ -750,7 +750,8 @@ input:-internal-autofill-selected {
 }
 
 .filter-container {
-	display: flex;
+	/*display: flex;*/
+	display:inline-block;
 }
 
 .filter-container > div {
@@ -931,7 +932,7 @@ select {
 
 @media only screen and (max-width: 640px) {
 	.description-text {
-		max-width: 535px;
+		max-width: 250px;
 		min-width: 200px;
 	}
 
