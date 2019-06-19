@@ -72,7 +72,7 @@ class ActiveForm {
             }
             $str .= "<{$this->elementType} id='{$this->modelName}-{$lowerFieldName}' type='{$this->inputType}' name='{$this->fieldName}' {$value} {$checked}>";
             if($this->elementType == "textarea") {
-                $str .= "</{$this->elementType}>";
+                $str .= "{$this->inputValue}</{$this->elementType}>";
             }
         }
         else if($this->elementType == "select"){
