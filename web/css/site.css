@@ -819,6 +819,18 @@ h5 {
 	width: auto;
 }
 
+.percent-with-link a{
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #b80007;
+	padding-right: 5px
+}
+
+.percent-with-link a:hover{
+	color: #b80007;
+	text-decoration: underline;
+}
+
 .percent-with-link div:last-child {
 	margin-top: 15px;
 	font-size: 12px;
