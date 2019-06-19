@@ -159,7 +159,7 @@ Helper::setTitle("Pealeht");
 		let uniLink = document.createElement("a");
 		uniLink.href = link;
 		uniLink.target = "_blank";
-		uniLink.innerHTML = "wwwcom";
+		uniLink.innerHTML = "koduleht";
 		uniLinkContainer.appendChild(uniLink);
 		uniPerContainer.appendChild(uniLinkContainer);
 		
