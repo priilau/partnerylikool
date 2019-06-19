@@ -842,6 +842,7 @@ h5 {
 	display: inline-block;
 	padding-top: 10px;
 	color: #282627;
+	text-shadow: 1px 1px 1px #d51e48;
 }
 
 .university-description {
