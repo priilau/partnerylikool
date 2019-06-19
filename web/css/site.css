@@ -385,7 +385,7 @@ li {
 	display: inline-block;
 	vertical-align: top;
 	width: 235px;
-	padding-left: 5vw;
+	padding-left: 104px;
 }
 
 .white-section .upper-footer .footer-section a {
@@ -465,7 +465,7 @@ input {
 }
 
 input[type="checkbox"] {
-	width: 12px;
+	width: auto;
 }
 
 input[type=button], input[type=submit], .btn {
@@ -906,8 +906,8 @@ select {
 
 @media only screen and (max-width: 870px) {
 	.description-text {
-		max-width: 535px;
-		min-width: 300px;
+		max-width: 350px;
+		min-width: 350px;
 	}
 }
 
