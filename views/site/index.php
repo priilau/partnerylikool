@@ -182,11 +182,9 @@ Helper::setTitle("Pealeht");
 	}
 
 	function RenderUniversities(resultArr){
+		console.log(resultArr);
 		for(let i = 0; i < resultArr.length; i++){
-			let icon = "https://pbs.twimg.com/profile_images/679594326691741696/of9OpXVv.png";
-			let map = "https://custom-map-source.appspot.com/galileo-google-maps.png";
-			CreateUniversity(resultArr[i]["name"], icon, resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"], map);
-			//CreateUniversity(resultArr[i]["name"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"]);
+			CreateUniversity(resultArr[i]["name"], resultArr[i]["icon"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"], resultArr[i]["map"]);
 		}
 	}
 

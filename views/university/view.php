@@ -18,6 +18,8 @@ Helper::setTitle("University");
 		'country', 
 		'contact_email', 
 		'homepage_url', 
+		'map_url',
+		'icon_url',
 		'created_at', 
 		'id', 
 		'courses_available', 

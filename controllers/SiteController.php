@@ -42,7 +42,7 @@ class SiteController extends BaseController {
             }
             $topicIdsStr = rtrim($topicIdsStr, ", ");
             
-            $sql = "SELECT DISTINCT university.id, university.name, university.description, university.homepage_url FROM university LEFT JOIN search_index ON university.id = search_index.university_id LEFT JOIN topic_search ON search_index.id = topic_search.search_index_id WHERE topic_id IN ({$topicIdsStr});";
+            $sql = "SELECT DISTINCT university.id, university.name, university.description, university.homepage_url, university.map_url, university.icon_url FROM university LEFT JOIN search_index ON university.id = search_index.university_id LEFT JOIN topic_search ON search_index.id = topic_search.search_index_id WHERE topic_id IN ({$topicIdsStr});";
             
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
@@ -66,13 +66,13 @@ class SiteController extends BaseController {
             $matchCount = 0;
             $keywordCount = 0;
             $modelCheck = false;
-
+            
             $modelMatches[$model->id] = [
                 "name" => $model->name, 
-                //"icon" => $model->icon, 
+                "icon" => $model->icon_url, 
                 "description" => $model->description, 
                 "link" => $model->homepage_url, 
-                //"map" => $model->map, 
+                "map" => $model->map_url, 
                 "match" => 0
             ];
             
