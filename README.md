@@ -24,5 +24,5 @@ Paigaldusjuhised asuvad doc kaustas
 Andmebaasi kirjeldus asub doc kaustas
 VIIDE TULEB SIIA GITLABI REPOST CONFIST
 
-# viidet litsentsile ning litsentsifail oleks repositooriumis (peaks olema MIT litsents).
-WE DONT CARE LICENSE.TM
+
+![alt text](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/license.txt)
