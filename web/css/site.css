@@ -805,10 +805,6 @@ h5 {
 	margin-left: 80px;
 }
 
-.filter-container {
-	display: inline-block;
-}
-
 .percent-with-link {
 	position: relative;
 	font-size: 20px;
@@ -840,8 +836,11 @@ h5 {
 	width: 48px;
 }
 
-.university-map img {
-	width: 128px;
+.university-map a {
+	font-size: 70px;
+	display: inline-block;
+	padding-top: 10px;
+	color: #282627;
 }
 
 .university-description {
