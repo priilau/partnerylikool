@@ -470,7 +470,7 @@ input {
 }
 
 input[type="checkbox"] {
-	width: 0;
+	width: 5px;
 }
 
 input[type=button], input[type=submit], .btn {
@@ -749,7 +749,7 @@ input:-internal-autofill-selected {
 
 .description-text {
 	max-width: 535px;
-	min-width: 200px;
+	min-width: 535px;
 	overflow-y: auto;
 	max-height: 130px;
 	padding-left: 10px;
@@ -908,4 +908,12 @@ select {
 @media only screen and (max-width: 940px) {
 	/* side menu to header */
 }
+
+@media only screen and (max-width: 870px) {
+	.description-text {
+		max-width: 535px;
+		min-width: 300px;
+	}
+}
+
 
