@@ -124,7 +124,11 @@ Helper::setTitle("Ülikooli muutmine");
         if(placeholder.length > 0) {
             el.placeholder = placeholder;
         }
-        el.value = value;
+        if(inputType == "checkbox" && value){
+            el.checked = "checked";
+        } else {
+            el.value = value;
+        }
         el.dataset.value = datasetValue;
         return el;
     }
@@ -227,7 +231,7 @@ Helper::setTitle("Ülikooli muutmine");
             if(departmentTimer !== null) {
                 clearTimeout(departmentTimer);
             }
-            departmentTimer = setTimeout(PostDepartment, 500, this.dataset.value, departmentNameInput.value, modelId, departmentNameInput);
+            departmentTimer = setTimeout(PostDepartment, 300, this.dataset.value, departmentNameInput.value, modelId, departmentNameInput);
         });
 
         departmentCount++;
@@ -280,7 +284,7 @@ Helper::setTitle("Ülikooli muutmine");
                 clearTimeout(specialityTimer);
             }
             console.log("PARENT VAL ", this.parentElement.dataset.value);
-            specialityTimer = setTimeout(PostSpeciality, 500, this.parentElement.dataset.value,
+            specialityTimer = setTimeout(PostSpeciality, 300, this.parentElement.dataset.value,
                 specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput.querySelector("select"));
         };
         specialityNameInput.addEventListener("input", updateSpeciality);
@@ -419,7 +423,7 @@ Helper::setTitle("Ülikooli muutmine");
                 clearTimeout(studyModuleTimer);
             }
             console.log("SM PARENT VAL ", this.parentElement.dataset.value);
-            studyModuleTimer = setTimeout(PostStudyModule, 500, this.parentElement.dataset.value, smNameInput, specialityId);
+            studyModuleTimer = setTimeout(PostStudyModule, 300, this.parentElement.dataset.value, smNameInput, specialityId);
         };
         smNameInput.addEventListener("input", updateStudyModule);
 
@@ -592,7 +596,7 @@ Helper::setTitle("Ülikooli muutmine");
         coursesContainer.appendChild(courseContainer);
 
         let updateCallback = function() { if(courseTimer !== null) { clearTimeout(courseTimer); }
-            courseTimer = setTimeout(PostCourse, 500, this.parentElement.dataset.value, studyModuleId,
+            courseTimer = setTimeout(PostCourse, 300, this.parentElement.dataset.value, studyModuleId,
                 courseCodeInput, courseNameInput, courseEctsInput, courseGoalsInput, courseDescriptionInput, courseContactHoursInput, courseDegreeInput, courseSemesterInput, courseOptionalInput, courseExamInput);
         };
         courseCodeInput.addEventListener("input", updateCallback);
@@ -603,6 +607,8 @@ Helper::setTitle("Ülikooli muutmine");
         courseContactHoursInput.addEventListener("input", updateCallback);
         courseDegreeInput.addEventListener("input", updateCallback);
         courseSemesterInput.addEventListener("input", updateCallback);
+        courseExamInput.addEventListener("click", updateCallback);
+        courseOptionalInput.addEventListener("click", updateCallback);
 
         courseCount++;
     }
@@ -648,8 +654,8 @@ Helper::setTitle("Ülikooli muutmine");
         formData.append("contact_hours", iContactHours.value);
         formData.append("degree", iDegree.querySelector("select").value);
         formData.append("semester", iSemester.querySelector("select").value);
-        formData.append("optional", iOptional.value);
-        formData.append("exam", iExam.value);
+        formData.append("optional", (iOptional.checked) ? 1 : 0);
+        formData.append("exam", (iExam.checked) ? 1 : 0);
 
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {

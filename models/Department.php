@@ -5,7 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 class Department extends ActiveRecord {
-	public $specialities;
+	public $specialities = [];
 
 	public static function tableName() {
 		return "department";

@@ -6,9 +6,9 @@ use app\components\ActiveRecord;
 use app\components\QueryBuilder;
 
 class Course extends ActiveRecord {
-    public $teachers;
-    public $courseTeahcers;
-    public $outcomes;
+    public $teachers = [];
+    public $courseTeahcers = [];
+    public $outcomes = [];
 	
 	public static function tableName() {
 		return "course";

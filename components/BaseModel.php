@@ -129,7 +129,10 @@ class BaseModel {
 	}
 
 	public function afterSave() {
-		
+		if(static::tableName() == "partner_university"){
+			return;
+		}
+		PartnerUniversitySystemLog::log(static::tableName(), json_encode($this->attributes), $this->id);
 	}
 	
 	public function beforeDelete() {

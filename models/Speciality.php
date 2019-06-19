@@ -5,7 +5,7 @@ namespace app\models;
 use app\components\ActiveRecord;
 
 class Speciality extends ActiveRecord {
-	public $studyModules;
+	public $studyModules = [];
 
 	public static function tableName() {
 		return "speciality";
@@ -35,6 +35,7 @@ class Speciality extends ActiveRecord {
 			"instruction" => "Juhendid",
 			"examinations" => "Hindamismeetod",
 			"name" => "Nimetus",
+			"degree" => "Kraad",
 			"created_at" => "Lisatud",
 			"created_by" => "Lisaja",
 		];

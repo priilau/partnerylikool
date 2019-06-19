@@ -28,6 +28,20 @@ Helper::setTitle("Speciality");
 		'instruction',
 		'examinations',
 		[
+		    "attribute" => "degree",
+            "value" => function($model) use ($degree) {
+				if($model->degree == 1){
+					return "Bakalaureus";
+				}
+				if($model->degree == 2){
+					return "Magister";
+				}
+				if($model->degree == 3){
+					return "Doktor";
+				}
+            }
+        ],
+		[
 		    "attribute" => "created_by",
             "value" => function($model) use ($user) {
 				if($user == null) {
