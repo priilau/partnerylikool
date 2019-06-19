@@ -17,6 +17,8 @@ Helper::setTitle("Ülikooli muutmine");
 <?= $form->field($model, 'description')->textarea(); ?>
 <?= $form->field($model, 'contact_email') ?>
 <?= $form->field($model, 'homepage_url') ?>
+<?= $form->field($model, 'map_url') ?>
+<?= $form->field($model, 'icon_url') ?>
 <?= $form->field($model, 'recommended')->checkBox() ?>
 
 <div class="content-header-block">

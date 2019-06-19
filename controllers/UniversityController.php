@@ -40,6 +40,8 @@ class UniversityController extends BaseController {
             "recommended" => 0,
             "description" => "",
             "homepage_url" => "",
+            "icon_url" => "",
+            "map_url" => "",
         ];
 
 		if($model->load($modelPost) && $model->save()){
@@ -66,9 +68,10 @@ class UniversityController extends BaseController {
 				"recommended" => isset($_POST["recommended"]) ? 1 : 0,
 				"description" => $_POST["description"],
                 "homepage_url" => $_POST["homepage_url"],
+                "map_url" => $_POST["map_url"],
+                "icon_url" => $_POST["icon_url"],
             ];
         }
-		
 		if($model->load($modelPost) && $model->save()){
 			return $this->redirect("view", ["id" => $model->id]);
 		} else {
