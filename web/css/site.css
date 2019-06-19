@@ -385,7 +385,7 @@ li {
 	display: inline-block;
 	vertical-align: top;
 	width: 235px;
-	padding-left: 5vw;
+	padding-left: 104px;
 }
 
 .white-section .upper-footer .footer-section a {
@@ -465,7 +465,7 @@ input {
 }
 
 input[type="checkbox"] {
-	width: 12px;
+	width: auto;
 }
 
 input[type=button], input[type=submit], .btn {
@@ -750,7 +750,8 @@ input:-internal-autofill-selected {
 }
 
 .filter-container {
-	display: flex;
+	/*display: flex;*/
+	display:inline-block;
 }
 
 .filter-container > div {
@@ -805,10 +806,6 @@ h5 {
 	margin-left: 80px;
 }
 
-.filter-container {
-	display: inline-block;
-}
-
 .percent-with-link {
 	position: relative;
 	font-size: 20px;
@@ -817,6 +814,18 @@ h5 {
 	max-width: 75px;
 	padding-left: 2px;
 	width: auto;
+}
+
+.percent-with-link a{
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #b80007;
+	padding-right: 5px
+}
+
+.percent-with-link a:hover{
+	color: #b80007;
+	text-decoration: underline;
 }
 
 .percent-with-link div:last-child {
@@ -828,8 +837,11 @@ h5 {
 	width: 48px;
 }
 
-.university-map img {
-	width: 128px;
+.university-map a {
+	font-size: 70px;
+	display: inline-block;
+	padding-top: 10px;
+	color: #282627;
 }
 
 .university-description {
@@ -900,14 +912,24 @@ select {
 
 }
 
-@media only screen and (max-width: 940px) {
-	/* side menu to header */
+@media only screen and (max-width: 1150px) {
+	.side-menu { 
+		display: none; 
+	}
+
+	.menu-wrapper { 
+		display: none; 
+	}
+
+	.content {
+		padding-top: 20px;
+	}
 }
 
 @media only screen and (max-width: 870px) {
 	.description-text {
-		max-width: 535px;
-		min-width: 300px;
+		max-width: 350px;
+		min-width: 350px;
 	}
 }
 
@@ -920,12 +942,21 @@ select {
 
 @media only screen and (max-width: 640px) {
 	.description-text {
-		max-width: 535px;
+		max-width: 250px;
 		min-width: 200px;
+	}
+
+	.university-map a {
+		padding-top: 15px;
+		padding-left: 10px;
 	}
 
 	.content {
-		padding: 20px 10px;
+		padding: 10px 10px;
+	}
+
+	h1 {
+		margin-bottom: 10px;
 	}
 }
 

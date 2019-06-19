@@ -1,0 +1,75 @@
+Failid lisada vabalt valitud Linuxi platvorile (centOS, RedHat, vms),
+Apache veebiserveri lisada virtualhostid ja ära määrata DB vajaminevad seadistused.
+
+
+config/app.php faili ära määrata e-maili saatja probleemide korral  kujul: "noreply@tlu.ee"
+
+db.php faili ära määrata andmebaasi sätted.
+Määrata andmebaasi aadress kujul:
+host = "127.0.0.1"
+Määrata andmebaasi kasutajatunnus kujul:
+user = "user"
+Määrata andmebaasi parool kujul:
+pw = "password"
+Määrata andmebaasi skeemi nimi kujul:
+name = "database"
+
+htaccess faili lisada järgmised read:
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 seconds"
+  ExpiresByType text/html "access plus 1 seconds"
+  ExpiresByType image/x-icon "access plus 2592000 seconds"
+  ExpiresByType image/gif "access plus 2592000 seconds"
+  ExpiresByType image/jpeg "access plus 2592000 seconds"
+  ExpiresByType image/png "access plus 2592000 seconds"
+  ExpiresByType text/css "access plus 604800 seconds"
+  ExpiresByType text/javascript "access plus 86400 seconds"
+  ExpiresByType application/x-javascript "access plus 86400 seconds"
+</IfModule>
+
+Apache/2.4.25 (Debian) konfiguratsioon vhosts faili:
+
+<VirtualHost *:80>
+        ServerName domain.ee
+        ServerAlias www.domain.ee
+        ServerAdmin admin@domain.com
+        DocumentRoot /var/www/domain.ee/web
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <Directory /var/www/domain.ee>
+                Options FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>
+
+<VirtualHost *:443>
+        ServerName domain.ee
+        #ServerAlias www.domain.ee
+        ServerAdmin admin@domain.com
+        DocumentRoot /var/www/domain.ee/web
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        SSLEngine on
+        SSLCertificateFile    /etc/ssl/certs/ssl-cert-domain.pem
+        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-domain.key
+
+        <Directory /var/www/domain.ee>
+                Options FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>

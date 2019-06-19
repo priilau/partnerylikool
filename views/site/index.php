@@ -165,8 +165,11 @@ Helper::setTitle("Pealeht");
 		
 		let uniMapContainer = document.createElement("div");
 		uniMapContainer.className = "university-map";
-		let uniMap = document.createElement("img");
-		uniMap.src = map;
+		let uniMap = document.createElement("a");
+		uniMap.href = map;
+		uniMap.innerText = "🗺";
+		uniMap.className = "map-link";
+
 		uniMapContainer.appendChild(uniMap);
 		
 		uniBlock.appendChild(uniHeader);
