@@ -14,7 +14,8 @@ pw = "password"
 Määrata andmebaasi skeemi nimi kujul:
 name = "database"
 
-htaccess faili Määrata
+htaccess faili lisada järgmised read:
+
 RewriteEngine on
 
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -33,7 +34,7 @@ RewriteRule ^ index.php [L]
   ExpiresByType application/x-javascript "access plus 86400 seconds"
 </IfModule>
 
-Apache/2.4.25 (Debian) konfiguratsioon
+Apache/2.4.25 (Debian) konfiguratsioon vhosts faili:
 
 <VirtualHost *:80>
         ServerName domain.ee
