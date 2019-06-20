@@ -345,14 +345,18 @@ li {
 
 /*FOOTER */
 
+.footer {
+	display: flex;
+}
+
 .red-section {
+	flex: 1;
 	background: #b71234;
-	width: 270px;
+	max-width: calc(235px + 3.47222vw);
 	display: inline-block;
 	vertical-align: top;
 	height: 100%;
-	flex: 0 0 23em;
-	min-height: 450px;
+	height: auto;
 }
 
 .red-section img {
@@ -378,7 +382,15 @@ li {
 .white-section {
 	margin-top: 42px;
 	display: inline-block;
-	flex: 1;
+	flex: 2;
+}
+
+.upper-footer {
+	text-align: center;
+}
+
+.upper-footer > div{
+	text-align: left;
 }
 
 .white-section .upper-footer .footer-section {
@@ -435,8 +447,9 @@ li {
 
 .titanic {
 	float: none;
+	display: "⛴";
 }
-/*
+
 .footer-section:before {
     content: "";
     display: block;
@@ -448,7 +461,7 @@ li {
     background: #efefef;
 	transform: rotate(15deg);
 	z-index: 999;
-}*/
+}
 
 /* FORMS, INPUTS, BUTTONS, ETC */
 
