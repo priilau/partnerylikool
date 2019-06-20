@@ -780,9 +780,19 @@ input:-internal-autofill-selected {
 	margin-bottom: 10px;
 }
 
+.filter-options .topic{
+	margin-left: -15px;
+}
+
 .filter-options label{
 	min-width: auto;
+	margin-left: 5px;
 	display: inline-block;
+	word-wrap: normal;
+}
+
+.filter-options label:hover{
+	text-decoration: underline;
 }
 
 .description-text {
