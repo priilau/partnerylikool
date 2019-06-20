@@ -143,6 +143,7 @@ Helper::setTitle("Pealeht");
 		uniIconContainer.className = "university-icon";
 		let uniIcon = document.createElement("img");
 		uniIcon.src = icon;
+		uniIcon.alt = "🎓";
 		uniIconContainer.appendChild(uniIcon);
 		
 		let uniText = document.createElement("div");
