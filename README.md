@@ -16,13 +16,14 @@ PHP Version 7.0.33\
 HTML5\
 CSS3
 
-Projekti autorid:
+Projekti autorid:\
 Caupo Helvik, Kristan Põldmets, Priit Laupa, Lauri Raus, Rasmus Aron
 
+Kogu projekti dokumentatsioon on leitav doc kaustast.
 
-[Paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/paigaldusjuhis.txt) asub doc kaustas
+[Paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/paigaldusjuhis.txt)
 
-[Andmebaasi](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/Andmebaas.sql)kirjeldus asub doc kaustas
+[Andmebaasi](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/Andmebaas.sql)
 
 
 [Litsents](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/license.txt)
