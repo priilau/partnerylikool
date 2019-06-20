@@ -13,7 +13,8 @@ use app\components\Helper;
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><?= $title; ?></title>
+	<title><?= $title; ?></title>
+	<link rel="shortcut icon" type="image/png" href="https://www.tlu.ee/themes/tlu/images/favicons/favicon.ico"/>
 	<link href="https://fonts.googleapis.com/css?family=Cousine&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="/css/site.css?v=1">
 </head>
