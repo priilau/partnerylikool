@@ -1,8 +1,14 @@
 Failid lisada vabalt valitud Linuxi platvorile (centOS, RedHat, vms),
 Apache veebiserveri lisada virtualhostid ja ära määrata DB vajaminevad seadistused.
 
+Default kasutajatunnus on admin@admin.ee
+Default parool on admin
 
-config/app.php faili ära määrata e-maili saatja probleemide korral  kujul: "noreply@tlu.ee"
+Importida andmebaas failist andmebaas.sql, selle tulemusena luuakse vajalikud tabelid ja
+sellega koos default kasutajakonto.
+
+
+config/app.php faili ära määrata e-maili saatja probleemide korral kujul: "noreply@tlu.ee"
 
 db.php faili ära määrata andmebaasi sätted.
 Määrata andmebaasi aadress kujul:
@@ -14,7 +20,7 @@ pw = "password"
 Määrata andmebaasi skeemi nimi kujul:
 name = "database"
 
-htaccess faili lisada järgmised read:
+web/css/.htaccess faili lisada järgmised read:
 
 RewriteEngine on
 

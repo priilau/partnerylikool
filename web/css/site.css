@@ -370,6 +370,7 @@ li {
 .red-section .information {
 	padding-left: 60px;
 	padding-bottom: 60px;
+	font-size: 14px;
 }
 
 .red-section p {
@@ -448,6 +449,7 @@ li {
 .lower-footer {
 	border-top: 1px solid #DDD;
 	margin-top: 64px;
+	margin-bottom: 40px;
 }
 
 .footer-logo-container {
