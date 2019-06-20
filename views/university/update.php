@@ -246,7 +246,7 @@ Helper::setTitle("Ülikooli muutmine");
     /* SPECIALITY */
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue)
-    function CreateSpeciality(parentId = 0, inputValueName = "", inputValueDescription = "", inputValueInstruction = "", inputValueExaminations = "", inputValueDegree = "") {
+    function CreateSpeciality(parentId = 0, inputValueName = "", inputValueDescription = "", inputValueInstruction = "", inputValueExaminations = "", inputValueDegree = "", inputValuePractice = 0) {
         let containerId = parentId;
         let specialityContainer = document.createElement("div");
         specialityContainer.id = "speciality-id-"+containerId;
@@ -266,6 +266,11 @@ Helper::setTitle("Ülikooli muutmine");
         specialityContainer.appendChild(specialityExaminationsInput);
         let specialityDegreeInput = CreateSelect("Kraad", "speciality-degree", "specialityDegree[]", inputValueDegree, degrees);
         specialityContainer.appendChild(specialityDegreeInput);
+        let specialityPracticeLabel = document.createElement("label");
+        specialityPracticeLabel.innerText = "Välispraktika";
+        let specialityPracticeInput = CreateElement("input", "speciality-practice", "specialityPractice[]", "", inputValuePractice, parentId, "", "checkbox");
+        specialityContainer.appendChild(specialityPracticeInput);
+        specialityContainer.appendChild(specialityPracticeLabel);
 
         let specialityStudyModulesContainer = document.createElement("div");
         specialityStudyModulesContainer.id = "speciality-id-"+parentId+"-study-modules";
@@ -287,7 +292,7 @@ Helper::setTitle("Ülikooli muutmine");
             }
             console.log("PARENT VAL ", this.parentElement.dataset.value);
             specialityTimer = setTimeout(PostSpeciality, 300, this.parentElement.dataset.value,
-                specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput.querySelector("select"));
+                specialityNameInput, specialityDescriptionInput, specialityInstructionInput, specialityExaminationsInput, specialityDegreeInput.querySelector("select"), specialityPracticeInput);
         };
         specialityNameInput.addEventListener("input", updateSpeciality);
         specialityDescriptionInput.addEventListener("input", updateSpeciality);
@@ -295,12 +300,13 @@ Helper::setTitle("Ülikooli muutmine");
         specialityExaminationsInput.addEventListener("input", updateSpeciality);
         specialityDegreeInput.addEventListener("input", updateSpeciality);
         specialityDegreeInput.addEventListener("change", updateSpeciality);
+        specialityPracticeInput.addEventListener("click", updateSpeciality);
 
         specialityCount++;
     }
 
-    function PostSpeciality(id, iName, iDesc, iInstr, iExamin, iDegree) {
-        console.log("PostSpeciality: ", id, iName, iDesc, iInstr, iExamin, iDegree);
+    function PostSpeciality(id, iName, iDesc, iInstr, iExamin, iDegree, iPractice) {
+        console.log("PostSpeciality: ", id, iName, iDesc, iInstr, iExamin, iDegree, iPractice);
 
         let formData = new FormData();
         formData.append("id", id);
@@ -310,6 +316,7 @@ Helper::setTitle("Ülikooli muutmine");
         formData.append("instruction", iInstr.value);
         formData.append("examinations", iExamin.value);
         formData.append("degree", parseInt(iDegree.value));
+        formData.append("practice", (iPractice.checked) ? 1 : 0);
 
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -386,7 +393,7 @@ Helper::setTitle("Ülikooli muutmine");
                 for(let i = 0; i < response.specialities.length; i++) {
                     let spData = response.specialities[i];
                     console.log(spData);
-                    CreateSpeciality(spData.attributes.id, spData.attributes.name, spData.attributes.general_information, spData.attributes.instruction, spData.attributes.examinations, spData.attributes.degree)
+                    CreateSpeciality(spData.attributes.id, spData.attributes.name, spData.attributes.general_information, spData.attributes.instruction, spData.attributes.examinations, spData.attributes.degree, spData.attributes.practice);
                 }
             }
         };
