@@ -1,9 +1,7 @@
+-- See fail kirjeldab vajalikke andmebaasi tabeleid.
 -- phpMyAdmin SQL Dump
 -- version 4.9.0.1
 -- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Jun 18, 2019 at 12:21 PM
 -- Server version: 10.3.15-MariaDB
 -- PHP Version: 7.3.6
 
@@ -203,7 +201,9 @@ CREATE TABLE `university` (
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `description` text NOT NULL DEFAULT '',
-  `homepage_url` varchar(1024) NOT NULL DEFAULT ''
+  `homepage_url` varchar(1024) NOT NULL DEFAULT '',
+  `map_url` varchar(1024) DEFAULT '',
+  `icon_url` varchar(1024) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
