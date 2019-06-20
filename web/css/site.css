@@ -173,6 +173,10 @@ li {
     transform-origin: 0 0;
 }
 
+.link-bottom-aligner ul li:first-child a:before{
+	display: none;
+}
+
 .lower-menu > div a {
 	vertical-align: bottom;
 	font-size: 20px;
@@ -210,6 +214,7 @@ li {
 	left: 0;
 	padding: 20px 4.86111vw;
 	box-shadow: 0 0 30px rgba(0,0,0,.1);
+	margin-top: 0;
 }
 
 .sticky + .banner-section * {
@@ -954,8 +959,6 @@ select {
 /* MOBILE */
 
 @media only screen and (max-width: 1441px) {
-	/* header menu size*/
-
 	.footer-section:before {
 		content: "";
 		position: absolute;
@@ -969,13 +972,21 @@ select {
 	}
 }
 
-@media only screen and (max-width: 1440px) {
-	/* header menu size*/
+@media only screen and (max-width: 1430px) {
+	.lower-menu > div.right-menu a{
+		font-size: 16px;
+	}
+
+	.link-bottom-aligner ul li a:before{
+		top: -5px;
+		height: 30px;
+	}
 }
 
-@media only screen and (max-width: 1420px) {
-	/* header menu to dropdown list*/
-
+@media only screen and (max-width: 1260px) {
+	.lower-menu > div.right-menu a{
+		margin-left: 0;
+	}
 }
 
 @media only screen and (max-width: 1350px) {
@@ -998,14 +1009,68 @@ select {
 	}
 }
 
+@media only screen and (max-width: 1175px) {
+	.lower-menu > div.right-menu a{
+		font-size: 14px;
+	}
+
+	.lower-menu > div.left-menu {
+		max-width: 225px;
+	}
+
+	.top-menu > div.left-menu {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 1080px) {
+	.lower-menu > div.right-menu a{
+		font-size: 14px;
+	}
+}
+
+@media only screen and (max-width: 950px) {
+	.link-bottom-aligner ul li a:before{
+		top: 0px;
+		left: -0.5vw;
+		width: 2px;
+		height: 20px;
+	}
+
+	.breadcrumb-background {
+		display: none;
+	}
+
+	.base-align {
+		display: block;
+	}
+
+	.lower-menu > div.right-menu {
+		padding-top: 50px;
+	}
+
+	.lower-menu > div.right-menu a{
+		font-size: 12px;
+		margin-left: 0px;
+	}
+}
+
 @media only screen and (max-width: 870px) {
 	.description-text {
 		max-width: 350px;
 		min-width: 350px;
-	}
+	}	
 }
 
 @media only screen and (max-width: 660px) {
+	.top-menu > div.right-menu {
+		padding-top: 10px;
+	}
+
+	.lower-menu > div.right-menu a{
+		margin-left: -10px;
+	}
+
 	.description-text {
 		max-width: 535px;
 		min-width: 200px;
@@ -1039,6 +1104,12 @@ select {
 
 	.white-section {
 		flex: 0;
+	}
+}
+
+@media only screen and (max-width: 540px) {
+	.lower-menu > div.right-menu {
+		display: none;
 	}
 }
 
