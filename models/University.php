@@ -73,7 +73,7 @@ class University extends ActiveRecord {
 					$str .= $speciality->examinations." ";
 				}
 
-				if($speciality->practice){
+				if($speciality->practice == 1){
 					$str .= "-o_p-";
 				}
 
