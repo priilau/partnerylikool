@@ -370,6 +370,7 @@ li {
 .red-section .information {
 	padding-left: 60px;
 	padding-bottom: 60px;
+	font-size: 14px;
 }
 
 .red-section p {
@@ -389,7 +390,8 @@ li {
 
 .upper-footer {
 	text-align: center;
-	margin-left: -3.47222vw;
+	margin-left: -10vw;
+	position: relative;
 }
 
 .upper-footer > div{
@@ -428,9 +430,26 @@ li {
     text-transform: uppercase;
 }
 
+.footer-section > div{
+	margin-left: 10vw;
+}
+
+.footer-section:before {
+    content: "";
+	position: absolute;
+    top: 0;
+	width: 3px;
+	margin-left: -63px;
+    height: 160px;
+	background: #efefef;
+	transform: rotate(15deg);
+	z-index: 10;
+}
+
 .lower-footer {
 	border-top: 1px solid #DDD;
 	margin-top: 64px;
+	margin-bottom: 40px;
 }
 
 .footer-logo-container {
@@ -464,19 +483,6 @@ li {
 .titanic {
 	float: none;
 	display: "⛴";
-}
-
-.footer-section:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 63px;
-    width: 3px;
-    height: 160px;
-    background: #efefef;
-	transform: rotate(15deg);
-	z-index: 999;
 }
 
 /* FORMS, INPUTS, BUTTONS, ETC */
@@ -520,9 +526,25 @@ input[type=button], input[type=submit], .btn {
 	cursor: pointer;
 }
 
+.btn:hover {
+	background: #b80006cb;
+}
+
+.btn-success {
+	background: #6bcaba;
+}
+
+.btn-success:hover {
+    background: #6bcabac9;
+}
+
 input[type="button"].btn-success {
 	background: #b80007;
 	color: #fff;
+}
+
+input[type="button"].btn-success:hover {
+	background: #b80006cb;
 }
 
 input[type="submit"].btn-success {
@@ -554,14 +576,6 @@ input[type=button].btn-primary:hover, input[type=submit].btn-primary:hover, .btn
 
 input[type=button].btn-primary, input[type=submit].btn-primary, .btn-primary [value=Otsi] {
 	padding: 5px 10px;
-}
-
-.btn-success {
-	background: #6bcaba;
-}
-
-input[type=button].btn-success:hover, .btn-success:hover {
-    background: #6bcabac9;
 }
 
 .form-group {
@@ -768,9 +782,19 @@ input:-internal-autofill-selected {
 	margin-bottom: 10px;
 }
 
+.filter-options .topic{
+	margin-left: -15px;
+}
+
 .filter-options label{
 	min-width: auto;
+	margin-left: 5px;
 	display: inline-block;
+	word-wrap: normal;
+}
+
+.filter-options label:hover{
+	text-decoration: underline;
 }
 
 .description-text {
@@ -863,6 +887,7 @@ h5 {
 
 .university-icon img {
 	width: 48px;
+	font-size: 42px;
 }
 
 .university-map a {
@@ -930,6 +955,18 @@ select {
 
 @media only screen and (max-width: 1441px) {
 	/* header menu size*/
+
+	.footer-section:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		width: 3px;
+		margin-left: -30px;
+		height: 160px;
+		background: #efefef;
+		transform: rotate(15deg);
+		z-index: 10;
+	}
 }
 
 @media only screen and (max-width: 1440px) {
@@ -941,7 +978,13 @@ select {
 
 }
 
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1350px) {
+	.footer-section:before {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 1230px) {
 	.side-menu { 
 		display: none; 
 	}
