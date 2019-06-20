@@ -194,7 +194,7 @@ Helper::setTitle("Ülikooli muutmine");
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
     function CreateDepartmentButtons(deptId, container) {
-        let departmentRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", deptId, "department-remove-id-"+deptId, "button");
+        let departmentRemoveBtn = CreateElement("input", "btn btn-success", "", "", "X", deptId, "department-remove-id-"+deptId, "button");
         departmentRemoveBtn.addEventListener("click", function() {
             RemoveDepartment(deptId);
         });
@@ -338,7 +338,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function CreateSpecialityButtons(entityId, container) {
-        let specialityRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "speciality-remove-id-"+entityId, "button");
+        let specialityRemoveBtn = CreateElement("input", "btn btn-success", "", "", "X", entityId, "speciality-remove-id-"+entityId, "button");
         specialityRemoveBtn.addEventListener("click", function() {
             RemoveSpeciality(entityId);
         });
@@ -505,7 +505,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function CreateStudyModuleButtons(entityId, container) {
-        let smRemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "study-module-remove-id-"+entityId, "button");
+        let smRemoveBtn = CreateElement("input", "btn btn-success", "", "", "X", entityId, "study-module-remove-id-"+entityId, "button");
         smRemoveBtn.addEventListener("click", function() {
             RemoveStudyModule(entityId);
         });
@@ -623,7 +623,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function CreateCourseButtons(entityId, container, coursesContainer) {
-        let RemoveBtn = CreateElement("input", "btn btn-primary", "", "", "X", entityId, "course-remove-id-"+entityId, "button");
+        let RemoveBtn = CreateElement("input", "btn btn-success", "", "", "X", entityId, "course-remove-id-"+entityId, "button");
         RemoveBtn.addEventListener("click", function() { RemoveCourse(entityId); });
         container.appendChild(RemoveBtn);
         let subEntityContainer = document.createElement("div");
