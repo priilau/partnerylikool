@@ -130,8 +130,8 @@ use app\components\Helper;
 			</div>
 			<div class="lower-footer">
 				<div class="logo-aligner">
-					<div class="footer-logo-container"><a href="#"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/euraxess.png?itok=DaVs6YBF" alt="EURAXESS"></a></div>
-					<div class="footer-logo-container"><a href="#"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/unica.png?itok=FjuLbc5B" alt="UNICA"></a></div>
+					<div class="footer-logo-container"><a href="https://euraxess.ec.europa.eu/"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/euraxess.png?itok=DaVs6YBF" alt="EURAXESS"></a></div>
+					<div class="footer-logo-container"><a href="http://www.unica-network.eu/"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/unica.png?itok=FjuLbc5B" alt="UNICA"></a></div>
 					<div class="footer-logo-container"><a href="https://eua.eu/"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/eua.png?itok=pm_WC44k" alt="EUA"></a></div>
 					<div class="footer-logo-container"><a href="#"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/observatory.png?itok=C6snr_HL" alt="Observatory"></a></div>
 					<div class="footer-logo-container"><a href="#"><img src="https://www.tlu.ee/sites/default/files/styles/logo/public/2018-02/baltic.png?itok=FWLicpT3" alt="The Baltic University"></a></div>
