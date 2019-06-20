@@ -1,4 +1,4 @@
-# PARTNERÜLIKOOLIDE VALIMISE RAKENDUS
+#            PARTNERÜLIKOOLIDE VALIMISE RAKENDUS
 
 Ekraanipilt:
 ![alt text](https://i.imgur.com/8RaSqup.png)
@@ -20,10 +20,9 @@ Projekti autorid:
 Caupo Helvik, Kristan Põldmets, Priit Laupa, Lauri Raus, Rasmus Aron
 
 
-[Paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/paigaldusjuhis.txt) asub doc kaustas
+[Paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/paigaldusjuhis.txt) asub doc kaustas
 
-Andmebaasi kirjeldus asub doc kaustas
-VIIDE TULEB SIIA GITLABI REPOST CONFIST
+[Andmebaasi](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/Andmebaas.sql)kirjeldus asub doc kaustas
 
 
-[Litsents](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/dokumentatsioon/license.txt)
+[Litsents](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/license.txt)
