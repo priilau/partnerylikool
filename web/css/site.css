@@ -347,7 +347,8 @@ li {
 
 .footer {
 	display: flex;
-	box-shadow: 0 0 30px rgba(0,0,0,.05),inset 18.75vw 0 0 #b71234;
+	box-shadow: 0 0 30px rgba(0,0,0,.05);
+	background: #FFF;
 }
 
 .red-section {
@@ -388,6 +389,7 @@ li {
 
 .upper-footer {
 	text-align: center;
+	margin-left: -3.47222vw;
 }
 
 .upper-footer > div{
@@ -986,6 +988,14 @@ select {
 
 	.filter-container {
 		display: inline-block;
+	}
+
+	.red-section {
+		display: none;
+	}
+
+	.white-section {
+		flex: 0;
 	}
 }
 
