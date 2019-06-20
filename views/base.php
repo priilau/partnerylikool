@@ -102,7 +102,7 @@ use app\components\Helper;
 		</div>
 		<div class="white-section">
 			<div class="upper-footer">
-				<div class="footer-section">
+				<div class="footer-section footer-section-1">
 					<h3>Tule ülikooli</h3>
 					<a href="https://www.tlu.ee/opilasakadeemia">Õpilasakadeemia</a>
 					<a href="https://www.tlu.ee/avatudope">Avatud tasemeõpe</a>
@@ -110,7 +110,7 @@ use app\components\Helper;
 					<a href="https://www.tlu.ee/konverentsikeskus/konverentsiteenused">Konverentsiteenused</a>
 					<a href="https://www.tlu.ee/sisseastujale">Sisseastumine</a>
 				</div>
-				<div class="footer-section">
+				<div class="footer-section footer-section-2">
 					<h3>Õpingud</h3>
 					<a href="https://www.tlu.ee/akadeemiline-kalender">Akadeemiline kalender</a>
 					<a href="https://www.tlu.ee/op/oppimine-valismaal">Õppimine välismaal</a>
@@ -119,7 +119,7 @@ use app\components\Helper;
 					<a href="https://www.esindus.ee/">Üliõpilaselu</a>
 					<a href="http://www.dormitorium.ee/">Üliõpilaselamud</a>
 				</div>
-				<div class="footer-section">
+				<div class="footer-section footer-section-3">
 					<h3>Ülikoolist</h3>
 					<a href="https://www.tlu.ee/taxonomy/term/93/pressikeskus">Pressikeskus</a>
 					<a href="https://www.tlu.ee/ulikooli-linnak">Linnak</a>
