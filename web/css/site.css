@@ -347,6 +347,7 @@ li {
 
 .footer {
 	display: flex;
+	box-shadow: 0 0 30px rgba(0,0,0,.05),inset 18.75vw 0 0 #b71234;
 }
 
 .red-section {
@@ -402,12 +403,25 @@ li {
 
 .white-section .upper-footer .footer-section a {
 	display: block;
+	letter-spacing: -.5px;
+	color: #7d7779;
+	letter-spacing: -.5px;
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 30px;
+}
+
+.white-section .upper-footer .footer-section a:hover {
+	color: #b71234;
+
 }
 
 .white-section h3 {
-    font-size: 32px;
+	margin-bottom: 20px;
+    font-size: 30px;
     font-family: Times New Roman, Verdana;
-    font-style: italic;
+	font-style: italic;
+	letter-spacing: -3px;
     font-weight: normal;
     text-transform: uppercase;
 }
