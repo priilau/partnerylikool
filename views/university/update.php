@@ -628,7 +628,8 @@ Helper::setTitle("Ülikooli muutmine");
         container.appendChild(RemoveBtn);
         let subEntityContainer = document.createElement("div");
         subEntityContainer.id = "course-id-"+entityId+"-course-teacher-container";
-
+        // NOTE(Priit 20.06.19): Projekti aeg sai otsa, alamelementide lisamine jätkata siit
+        /* 
         let viewBtn = CreateElement("input", "btn btn-primary", "", "", "Vaata õpetajaid", entityId, "teacher-view-id-"+entityId, "button");
         viewBtn.addEventListener("click", function() {
             let NameInput = container.querySelector(".course-name");
@@ -646,6 +647,7 @@ Helper::setTitle("Ülikooli muutmine");
             }
         });
         container.appendChild(outcomesViewBtn);
+        */ 
     }
 
     function PostCourse(id, studyModuleId, iCode, iName, iEcts, iGoals, iDescription, iContactHours, iDegree, iSemester, iOptional, iExam) {
