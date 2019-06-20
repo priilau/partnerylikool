@@ -23,7 +23,7 @@ Kogu projekti dokumentatsioon on leitav doc kaustast.
 
 [Paigaldusjuhis](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/paigaldusjuhis.txt)
 
-[Andmebaasi](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/Andmebaas.sql)
+[Andmebaasi kirjeldus](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/Andmebaas.sql)
 
 
 [Litsents](https://gitlab.com/DreamTeamTA/partnerylikool/blob/master/doc/license.txt)
