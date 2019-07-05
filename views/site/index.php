@@ -60,6 +60,7 @@ Helper::setTitle("Pealeht");
 	let keywordResults = document.querySelector(".keyword-results");
 	let timerHandler;
 	let inputWords = [];
+	let counter = 0;
 	
 	searchKeywords.addEventListener("input", function() {
 		if(/\S/.test(searchKeywords.value) && (timerHandler !== null || timerHandler !== undefined)) {
@@ -154,10 +155,19 @@ Helper::setTitle("Pealeht");
 		keywordContainer.className = "keyword-result";
 		for(let i = 0; i < inputWords.length; i++){
 			if(keyword.includes(inputWords[i])){
-				keyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>")
+				let matchPercent = (inputWords[i].length / keyword.length) * 100;
+
+				if(matchPercent >= 50){
+					let newKeyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>")
+					keywordContainer.innerHTML = newKeyword;
+					counter++;
+				}
+			}
+			console.log(counter);
+			if(counter == 15){
+				break;
 			}
 		}
-		keywordContainer.innerHTML = keyword;
 		keywordResults.appendChild(keywordContainer);
 	}
 

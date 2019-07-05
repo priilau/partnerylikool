@@ -158,7 +158,7 @@ class SiteController extends BaseController {
                 }
                 $keywordsStr = rtrim($keywordsStr, "OR ");
 
-                $sql = "SELECT keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
+                $sql = "SELECT DISTINCT keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
                 $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
                 $stmt = $mysqli->prepare($sql); 
                 if(!$stmt){
