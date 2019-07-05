@@ -83,7 +83,7 @@ class Helper {
 			$myError = true;
 			
 			for($x = 0; $x < $strLenX; $x++) {
-				if(strcmp($str[$i], $alphabet[$x])) {
+				if(strcmp($str[$i], $alphabet[$x]) == 0) {
 					$myError = false;
 					break;
 				}
@@ -110,7 +110,7 @@ class Helper {
 			$myError = true;
 			
 			for($x = 0; $x < $strLenX; $x++) {
-				if(strcmp($str[$i], $alphabet[$x])) {
+				if(strcmp($str[$i], $alphabet[$x]) == 0) {
 					$myError = false;
 					break;
 				}

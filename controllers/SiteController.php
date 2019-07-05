@@ -148,35 +148,35 @@ class SiteController extends BaseController {
     public function actionGetKeywords() {
         $dataFromDb = [];
         $keywordsStr = "";
-
-        if(Helper::isStringClean($_POST["inputText"])){
-            $inputArr = explode(" ", trim($_POST["inputText"]));
-            
-            if(!empty($inputArr)){
-                foreach ($inputArr as $word) {
+        $inputArr = explode(" ", trim($_POST["inputText"]));
+        
+        if(!empty($inputArr)){
+            foreach ($inputArr as $word) {
+                var_dump(Helper::isStringClean($word));
+                if(Helper::isStringClean($word)){
                     $keywordsStr .= "keyword LIKE '%{$word}%' OR ";
                 }
-                $keywordsStr = rtrim($keywordsStr, "OR ");
-
-                $sql = "SELECT DISTINCT keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
-                $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
-                $stmt = $mysqli->prepare($sql); 
-                if(!$stmt){
-                    echo $mysqli->error;
-                    exit("Unable to create stmt!");
-                }
-                $stmt->execute();
-                $result = $stmt->get_result();
-                
-                while($row = $result->fetch_assoc()) {
-                    $dataFromDb[] = $row;
-                }
-                $stmt->close();
-                $mysqli->close();
             }
+            $keywordsStr = rtrim($keywordsStr, "OR ");
 
-            return $this->json(json_encode($dataFromDb));
+            $sql = "SELECT DISTINCT keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
+            $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
+            $stmt = $mysqli->prepare($sql); 
+            if(!$stmt){
+                echo $mysqli->error;
+                exit("Unable to create stmt!");
+            }
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            while($row = $result->fetch_assoc()) {
+                $dataFromDb[] = $row;
+            }
+            $stmt->close();
+            $mysqli->close();
         }
+
+        return $this->json(json_encode($dataFromDb));
     }
 }
 
