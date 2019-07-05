@@ -43,7 +43,7 @@ class SiteController extends BaseController {
             $topicIdsStr = rtrim($topicIdsStr, ", ");
             
             $sql = "SELECT DISTINCT university.id, university.name, university.description, university.homepage_url, university.map_url, university.icon_url FROM university LEFT JOIN search_index ON university.id = search_index.university_id LEFT JOIN topic_search ON search_index.id = topic_search.search_index_id WHERE topic_id IN ({$topicIdsStr});";
-            
+
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
             if(!$stmt){
@@ -143,6 +143,40 @@ class SiteController extends BaseController {
 
 	public function actionAdmin() {
         return $this->render("admin");
+    }
+
+    public function actionGetKeywords() {
+        $dataFromDb = [];
+        $keywordsStr = "";
+
+        if(Helper::isStringClean($_POST["inputText"])){
+            $inputArr = explode(" ", trim($_POST["inputText"]));
+            
+            if(!empty($inputArr)){
+                foreach ($inputArr as $word) {
+                    $keywordsStr .= "keyword LIKE '%{$word}%' OR ";
+                }
+                $keywordsStr = rtrim($keywordsStr, "OR ");
+
+                $sql = "SELECT keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
+                $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
+                $stmt = $mysqli->prepare($sql); 
+                if(!$stmt){
+                    echo $mysqli->error;
+                    exit("Unable to create stmt!");
+                }
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                while($row = $result->fetch_assoc()) {
+                    $dataFromDb[] = $row;
+                }
+                $stmt->close();
+                $mysqli->close();
+            }
+
+            return $this->json(json_encode($dataFromDb));
+        }
     }
 }
 

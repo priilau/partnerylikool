@@ -32,11 +32,8 @@ Helper::setTitle("Pealeht");
 		<div class="filter-sub-container" id="right-sub">
 			<h3>Topics I am interested in</h3>
 			<div class="filter-options">
-				<?php foreach($topics as $topic): ?>
-					<div>
-						<label for="topic-id-<?= $topic->id ?>"><input type="checkbox" class="topic" id="topic-id-<?= $topic->id ?>" value="<?= $topic->id ?>"><?= $topic->name ?></label>
-					</div>
-				<?php endforeach; ?>
+				<input id="search-keywords" placeholder="Search...">
+				<div class="keyword-results"></div>
 			</div>
 		</div>
 	</div>
@@ -59,6 +56,17 @@ Helper::setTitle("Pealeht");
 	let topics = document.querySelectorAll(".topic");
 	let universities = document.querySelector(".universities");
 	let searchResults = document.querySelector("#search-results");
+	let searchKeywords = document.querySelector("#search-keywords");
+	let keywordResults = document.querySelector(".keyword-results");
+	let timerHandler;
+	let inputWords = [];
+	
+	searchKeywords.addEventListener("input", function() {
+		if(/\S/.test(searchKeywords.value) && (timerHandler !== null || timerHandler !== undefined)) {
+			clearTimeout(timerHandler);
+			timerHandler = setTimeout(GetKeywordResults, 3000);
+		}
+	});
 	
 	searchBtn.addEventListener("click", function() {
 		let degreeVal = 0;
@@ -117,7 +125,43 @@ Helper::setTitle("Pealeht");
 		xhttp.send(formData);
 	});
 
-	function CreateSearchMessage(){
+	function GetKeywordResults() {
+		let inputText = searchKeywords.value;
+		inputWords = inputText.split(" ");
+		let formData = new FormData();
+		formData.append("inputText", inputText);
+		
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			ClearInner(keywordResults);
+			if (this.readyState == 4 && this.status == 200) {
+				let data = JSON.parse(this.responseText);
+				RenderKeywords(data);
+			}
+		};
+		xhttp.open("POST", "/site/getkeywords", true);
+		xhttp.send(formData);
+	}
+
+	function RenderKeywords(data) {
+		for(let i = 0; i < data.length; i++){
+			CreateKeyword(data[i]['keyword']);
+		}
+	}
+
+	function CreateKeyword(keyword) {
+		let keywordContainer = document.createElement("div");
+		keywordContainer.className = "keyword-result";
+		for(let i = 0; i < inputWords.length; i++){
+			if(keyword.includes(inputWords[i])){
+				keyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>")
+			}
+		}
+		keywordContainer.innerHTML = keyword;
+		keywordResults.appendChild(keywordContainer);
+	}
+
+	function CreateSearchMessage() {
 		let searchMsg = document.createElement("div");
 		searchMsg.id = "search-msg";
 
@@ -183,7 +227,6 @@ Helper::setTitle("Pealeht");
 	}
 
 	function RenderUniversities(resultArr){
-		console.log(resultArr);
 		for(let i = 0; i < resultArr.length; i++){
 			CreateUniversity(resultArr[i]["name"], resultArr[i]["icon"], resultArr[i]["description"], resultArr[i]["match"], resultArr[i]["link"], resultArr[i]["map"]);
 		}
