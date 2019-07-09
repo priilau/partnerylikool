@@ -163,7 +163,6 @@ Helper::setTitle("Pealeht");
 					counter++;
 				}
 			}
-			console.log(counter);
 			if(counter == 15){
 				break;
 			}

@@ -152,7 +152,6 @@ class SiteController extends BaseController {
         
         if(!empty($inputArr)){
             foreach ($inputArr as $word) {
-                var_dump(Helper::isStringClean($word));
                 if(Helper::isStringClean($word)){
                     $keywordsStr .= "keyword LIKE '%{$word}%' OR ";
                 }
