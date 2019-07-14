@@ -200,7 +200,7 @@ class University extends ActiveRecord {
 		$mysqli->close();
 		return $this->specialities;
 	}
-
+/*
 	public function getTopics() {
 		$topics = Topic::find()->all();
 		return $topics;
@@ -210,7 +210,7 @@ class University extends ActiveRecord {
 		$topicSearches = TopicSearch::find()->all();
 		return $topicSearches;
 	}
-
+*/
 	public function getDepartments() {
 		if(count($this->departments) <= 0) {
             $this->departments = Department::find()->addWhere("=", "university_id", $this->id)->all();

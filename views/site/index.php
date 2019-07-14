@@ -35,6 +35,7 @@ Helper::setTitle("Pealeht");
 				<input id="search-keywords" placeholder="Search...">
 				<div class="keyword-results"></div>
 			</div>
+			<div class="selected-topics"></div>
 		</div>
 	</div>
 <div>
@@ -53,19 +54,21 @@ Helper::setTitle("Pealeht");
 	let semester = document.querySelector("#semester");
 	let speciality = document.querySelector("#speciality");
 	let practice = document.querySelector("#practice");
-	let topics = document.querySelectorAll(".topic");
+	let topics = document.querySelector(".selected-topics");
 	let universities = document.querySelector(".universities");
 	let searchResults = document.querySelector("#search-results");
 	let searchKeywords = document.querySelector("#search-keywords");
 	let keywordResults = document.querySelector(".keyword-results");
 	let timerHandler;
 	let inputWords = [];
+	let selectedTopics = [];
 	let counter = 0;
-	
+	let selection = 0;
+
 	searchKeywords.addEventListener("input", function() {
 		if(/\S/.test(searchKeywords.value) && (timerHandler !== null || timerHandler !== undefined)) {
 			clearTimeout(timerHandler);
-			timerHandler = setTimeout(GetKeywordResults, 3000);
+			timerHandler = setTimeout(GetKeywordResults, 2000);
 		}
 	});
 	
@@ -87,14 +90,6 @@ Helper::setTitle("Pealeht");
 		if(practice !== null || practice !== undefined) {
 			practiceVal = practice.checked ? 1 : 0;
 		}
-		
-		let selectedTopics = [];
-		
-        for(let i = 0; i < topics.length; i++) {
-			if(topics[i].checked){
-				selectedTopics.push(topics[i].value);
-            }
-        }
 		
 		if(selectedTopics.length <= 0){
 			alert("Valige mõni teema, millest olete huvitatud!");
@@ -146,11 +141,11 @@ Helper::setTitle("Pealeht");
 
 	function RenderKeywords(data) {
 		for(let i = 0; i < data.length; i++){
-			CreateKeyword(data[i]['keyword']);
+			CreateKeyword(data[i]['id'], data[i]['keyword']);
 		}
 	}
 
-	function CreateKeyword(keyword) {
+	function CreateKeyword(id, keyword) {
 		let keywordContainer = document.createElement("div");
 		keywordContainer.className = "keyword-result";
 		for(let i = 0; i < inputWords.length; i++){
@@ -160,6 +155,20 @@ Helper::setTitle("Pealeht");
 				if(matchPercent >= 50){
 					let newKeyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>")
 					keywordContainer.innerHTML = newKeyword;
+					keywordContainer.addEventListener("click", function() {
+						if(!selectedTopics.includes(id)){
+							let selectedTopic = document.createElement("div");
+							selectedTopic.innerHTML = "<label for='keyword-" + id + "'><input id='keyword-" + id + "' value='" + keyword + "'><input type='button' id='del-keyword-" + id + "' data-keyword-id='" + id + "' value='X'></label>";
+							topics.appendChild(selectedTopic);
+							selectedTopics.push(id);
+							document.querySelector("#del-keyword-" + id).addEventListener("click", function() {
+								topics.removeChild(selectedTopic);
+								let index = selectedTopics.indexOf(id);
+								selectedTopics.splice(index, 1);
+							});
+						}
+					});
+					keywordResults.appendChild(keywordContainer);
 					counter++;
 				}
 			}
@@ -167,7 +176,6 @@ Helper::setTitle("Pealeht");
 				break;
 			}
 		}
-		keywordResults.appendChild(keywordContainer);
 	}
 
 	function CreateSearchMessage() {
@@ -200,19 +208,19 @@ Helper::setTitle("Pealeht");
 		
 		let uniText = document.createElement("div");
 		uniText.className = "description-text";
-		uniText.innerHTML = description;
+		uniText.innerText = description;
 		
 		let uniPerContainer = document.createElement("div");
 		uniPerContainer.className = "percent-with-link";
 		let uniPer = document.createElement("div");
-		uniPer.innerHTML = Math.round(percent) + " %";
+		uniPer.innerText = Math.round(percent) + " %";
 		uniPerContainer.appendChild(uniPer);
 		
 		let uniLinkContainer = document.createElement("div");
 		let uniLink = document.createElement("a");
 		uniLink.href = link;
 		uniLink.target = "_blank";
-		uniLink.innerHTML = "homepage";
+		uniLink.innerText = "homepage";
 		uniLinkContainer.appendChild(uniLink);
 		uniPerContainer.appendChild(uniLinkContainer);
 		

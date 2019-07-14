@@ -42,8 +42,8 @@ class SiteController extends BaseController {
             }
             $topicIdsStr = rtrim($topicIdsStr, ", ");
             
-            $sql = "SELECT DISTINCT university.id, university.name, university.description, university.homepage_url, university.map_url, university.icon_url FROM university LEFT JOIN search_index ON university.id = search_index.university_id LEFT JOIN topic_search ON search_index.id = topic_search.search_index_id WHERE topic_id IN ({$topicIdsStr});";
-
+            $sql = "SELECT DISTINCT university.id, university.name, university.description, university.homepage_url, university.map_url, university.icon_url FROM university LEFT JOIN search_index ON university.id = search_index.university_id WHERE search_index.id IN ({$topicIdsStr});";
+            
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
             if(!$stmt){
@@ -61,7 +61,7 @@ class SiteController extends BaseController {
             $stmt->close();
             $mysqli->close();
         }
-
+        
         foreach ($models as $model) {
             $matchCount = 0;
             $keywordCount = 0;
@@ -78,8 +78,6 @@ class SiteController extends BaseController {
             $courses = $model->getCourses();
             $specialities = $model->getSpecialities();
             $searchIndexes = $model->getSearchIndexes();
-            $topicSearches = $model->getTopicSearches();
-            $topics = $model->getTopics();
             
             foreach ($courses as $course) {
                 if($_POST["semester"] == $course->semester) {
@@ -114,8 +112,8 @@ class SiteController extends BaseController {
                 if($searchIndex->university_id == $model->id) {
                     $keywordCount++;
                 }
-                
                 foreach ($selectedTopics as $selectedTopic) {
+                    /*
                     foreach ($topics as $topic) {
                         foreach ($topicSearches as $topicSearch) {
                             if(($searchIndex->id == $topicSearch->search_index_id) && ($selectedTopic == $topic->id) && ($selectedTopic == $topicSearch->topic_id) && ($searchIndex->university_id == $model->id) && !$match) {
@@ -124,9 +122,15 @@ class SiteController extends BaseController {
                             }
                         }
                     }
+                    */
+
+                    if(($searchIndex->id == $selectedTopic) && !$match) {
+                        $matchCount++;
+                        $match = true;
+                    }
                 }
             }
-
+            
             if($keywordCount != 0) {
                 $match = ($matchCount / $keywordCount) * 30;
                 $modelMatches[$model->id]["match"] += $match;
@@ -158,7 +162,7 @@ class SiteController extends BaseController {
             }
             $keywordsStr = rtrim($keywordsStr, "OR ");
 
-            $sql = "SELECT DISTINCT keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
+            $sql = "SELECT DISTINCT id, keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
             if(!$stmt){

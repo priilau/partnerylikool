@@ -953,6 +953,19 @@ select {
 	min-width: 100px;
 }
 
+.keyword-results {
+	box-sizing: border-box;
+	box-shadow: 0px 5px 13px #CCC;
+}
+
+.keyword-result {
+	padding: 10px;
+}
+
+.selected-topics {
+	
+}
+
 /* MOBILE */
 
 @media only screen and (max-width: 1441px) {
