@@ -152,17 +152,18 @@ class SiteController extends BaseController {
     public function actionGetKeywords() {
         $dataFromDb = [];
         $keywordsStr = "";
-        $inputArr = explode(" ", trim($_POST["inputText"]));
+        $inputText = trim($_POST["inputText"]);
+        $inputArr = explode(" ", $inputText);
         
         if(!empty($inputArr)){
             foreach ($inputArr as $word) {
-                if(Helper::isStringClean($word)){
+                if(Helper::isStringClean($word)) {
                     $keywordsStr .= "keyword LIKE '%{$word}%' OR ";
                 }
             }
             $keywordsStr = rtrim($keywordsStr, "OR ");
 
-            $sql = "SELECT DISTINCT id, keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
+            $sql = "SELECT DISTINCT id, keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC LIMIT 10;";
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
             if(!$stmt){
@@ -173,7 +174,15 @@ class SiteController extends BaseController {
             $result = $stmt->get_result();
             
             while($row = $result->fetch_assoc()) {
-                $dataFromDb[] = $row;
+                for ($i = 0; $i < count($inputArr); $i++) {
+                    if(strpos($row["keyword"], $inputArr[$i]) !== false){
+                        $matchPercent = (strlen($inputArr[$i]) / strlen($row["keyword"])) * 100;
+                        
+                        if($matchPercent >= 50){
+                            $dataFromDb[] = $row;
+                        }
+                    }
+                }
             }
             $stmt->close();
             $mysqli->close();

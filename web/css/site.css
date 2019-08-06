@@ -731,7 +731,7 @@ input:-internal-autofill-selected {
 	display: inline-block;
 	vertical-align: top;
 	padding: 80px 4.86111vw;
-	max-width: 800px;
+	max-width: 1000px;
 	min-width: 320px;
 	width: auto;
 }
@@ -779,14 +779,11 @@ input:-internal-autofill-selected {
 }
 
 .filter-options{
-	display: block;
+	position: relative;
+  	display: inline-block;
 	padding: 8px 8px 8px 15px;
 	margin-bottom: 10px;
-}
-
-.filter-options .topic{
-	margin-left: -15px;
-}
+} 
 
 .filter-options label{
 	min-width: auto;
@@ -944,26 +941,51 @@ select {
 	background: #b80007;
 }
 
-.keyword-block {
+.selected-topics {
 	display: inline-block;
+	max-width: 250px;
 }
 
-#all-keywords .keyword-block label{
-	width: 100px;
-	min-width: 100px;
+.topic-content {
+	margin: 5px;
+}
+
+.selected-topic {
+	position: relative;
+	color: #fff;
+}
+
+.selected-topic label {
+	padding: 2px 0px 2px 8px;
+	min-width: 20px;
+	max-width: 200px;
+	background: #6bcaba;
 }
 
 .keyword-results {
+	display: none;
+	position: absolute;
 	box-sizing: border-box;
 	box-shadow: 0px 5px 13px #CCC;
+	width: 210px;
+	border-bottom: 2px solid #F3F3F3; 
 }
 
 .keyword-result {
-	padding: 10px;
+
 }
 
-.selected-topics {
-	
+.result-content {
+	display: block;
+	padding: 5px;
+}
+
+.keyword-result :hover {
+	background-color: #ddd;
+}
+
+#search-keywords {
+	max-width: 200px;
 }
 
 /* MOBILE */
