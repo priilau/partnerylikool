@@ -35,12 +35,12 @@ Helper::setTitle("Pealeht");
 				<input id="search-keywords" placeholder="Search...">
 				<div class="keyword-results"></div>
 			</div>
-			<div class="selected-topics"></div>
 		</div>
+		<div class="selected-topics"></div>
 	</div>
-<div>
-	<input type="button" class="btn btn-primary" id="search" value="Search">
-</div>
+	<div>
+		<input type="button" class="btn btn-primary" id="search" value="Search">
+	</div>
 	
 	<div id="search-results" style="display: none;">
 		<h2>Universities</h2>
@@ -148,32 +148,33 @@ Helper::setTitle("Pealeht");
 	function CreateKeyword(id, keyword) {
 		let keywordContainer = document.createElement("div");
 		keywordContainer.className = "keyword-result";
+		let resultContainer = document.createElement("div");
+		resultContainer.className = "result-content";
 		for(let i = 0; i < inputWords.length; i++){
 			if(keyword.includes(inputWords[i])){
-				let matchPercent = (inputWords[i].length / keyword.length) * 100;
-
-				if(matchPercent >= 50){
-					let newKeyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>")
-					keywordContainer.innerHTML = newKeyword;
-					keywordContainer.addEventListener("click", function() {
-						if(!selectedTopics.includes(id)){
-							let selectedTopic = document.createElement("div");
-							selectedTopic.innerHTML = "<label for='keyword-" + id + "'><input id='keyword-" + id + "' value='" + keyword + "'><input type='button' id='del-keyword-" + id + "' data-keyword-id='" + id + "' value='X'></label>";
-							topics.appendChild(selectedTopic);
-							selectedTopics.push(id);
-							document.querySelector("#del-keyword-" + id).addEventListener("click", function() {
-								topics.removeChild(selectedTopic);
-								let index = selectedTopics.indexOf(id);
-								selectedTopics.splice(index, 1);
-							});
-						}
-					});
-					keywordResults.appendChild(keywordContainer);
-					counter++;
-				}
-			}
-			if(counter == 15){
-				break;
+				let newKeyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>");
+				resultContainer.innerHTML = newKeyword;
+				keywordResults.style.display = "block";
+				
+				keywordContainer.addEventListener("click", function() {
+					if(!selectedTopics.includes(id)){
+						let selectedTopic = document.createElement("div");
+						selectedTopic.className = "selected-topic";
+						let topicContent = document.createElement("div");
+						topicContent.className = "topic-content";
+						topicContent.innerHTML = "<label for='keyword-" + id + "'><span id='keyword-" + id + "'>" + keyword + "</span><input type='button' id='del-keyword-" + id + "' data-keyword-id='" + id + "'  class ='btn btn-primary' value='X'></label>";
+						selectedTopic.appendChild(topicContent);
+						topics.appendChild(selectedTopic);
+						selectedTopics.push(id);
+						document.querySelector("#del-keyword-" + id).addEventListener("click", function() {
+							topics.removeChild(selectedTopic);
+							let index = selectedTopics.indexOf(id);
+							selectedTopics.splice(index, 1);
+						});
+					}
+				});
+				keywordContainer.appendChild(resultContainer);
+				keywordResults.appendChild(keywordContainer);
 			}
 		}
 	}
