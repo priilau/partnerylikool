@@ -39,7 +39,7 @@ Helper::setTitle("Pealeht");
 		<div class="selected-topics"></div>
 	</div>
 	<div>
-		<input type="button" class="btn btn-primary" id="search" value="Search">
+		<input type="button" class="btn" id="search" value="Search">
 	</div>
 	
 	<div id="search-results" style="display: none;">
@@ -62,14 +62,31 @@ Helper::setTitle("Pealeht");
 	let timerHandler;
 	let inputWords = [];
 	let selectedTopics = [];
-	let counter = 0;
 	let selection = 0;
+	let isOnResults = false;
 
-	searchKeywords.addEventListener("input", function() {
-		if(/\S/.test(searchKeywords.value) && (timerHandler !== null || timerHandler !== undefined)) {
-			clearTimeout(timerHandler);
-			timerHandler = setTimeout(GetKeywordResults, 2000);
+	keywordResults.addEventListener("mouseover", function() {
+		isOnResults = true;
+	});
+
+	keywordResults.addEventListener("mouseout", function() {
+		isOnResults = false;
+	});
+
+	searchKeywords.addEventListener("blur", function() {
+		if(!isOnResults){
+			keywordResults.style.display = "none";
 		}
+	});
+
+	searchKeywords.addEventListener("focus", function() {
+		keywordResults.style.display = "block";
+		searchKeywords.addEventListener("input", function() {
+			if(/\S/.test(searchKeywords.value) && (timerHandler !== null || timerHandler !== undefined)) {
+				clearTimeout(timerHandler);
+				timerHandler = setTimeout(GetKeywordResults, 2000);
+			}
+		});
 	});
 	
 	searchBtn.addEventListener("click", function() {
@@ -143,6 +160,50 @@ Helper::setTitle("Pealeht");
 		for(let i = 0; i < data.length; i++){
 			CreateKeyword(data[i]['id'], data[i]['keyword']);
 		}
+
+		let startCheck = true;
+		
+		window.addEventListener("keyup", function(event) {
+			let results = document.querySelectorAll(".keyword-result");
+			let maxValue = inputWords.length - 1;
+			event.preventDefault();
+			
+			if(results.length > 0 && keywordResults.style.display != "none"){
+				switch (event.key) { 
+					case "ArrowUp":
+						if(selection == 0){
+							selection = maxValue;
+						} else {
+							selection--;
+						}
+
+						for(let i = 0; i < inputWords.length; i++){
+							if(results[i].classList.contains("active")){
+								results[i].classList.remove("active");
+							}
+						}
+						results[selection].classList.add("active");
+						break;
+					
+					case "ArrowDown":
+						if(selection == maxValue){
+							selection = 0;
+						} else if(!startCheck){
+							selection++;
+						} else {
+							startCheck = false;
+						}
+
+						for(let i = 0; i < inputWords.length; i++){
+							if(results[i].classList.contains("active")){
+								results[i].classList.remove("active");
+							}
+						}
+						results[selection].classList.add("active");
+						break;
+				}
+			}
+		});
 	}
 
 	function CreateKeyword(id, keyword) {
@@ -157,25 +218,51 @@ Helper::setTitle("Pealeht");
 				keywordResults.style.display = "block";
 				
 				keywordContainer.addEventListener("click", function() {
-					if(!selectedTopics.includes(id)){
-						let selectedTopic = document.createElement("div");
-						selectedTopic.className = "selected-topic";
-						let topicContent = document.createElement("div");
-						topicContent.className = "topic-content";
-						topicContent.innerHTML = "<label for='keyword-" + id + "'><span id='keyword-" + id + "'>" + keyword + "</span><input type='button' id='del-keyword-" + id + "' data-keyword-id='" + id + "'  class ='btn btn-primary' value='X'></label>";
-						selectedTopic.appendChild(topicContent);
-						topics.appendChild(selectedTopic);
-						selectedTopics.push(id);
-						document.querySelector("#del-keyword-" + id).addEventListener("click", function() {
-							topics.removeChild(selectedTopic);
-							let index = selectedTopics.indexOf(id);
-							selectedTopics.splice(index, 1);
-						});
+					AddKeywordToSelected(id, keyword);
+				});
+
+				keywordContainer.addEventListener("mouseover", function() {
+					keywordContainer.classList.add("active");
+				});
+
+				keywordContainer.addEventListener("mouseout", function() {
+					keywordContainer.classList.remove("active");
+				});
+
+				window.addEventListener("keyup", function(event) {
+					let results = document.querySelectorAll(".keyword-result");
+					let maxValue = inputWords.length - 1;
+					event.preventDefault();
+					
+					if(event.key == "Enter" && keywordContainer.classList.contains("active")){
+						AddKeywordToSelected(id, keyword);
 					}
 				});
+
 				keywordContainer.appendChild(resultContainer);
 				keywordResults.appendChild(keywordContainer);
 			}
+		}
+	}
+
+	function AddKeywordToSelected(id, keyword){
+		if(!selectedTopics.includes(id)){
+			let selectedTopic = document.createElement("div");
+			selectedTopic.className = "selected-topic";
+			let topicContent = document.createElement("div");
+
+			topicContent.className = "topic-content";
+			topicContent.innerHTML = "<label for='keyword-" + id + "'><span id='keyword-" + id + "'>" + keyword + "</span><input type='button' id='del-keyword-" + id + "' data-keyword-id='" + id + "'  class ='btn btn-primary' value='X'></label>";
+
+			selectedTopic.appendChild(topicContent);
+			topics.appendChild(selectedTopic);
+			selectedTopics.push(id);
+
+			document.querySelector("#del-keyword-" + id).addEventListener("click", function() {
+				topics.removeChild(selectedTopic);
+				let index = selectedTopics.indexOf(id);
+				selectedTopics.splice(index, 1);
+			});
 		}
 	}
 

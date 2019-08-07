@@ -154,6 +154,7 @@ class SiteController extends BaseController {
         $keywordsStr = "";
         $inputText = trim($_POST["inputText"]);
         $inputArr = explode(" ", $inputText);
+        $limit = 0;
         
         if(!empty($inputArr)){
             foreach ($inputArr as $word) {
@@ -163,7 +164,7 @@ class SiteController extends BaseController {
             }
             $keywordsStr = rtrim($keywordsStr, "OR ");
 
-            $sql = "SELECT DISTINCT id, keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC LIMIT 10;";
+            $sql = "SELECT DISTINCT id, keyword FROM `search_index` WHERE {$keywordsStr} ORDER BY CHAR_LENGTH(keyword) DESC;";
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
             if(!$stmt){
@@ -180,8 +181,13 @@ class SiteController extends BaseController {
                         
                         if($matchPercent >= 50){
                             $dataFromDb[] = $row;
+                            $limit++;
                         }
                     }
+                }
+                
+                if($limit == 10){
+                    break;
                 }
             }
             $stmt->close();

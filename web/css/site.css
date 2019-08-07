@@ -943,14 +943,15 @@ select {
 
 .selected-topics {
 	display: inline-block;
-	max-width: 250px;
+	width: 250px;
 }
 
 .topic-content {
-	margin: 5px;
+	margin: 2px;
 }
 
 .selected-topic {
+	display: inline-flex;
 	position: relative;
 	color: #fff;
 }
@@ -963,7 +964,7 @@ select {
 }
 
 .keyword-results {
-	display: none;
+	display: grid;
 	position: absolute;
 	box-sizing: border-box;
 	box-shadow: 0px 5px 13px #CCC;
@@ -971,8 +972,8 @@ select {
 	border-bottom: 2px solid #F3F3F3; 
 }
 
-.keyword-result {
-
+.keyword-result.active :hover{
+	background-color: #ddd;
 }
 
 .result-content {
@@ -980,7 +981,7 @@ select {
 	padding: 5px;
 }
 
-.keyword-result :hover {
+.keyword-result.active {
 	background-color: #ddd;
 }
 
