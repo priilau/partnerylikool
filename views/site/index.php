@@ -64,6 +64,7 @@ Helper::setTitle("Pealeht");
 	let selectedTopics = [];
 	let selection = 0;
 	let isOnResults = false;
+	let getExamples = true;
 
 	keywordResults.addEventListener("mouseover", function() {
 		isOnResults = true;
@@ -81,6 +82,11 @@ Helper::setTitle("Pealeht");
 
 	searchKeywords.addEventListener("focus", function() {
 		keywordResults.style.display = "block";
+		if(getExamples){
+			GetKeywordResults();
+			getExamples = false;
+		}
+
 		searchKeywords.addEventListener("input", function() {
 			if(/\S/.test(searchKeywords.value) && (timerHandler !== null || timerHandler !== undefined)) {
 				clearTimeout(timerHandler);

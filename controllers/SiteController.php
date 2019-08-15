@@ -156,7 +156,7 @@ class SiteController extends BaseController {
         $inputArr = explode(" ", $inputText);
         $limit = 0;
         
-        if(!empty($inputArr)){
+        if(!empty($inputArr) && $inputText !== ""){
             foreach ($inputArr as $word) {
                 if(Helper::isStringClean($word)) {
                     $keywordsStr .= "keyword LIKE '%{$word}%' OR ";
@@ -190,10 +190,26 @@ class SiteController extends BaseController {
                     break;
                 }
             }
-            $stmt->close();
-            $mysqli->close();
+            
+        } else {
+            $sql = "SELECT DISTINCT id, keyword FROM `search_index` ORDER BY RAND() LIMIT 5;";
+
+            $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
+            $stmt = $mysqli->prepare($sql); 
+            if(!$stmt){
+                echo $mysqli->error;
+                exit("Unable to create stmt!");
+            }
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while($row = $result->fetch_assoc()) {
+                $dataFromDb[] = $row;
+            }
         }
 
+        $stmt->close();
+        $mysqli->close();
         return $this->json(json_encode($dataFromDb));
     }
 }
