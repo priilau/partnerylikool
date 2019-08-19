@@ -970,6 +970,8 @@ select {
 	box-shadow: 0px 5px 13px #CCC;
 	width: 210px;
 	border-bottom: 2px solid #F3F3F3; 
+	z-index: 100;
+	background: #FFF;
 }
 
 .keyword-result.active :hover{
