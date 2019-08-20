@@ -40,6 +40,7 @@ Helper::setTitle("Pealeht");
 	</div>
 	<div>
 		<input type="button" class="btn" id="search" value="Search">
+		<div id="load-msg" style="display: none;"></div>
 	</div>
 	
 	<div id="search-results" style="display: none;">
@@ -50,6 +51,7 @@ Helper::setTitle("Pealeht");
 
 <script>
 	let searchBtn = document.querySelector("#search");
+	let loadMsg = document.querySelector("#load-msg");
 	let degree = document.querySelector("#degree");
 	let semester = document.querySelector("#semester");
 	let speciality = document.querySelector("#speciality");
@@ -65,6 +67,7 @@ Helper::setTitle("Pealeht");
 	let selection = 0;
 	let isOnResults = false;
 	let getExamples = true;
+	let startCheck = true;
 
 	keywordResults.addEventListener("mouseover", function() {
 		isOnResults = true;
@@ -78,6 +81,52 @@ Helper::setTitle("Pealeht");
 		if(!isOnResults){
 			keywordResults.style.display = "none";
 		}
+	});
+
+	window.addEventListener("keyup", function(event) {
+		let maxValue = 10;
+		let results = document.querySelectorAll(".keyword-result");
+		
+		if(searchKeywords.value != "") {
+			maxValue = inputWords.length;
+		}
+		event.preventDefault();
+		
+		if(results.length > 0 && keywordResults.style.display != "none"){
+			switch (event.key) { 
+				case "ArrowUp":
+					if(selection == 0){
+						selection = maxValue - 1;
+					} else {
+						selection--;
+					}
+					
+					for(let i = 0; i < maxValue; i++){
+						if(results[i].classList.contains("active")){
+							results[i].classList.remove("active");
+						}
+					}
+					results[selection].classList.add("active");
+					break;
+					
+				case "ArrowDown":
+					if(selection == maxValue - 1){
+						selection = 0;
+					} else if(!startCheck){
+						selection++;
+					} else {
+						startCheck = false;
+					}
+					
+					for(let i = 0; i < maxValue; i++){
+						if(results[i].classList.contains("active")){
+							results[i].classList.remove("active");
+						}
+					}
+					results[selection].classList.add("active");
+					break;
+				}
+			}
 	});
 
 	searchKeywords.addEventListener("focus", function() {
@@ -118,7 +167,10 @@ Helper::setTitle("Pealeht");
 			alert("Valige mõni teema, millest olete huvitatud!");
 			return;
 		}
-		
+
+		loadMsg.style.display = "inline";
+		loadMsg.innerText = "Loading...";
+
 		let formData = new FormData();
 		formData.append("degree", degreeVal);
 		formData.append("semester", semesterVal);
@@ -134,9 +186,11 @@ Helper::setTitle("Pealeht");
 				if(data === undefined || data === null || data.length <= 0){
 					searchResults.style = "";
 					CreateSearchMessage();
+					loadMsg.style.display = "none";
 				} else {
 					searchResults.style = "";
 					RenderUniversities(data);
+					loadMsg.style.display = "none";
 				}
 			}
 		};
@@ -145,10 +199,11 @@ Helper::setTitle("Pealeht");
 	});
 
 	function GetKeywordResults() {
-		let inputText = searchKeywords.value;
+		let inputText = searchKeywords.value.trim();
 		inputWords = inputText.split(" ");
 		let formData = new FormData();
 		formData.append("inputText", inputText);
+		formData.append("getExamples", getExamples);
 		
 		let xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -163,53 +218,11 @@ Helper::setTitle("Pealeht");
 	}
 
 	function RenderKeywords(data) {
+		selection = 0;
+		startCheck = true;
 		for(let i = 0; i < data.length; i++){
 			CreateKeyword(data[i]['id'], data[i]['keyword']);
 		}
-
-		let startCheck = true;
-		
-		window.addEventListener("keyup", function(event) {
-			let results = document.querySelectorAll(".keyword-result");
-			let maxValue = inputWords.length - 1;
-			event.preventDefault();
-			
-			if(results.length > 0 && keywordResults.style.display != "none"){
-				switch (event.key) { 
-					case "ArrowUp":
-						if(selection == 0){
-							selection = maxValue;
-						} else {
-							selection--;
-						}
-
-						for(let i = 0; i < inputWords.length; i++){
-							if(results[i].classList.contains("active")){
-								results[i].classList.remove("active");
-							}
-						}
-						results[selection].classList.add("active");
-						break;
-					
-					case "ArrowDown":
-						if(selection == maxValue){
-							selection = 0;
-						} else if(!startCheck){
-							selection++;
-						} else {
-							startCheck = false;
-						}
-
-						for(let i = 0; i < inputWords.length; i++){
-							if(results[i].classList.contains("active")){
-								results[i].classList.remove("active");
-							}
-						}
-						results[selection].classList.add("active");
-						break;
-				}
-			}
-		});
 	}
 
 	function CreateKeyword(id, keyword) {
@@ -217,6 +230,7 @@ Helper::setTitle("Pealeht");
 		keywordContainer.className = "keyword-result";
 		let resultContainer = document.createElement("div");
 		resultContainer.className = "result-content";
+
 		for(let i = 0; i < inputWords.length; i++){
 			if(keyword.includes(inputWords[i])){
 				let newKeyword = keyword.replace(inputWords[i], "<span style='font-weight: bold;'>" + inputWords[i] + "</span>");
@@ -236,8 +250,6 @@ Helper::setTitle("Pealeht");
 				});
 
 				window.addEventListener("keyup", function(event) {
-					let results = document.querySelectorAll(".keyword-result");
-					let maxValue = inputWords.length - 1;
 					event.preventDefault();
 					
 					if(event.key == "Enter" && keywordContainer.classList.contains("active")){

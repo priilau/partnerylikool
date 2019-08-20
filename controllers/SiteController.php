@@ -190,9 +190,12 @@ class SiteController extends BaseController {
                     break;
                 }
             }
+
+            $stmt->close();
+            $mysqli->close();
             
-        } else {
-            $sql = "SELECT DISTINCT id, keyword FROM `search_index` ORDER BY RAND() LIMIT 5;";
+        } else if($_POST["getExamples"] == "true") {
+            $sql = "SELECT DISTINCT id, keyword FROM `search_index` ORDER BY RAND() LIMIT 10;";
 
             $mysqli = new \mysqli(DB::$host, DB::$user, DB::$pw, DB::$name);
             $stmt = $mysqli->prepare($sql); 
@@ -206,10 +209,10 @@ class SiteController extends BaseController {
             while($row = $result->fetch_assoc()) {
                 $dataFromDb[] = $row;
             }
-        }
 
-        $stmt->close();
-        $mysqli->close();
+            $stmt->close();
+            $mysqli->close();
+        }
         return $this->json(json_encode($dataFromDb));
     }
 }
