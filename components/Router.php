@@ -12,12 +12,14 @@ class Router {
 
         if(isset($_SERVER['REDIRECT_URL']) && strlen($_SERVER['REDIRECT_URL']) > 0) {
             $urlParts = explode("/", $_SERVER['REDIRECT_URL']);
+			$urlActionIndex = count($urlParts) - 1;
+			$urlControllerIndex = $urlActionIndex - 1;
 
-            if(isset($urlParts[1]) && strlen($urlParts[1]) > 0) {
-                $controller = $urlParts[1];
+            if(isset($urlParts[$urlControllerIndex]) && strlen($urlParts[$urlControllerIndex]) > 0) {
+                $controller = $urlParts[$urlControllerIndex];
             }
-            if(isset($urlParts[2]) && strlen($urlParts[2]) > 0) {
-                $action = $urlParts[2];
+            if(isset($urlParts[$urlActionIndex]) && strlen($urlParts[$urlActionIndex]) > 0) {
+                $action = $urlParts[$urlActionIndex];
             }
         }
 
