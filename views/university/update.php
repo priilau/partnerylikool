@@ -2,13 +2,16 @@
 
 use app\components\ActiveForm;
 use app\components\Helper;
+use app\components\Url;
 
 Helper::setTitle("Ülikooli muutmine");
 ?>
 
 <h1><?= Helper::getTitle() ?></h1>
 
-<a class="btn btn-primary" href="/university/index">Tagasi</a>
+<p style="width: 300px">Ülikooli kohta käivad andmed salvestatakse "Salvesta" vajutades, ülikooli käivad alamosad (Instituudid ja sealt edasi) salvestuvad mõne hetke pärast muutmist automaatselt.</p>
+
+<?= Url::a("Back", "/university/index", "btn btn-primary") ?>
 
 <?php $form = ActiveForm::begin();?>
 
@@ -184,12 +187,12 @@ Helper::setTitle("Ülikooli muutmine");
                 nameInput.parentElement.id = "department-id-"+nameInput.dataset.value;
             }
         };
-        xhttp.open("POST", "/department/save", true);
+        xhttp.open("POST", "<?= Url::to("/department/save") ?>", true);
         xhttp.send(formData);
     }
 
     function RemoveDepartment(id) {
-        RemoveEntity(id, "department", "/department/remove");
+        RemoveEntity(id, "department", "<?= Url::to("/department/remove") ?>");
     }
 
     // CreateElement(elementType, className, name, placeholder, value, datasetValue, elementId, inputType)
@@ -333,7 +336,7 @@ Helper::setTitle("Ülikooli muutmine");
                 iName.parentElement.id = "speciality-id-"+iName.dataset.value;
             }
         };
-        xhttp.open("POST", "/speciality/save", true);
+        xhttp.open("POST", "<?= Url::to("/speciality/save") ?>", true);
         xhttp.send(formData);
     }
 
@@ -397,7 +400,7 @@ Helper::setTitle("Ülikooli muutmine");
                 }
             }
         };
-        xhttp.open("POST", "/department/get-specialities", true);
+        xhttp.open("POST", "<?= Url::to("/department/get-specialities") ?>", true);
         xhttp.send(formData);
     }
 
@@ -462,7 +465,7 @@ Helper::setTitle("Ülikooli muutmine");
                 inputField.parentElement.id = "study-module-id-"+inputField.dataset.value;
             }
         };
-        xhttp.open("POST", "/study-module/save", true);
+        xhttp.open("POST", "<?= Url::to("/study-module/save") ?>", true);
         xhttp.send(formData);
     }
 
@@ -500,7 +503,7 @@ Helper::setTitle("Ülikooli muutmine");
                 }
             }
         };
-        xhttp.open("POST", "/speciality/get-study-modules", true);
+        xhttp.open("POST", "<?= Url::to("/speciality/get-study-modules") ?>", true);
         xhttp.send(formData);
     }
 
@@ -683,7 +686,7 @@ Helper::setTitle("Ülikooli muutmine");
                 iName.parentElement.id = "course-id-"+iName.dataset.value;
             }
         };
-        xhttp.open("POST", "/course/save", true);
+        xhttp.open("POST", "<?= Url::to("/course/save") ?>", true);
         xhttp.send(formData);
     }
 
@@ -705,7 +708,7 @@ Helper::setTitle("Ülikooli muutmine");
                 }
             }
         };
-        xhttp.open("POST", "/study-module/get-courses", true);
+        xhttp.open("POST", "<?= Url::to("/study-module/get-courses") ?>", true);
         xhttp.send(formData);
     }
 
@@ -764,7 +767,7 @@ Helper::setTitle("Ülikooli muutmine");
     }
 
     function RemoveOutcome(id) {
-        RemoveEntity(id, "course-learning-outcome", "/course-learning-outcome/remove");
+        RemoveEntity(id, "course-learning-outcome", "<?= Url::to("/course-learning-outcome/remove") ?>");
     }
 
     <?php $departments = $model->getDepartments(); ?>

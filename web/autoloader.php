@@ -4,6 +4,7 @@
 $files = [
 	__DIR__ . '/../config/db.php',
 	__DIR__ . '/../config/app.php',
+    __DIR__ . '/../components/Url.php',
     __DIR__ . '/../components/Helper.php',
     __DIR__ . '/../components/Identity.php',
     __DIR__ . '/../components/Request.php',

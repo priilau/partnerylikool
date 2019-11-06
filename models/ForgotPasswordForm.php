@@ -23,8 +23,6 @@ class ForgotPasswordForm extends BaseModel {
 	        $user->newPassword = $newPassword;
             $user->newPasswordConfirm = $user->newPassword;
             $user->save();
-            // todo set user pass
-            // TODO send email
             Helper::sendMail(App::$emailSender, $this->username, "Partnerülikool - Parooli taastamine", "Email: {$this->username}\r\nUus parool: {$newPassword}");
             Flash::setMessage("success", "Parooli taastamise email saadetud sisestatud aadressile.");
 	        return true;

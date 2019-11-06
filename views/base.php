@@ -1,6 +1,7 @@
 <?php 
 
 use app\components\Alert;
+use app\components\Url;
 use app\components\Identity;
 use app\components\Helper;
 
@@ -16,7 +17,7 @@ use app\components\Helper;
 	<title><?= $title; ?></title>
 	<link rel="shortcut icon" type="image/png" href="https://www.tlu.ee/themes/tlu/images/favicons/favicon.ico"/>
 	<link href="https://fonts.googleapis.com/css?family=Cousine&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" type="text/css" href="/css/site.css?v=1">
+    <link rel="stylesheet" type="text/css" href="/partner/web/css/site.css?v=1">
 </head>
 <body>
 	<div class="top-menu base-align">
@@ -82,8 +83,8 @@ use app\components\Helper;
 			<?= Alert::showMessages(); ?>
             <?php if(!Identity::isGuest()): ?>
 				<div class="content-admin-button">
-                    <a class="btn" href="/user/logout">Logi välja</a>
-                    <a class="btn" href="/site/admin">Adminpaneel</a>
+                    <?= Url::a("Logi välja", "/user/logout", "btn") ?>
+                    <?= Url::a("Adminpaneel", "/site/admin", "btn") ?>
                 </div>
             <?php endif; ?>
 			<?= $content; ?>
@@ -141,6 +142,6 @@ use app\components\Helper;
 			</div>
 		</div>
 	</div>
-	<script src="/main.js?v=1"></script>
+	<script src="/partner/web/main.js?v=1"></script>
 </body>
 </html>

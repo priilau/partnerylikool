@@ -1,6 +1,7 @@
 <?php
 use app\components\ActiveForm;
 use app\components\Helper;
+use app\components\Url;
 
 Helper::setTitle("User");
 ?>
@@ -17,6 +18,6 @@ Helper::setTitle("User");
 </div>
 
 <?= ActiveForm::submitButton("Logi sisse", ["class" => "btn-success"]); ?><br>
-<a class="btn btn-success" href="/user/forgot-password">Unustasid parooli?</a>
+<?= Url::a("Unustasid parooli", "/user/forgot-password", "btn btn-primary") ?>
 
 <?php ActiveForm::end(); ?>

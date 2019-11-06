@@ -2,13 +2,14 @@
 
 use app\components\ActiveForm;
 use app\components\Helper;
+use app\components\Url;
 
 Helper::setTitle("Study module");
 ?>
 
 <h1><?= Helper::getTitle() ?></h1>
 
-<a class="btn btn-primary" href="/study-module/index">Back</a>
+<?= Url::a("Back", "/study-module/index", "btn btn-primary") ?>
 
 <?php $form = ActiveForm::begin();?>
 

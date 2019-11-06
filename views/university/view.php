@@ -2,14 +2,15 @@
 
 use app\components\DetailView;
 use app\components\Helper;
+use app\components\Url;
 
 Helper::setTitle("University");
 ?>
 
 <h1><?= Helper::getTitle() ?></h1>
 
-<a class="btn btn-primary" href="/university/index">Back</a>
-<a class="btn btn-primary" href="/university/update?id=<?= $model->id ?>">Update</a>
+<?= Url::a("Back", "/university/index", "btn btn-primary") ?>
+<?= Url::a("Update", "/university/update?id=$model->id", "btn btn-primary") ?>
 
 <?= DetailView::widget([
 	"model" => $model,

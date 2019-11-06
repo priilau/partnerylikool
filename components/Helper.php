@@ -48,7 +48,7 @@ class Helper {
 
     public static function sendMail($from, $to, $subject, $message) {
         $headers = "From: {$from}\r\n".
-            "Reply-To: webmaster@example.com\r\n".
+            "Reply-To: {$to}\r\n".
             "X-Mailer: PHP/".phpversion();
 
         mail($to, $subject, $message, $headers);

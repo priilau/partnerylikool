@@ -2,6 +2,7 @@
 namespace app\components;
 
 use app\components\BaseController;
+use app\config\App;
 
 class Router {
 	
@@ -11,13 +12,21 @@ class Router {
 		$params = [];
 
         if(isset($_SERVER['REDIRECT_URL']) && strlen($_SERVER['REDIRECT_URL']) > 0) {
-            $urlParts = explode("/", $_SERVER['REDIRECT_URL']);
+			$url = str_replace(App::$rootDir, "", $_SERVER['REDIRECT_URL']);
+            $urlParts = explode("/", $url);
+			$urlActionIndex = count($urlParts) - 1;
+			$urlControllerIndex = $urlActionIndex - 1;
+			
+			if($urlControllerIndex < 0) { // if action is not defined then $action must remain "index"
+				$urlControllerIndex = 0;
+				$urlActionIndex = -1;
+			}
 
-            if(isset($urlParts[1]) && strlen($urlParts[1]) > 0) {
-                $controller = $urlParts[1];
+            if(isset($urlParts[$urlControllerIndex]) && strlen($urlParts[$urlControllerIndex]) > 0) {
+                $controller = $urlParts[$urlControllerIndex];
             }
-            if(isset($urlParts[2]) && strlen($urlParts[2]) > 0) {
-                $action = $urlParts[2];
+            if(isset($urlParts[$urlActionIndex]) && strlen($urlParts[$urlActionIndex]) > 0) {
+                $action = $urlParts[$urlActionIndex];
             }
         }
 

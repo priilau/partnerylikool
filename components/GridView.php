@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use app\config\App;
 
 class GridView {
     public static function widget($data){
@@ -73,7 +74,7 @@ class GridView {
                 $btnName = ucfirst($btn);
                 switch($btn){
                     case "view":case "update":case "delete":{
-                        $str .= "<a href='/{$controller}/{$btn}?id={$m->id}'>{$btnName}</a> ";
+                    $str .=  Url::a($btnName, "/{$controller}/{$btn}?id={$m->id}")." ";
                         break;
                     }
                 }

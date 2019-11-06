@@ -2,6 +2,8 @@
 
 namespace app\components;
 
+use app\config\App;
+
 class ActiveForm {
     public $elementType = "input";
     public $inputType = "text";
@@ -23,7 +25,8 @@ class ActiveForm {
             $formStr .= "enctype='{$enctype}' ";
         }
         if($action != null){
-            $formStr .= "action='{$action}' ";
+            $urlTo = Url::to($action);
+            $formStr .= "action='$urlTo' ";
         }
         $formStr = rtrim($formStr, " ");
         $formStr .= ">";

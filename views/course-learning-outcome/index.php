@@ -2,13 +2,14 @@
 
 use app\components\GridView;
 use app\components\Helper;
+use app\components\Url;
 
 Helper::setTitle("Course learning outcome");
 ?>
 
 <h1><?= Helper::getTitle() ?></h1>
 
-<a class="btn btn-primary" href="/course-learning-outcome/create">Create</a>
+<?= Url::a("Create", "/course-learning-outcome/create", "btn btn-primary") ?>
 
 <?= GridView::widget([
 	"models" => $models,

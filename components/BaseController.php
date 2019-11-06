@@ -1,8 +1,10 @@
 <?php
 namespace app\controllers;
 
+use app\config\App;
 use app\components\Identity;
 use app\components\Request;
+use app\components\Url;
 use Exception;
 	
 class BaseController {
@@ -120,27 +122,28 @@ class BaseController {
             }
         }
 
-	    $host = $_SERVER["HTTP_HOST"];
+	    $urlTo = Url::to("/");
+
 	    if($this->controller == "site" && $action == "index") {
-            header("Location: http://{$host}");
+            header("Location: $urlTo");
         } else if(isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"]) >= 3) {
-            header("Location: http://{$host}/{$this->controller}/{$action}?{$_SERVER['QUERY_STRING']}");
+            header("Location: $urlTo{$this->controller}/{$action}?{$_SERVER['QUERY_STRING']}");
         } else if(count($params) <= 0) {
-            header("Location: http://{$host}/{$this->controller}/{$action}");
+            header("Location: $urlTo{$this->controller}/{$action}");
 		} else if(count($params) > 0) {
 			$queryStr = "?";
 			foreach ($params as $key => $value) {
 				$queryStr .= "{$key}={$value}&";
 			}
 			$queryStr = rtrim($queryStr, "&");
-			header("Location: http://{$host}/{$this->controller}/{$action}{$queryStr}");
+			header("Location: $urlTo{$this->controller}/{$action}{$queryStr}");
 		}
         exit();
 	}
 
 	public function goHome() {
-        $host = $_SERVER["HTTP_HOST"];
-        header("Location: http://{$host}/");
+        $urlTo = Url::to("/");
+        header("Location: $urlTo");
     }
 	
 	public function requireToVar($viewName, $params){
